@@ -430,6 +430,93 @@ button{
     white-space:pre-line;
 }
 
+.loading-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:3000;
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(10px);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.loading-modal.show{
+    display:flex;
+}
+
+.loading-box{
+    width:min(430px, 92vw);
+    min-height:280px;
+    background:linear-gradient(180deg,#17110d,#060606);
+    border:1px solid rgba(212,175,55,.42);
+    border-radius:28px;
+    padding:34px 26px;
+    text-align:center;
+    box-shadow:0 28px 90px rgba(0,0,0,.72);
+}
+
+.loading-symbol{
+    width:70px;
+    height:70px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    border:1px solid rgba(212,175,55,.45);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold2);
+    font-size:34px;
+    animation:loadingSpin 2.8s linear infinite;
+}
+
+.loading-box h3{
+    margin:0 0 12px;
+    color:var(--gold2);
+    font-family:var(--font-title);
+    font-size:26px;
+    letter-spacing:.05em;
+}
+
+.loading-box p{
+    margin:0 auto;
+    max-width:330px;
+    color:#bca98a;
+    font-size:14px;
+    line-height:1.9;
+    font-style:italic;
+}
+
+.loading-dots{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-top:24px;
+}
+
+.loading-dots span{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--gold2);
+    opacity:.35;
+    animation:loadingPulse 1.2s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(2){ animation-delay:.2s; }
+.loading-dots span:nth-child(3){ animation-delay:.4s; }
+
+@keyframes loadingSpin{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+}
+
+@keyframes loadingPulse{
+    0%, 80%, 100%{ opacity:.25; transform:translateY(0); }
+    40%{ opacity:1; transform:translateY(-6px); }
+}
+
 @keyframes floatCoin{
     from{ transform:translateY(0); opacity:.65; }
     to{ transform:translateY(-6px); opacity:1; }
@@ -600,6 +687,20 @@ button{
             </button>
         </div>
 
+
+        <div id="loadingModal" class="loading-modal">
+            <div class="loading-box">
+                <div class="loading-symbol">☯</div>
+                <h3>{{ "卦象正在显化中" if lang=="zh" else "The reading is forming" }}</h3>
+                <p>
+                    {{ "正在推演本卦、变卦与动爻，请稍候。不要关闭页面。" if lang=="zh" else "Reading the main hexagram, changing hexagram, and moving lines. Please keep this page open." }}
+                </p>
+                <div class="loading-dots">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+
         <div id="autoModal" class="auto-modal">
             <div class="auto-box">
                 <h3>{{ "交给系统" if lang=="zh" else "Let Fate Decide" }}</h3>
@@ -631,7 +732,7 @@ button{
             {% endfor %}
         </div>
 
-        <button type="submit" onclick="document.getElementById('submitAction').value='cast'">{{ t['submit'] }}</button>
+        <button type="submit" id="castSubmitBtn" onclick="document.getElementById('submitAction').value='cast'">{{ t['submit'] }}</button>
 
     </form>
 
@@ -778,6 +879,23 @@ document.querySelectorAll('select[name^="word"]').forEach((el) => {
     });
 });
 
+
+function showLoading(){
+    const modal = document.getElementById("loadingModal");
+    const btn = document.getElementById("castSubmitBtn");
+
+    if(modal){
+        modal.classList.add("show");
+    }
+
+    if(btn){
+        btn.disabled = true;
+        btn.style.opacity = ".72";
+        btn.style.cursor = "not-allowed";
+        btn.innerText = pageLang === "zh" ? "卦象显化中..." : "Reading...";
+    }
+}
+
 document.getElementById("mainForm").addEventListener("submit", function(e){
     if(window.isLangSwitch){
         return;
@@ -797,6 +915,8 @@ document.getElementById("mainForm").addEventListener("submit", function(e){
             return;
         }
     }
+
+    showLoading();
 });
 function openPayModal(){
     document.getElementById("payModal").classList.add("show");
@@ -861,6 +981,10 @@ def init_db():
     """)
     conn.commit()
     conn.close()
+
+
+# Ensure database exists under gunicorn / Render too
+init_db()
 
 
 def stable_hash(text):
