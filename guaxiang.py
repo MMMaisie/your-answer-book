@@ -1368,10 +1368,11 @@ def generate_reading(question, cast_time, words, lang, hour):
 
     seed_raw = f"{lang}|{question.strip()}|{cast_time}|{','.join(words)}|{topic}|{emotion_level}|{hexagram_info['main_name']}|{hexagram_info['changed_name']}"
     seed_key = stable_hash(seed_raw)
-    cached = get_cached_reading(seed_key)
-    if cached:
-        cached["seed_key"] = seed_key
-        return cached
+    cached = None
+    #cached = get_cached_reading(seed_key)
+    #if cached:
+    #    cached["seed_key"] = seed_key
+    #    return cached
 
     prompt = build_prompt(lang, question, cast_time, words, topic, emotion_level, seed_key, hexagram_info)
     raw = call_deepseek(prompt)
