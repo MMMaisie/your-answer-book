@@ -402,6 +402,31 @@ button{
     line-height:1.9;
     color:#e8d8b7;
     white-space:pre-line;
+    margin:0 0 18px;
+}
+
+.result strong{
+    color:#f5d48a;
+}
+
+.reading-text{
+    white-space:pre-line;
+    line-height:2.05;
+    color:#e8d8b7;
+    font-size:17px;
+}
+
+.free-reading{
+    margin-top:22px;
+}
+
+.paid-reading{
+    margin-top:26px;
+    padding-top:4px;
+}
+
+.paid-reading::first-line{
+    color:#ffd57a;
 }
 
 .full-box{
@@ -564,7 +589,7 @@ button{
         <h2>{{ t['report'] }}</h2>
         <p><strong>{{ t['asked'] }}：</strong>{{ question }}</p>
         <p><strong>{{ t['time_result'] }}：</strong>{{ cast_time }}</p>
-        <p>{{ result }}</p>
+        <div class="reading-text free-reading">{{ result }}</div>
 
         <div class="full-box">
             <h3>{{ t['full_title'] }}</h3>
@@ -574,7 +599,7 @@ button{
         </button>
 
             <div id="paidBox" style="display:none;">
-                <div>
+                <div class="reading-text paid-reading">
                     {{ paid_result|safe }}
                 </div>
             </div>
@@ -730,18 +755,18 @@ function unlockPaidReading(){
 </script>
 <div id="payModal" class="auto-modal">
     <div class="auto-box">
-        <h3>{{ "解锁完整解析" if lang=="zh" else "Unlock Full Reading" }}</h3>
+        <h3>{{ "解锁完整解读" if lang=="zh" else "Unlock Full Reading" }}</h3>
 
         <p>
-            {{ "完整版将展开这一卦真正想提醒你的地方：" if lang=="zh" else "The full reading reveals what this cast is truly pointing toward:" }}
+            {{ "免费版只给出结果倾向。完整版会展开卦象依据与具体行动。" if lang=="zh" else "The free version shows the tendency. The full reading reveals the reasoning and next move." }}
         </p>
 
         <div class="auto-results">
-            {{ "• 当前局势\n• 真正阻力\n• 未来变化\n• 下一步建议" if lang=="zh" else "• Current situation\n• Hidden resistance\n• Future movement\n• Next step" }}
+            {{ "• 本卦与变卦真正指向\n• 关键人物或关键因素\n• 真正阻力在哪里\n• 未来时间窗口\n• 下一步怎么做" if lang=="zh" else "• Main and changing hexagram meaning\n• Key person or factor\n• Real resistance\n• Timing window\n• What to do next" }}
         </div>
 
         <button type="button" onclick="unlockPaidReading()">
-            {{ "¥9.9 解锁完整解读" if lang=="zh" else "$1.99 Unlock Full Reading" }}
+            {{ "¥9.9 RMB 解锁完整解读" if lang=="zh" else "US$1.99 Unlock Full Reading" }}
         </button>
 
         <button type="button" class="mode-btn" onclick="closePayModal()">
@@ -1036,37 +1061,40 @@ This is not about proving harder; it is about making the right person feel there
     else:
         free = """结果倾向：★★★★☆
 
-结论：这件事不是没机会，偏向可成，但不是靠硬推拿下。
+本卦：以当前卦象看，事情有机会。
 
-当前状态：你已经进入对方的考虑范围，只是最终判断还没有完全落定。
+但真正决定结果的人，并不是你正在接触的这个人。
 
-关键提醒：真正影响结果的，不是你有没有能力，而是有一个人或一个顾虑还没被说服。
+未来两周会出现一个信号。
 
 完整版将揭示：
-• 真正阻力
+• 卦象真正含义
 • 关键人物
-• 时间窗口
-• 下一步行动"""
-        paid = """【一、结果倾向】
-这件事偏向有机会，大约六到七成。但不是已经稳拿，也不是越催越快。它更像是进入了最后判断区间，差的不是能力本身，而是对方是否愿意把决定真正落下来。
+• 真正阻力
+• 时间窗口"""
+        paid = """一、结果倾向
 
-【二、当前局势】
-你现在并不在局外。对方已经看见你，也知道你的价值。问题是这件事仍有犹豫，像是在衡量风险、稳定性和后续成本。卦象给出的重点不是失败，而是“未定”。
+这件事偏向有机会，大约六到七成。但不是已经稳拿，也不是越催越快。卦象显示，机会存在，但结果要经过一次筛选或确认。
 
-【三、真正阻力】
-真正阻力不在明面竞争，而在决策端的保留。对方可能认可你，但还没有完全放心。这种情况下，越急着证明，越容易让人觉得你不稳。
+二、卦象依据
 
-【四、关键人物或关键因素】
-关键在一个能拍板、能推荐、或能影响评价的人身上。这个人未必直接否定你，但他的态度会影响结果倾斜。
+本卦显示事情已经启动，变卦提示后续仍有调整空间。动爻代表中间过程会有变化，所以现在不是最终答案，而是一个正在被判断的阶段。
 
-【五、未来变化】
-接下来一到两周，容易出现一次信号：追问细节、补材料、再次沟通，或有人态度松动。这个信号比你反复确认更重要。
+三、真正阻力
 
-【六、下一步行动】
-不要频繁催问。你该做的是准备一个能让对方降低顾虑的证明：成果、案例、数据、推荐或更清楚的承诺。主动，但不要显得急。
+真正阻力不在你的能力，而在对方是否完全放心。对方可能认可你，但还在衡量风险、稳定性、配合度或后续成本。越急着证明，越容易显得不稳。
 
-【最终一句】
-这件事不是不能成，真正要过的关，是让关键的人觉得选你风险更低。"""
+四、关键人物或关键因素
+
+关键在一个能拍板、能推荐、或能影响评价的人身上。这个人未必是正在和你沟通的人，但他的态度会影响结果倾斜。你要解决的是他的顾虑，不只是表达自己的意愿。
+
+五、未来变化
+
+接下来一到两周，容易出现一次信号：追问细节、补材料、再次沟通，或有人态度松动。如果这段时间出现要求你补充说明的机会，反而是积极信号。
+
+六、下一步行动
+
+不要频繁催问。准备一个能降低对方顾虑的证明：成果、案例、数据、推荐或更清楚的方案。主动，但不要显得急。你要让对方觉得选你风险更低，而不是让对方感到压力更大。"""
 
     return {"free": free, "paid": paid}
 
@@ -1114,69 +1142,86 @@ Style direction:
 The user wants an answer to the question, not a poem.
 
 Free reading requirements:
-1. The free reading must be useful enough to feel accurate, but it must leave the most valuable details locked.
-2. It must start with a clear tendency rating.
-3. It must directly answer the question in the first few lines.
-4. It must explain the main reason in plain language.
-5. It must give one timing clue or change clue.
-6. It must end with locked hooks that make the user want the full reading.
-7. Length:
-   - Chinese: 160-240 Chinese characters.
-   - English: 90-130 words.
-8. Format exactly like this in Chinese when lang is Chinese:
-结果倾向：★★★★☆
+1. The free reading is a teaser with a useful tendency, not a full answer.
+2. It must include the main hexagram name, but do not use brackets like 《》 or [].
+3. It must not explain changing lines, technical reasoning, or full hexagram logic.
+4. It must not reveal the most valuable details.
+5. Chinese length: 100-150 Chinese characters. Do not exceed 150 Chinese characters.
+6. English length: 70-110 words.
+7. Chinese format must be exactly:
 
-结论：...
+结果倾向：
+★★★★☆
 
-当前状态：...
+本卦：XXX
 
-关键提醒：...
+一句核心结论。
 
-未来变化：...
+一句反转信息。
+
+一句未来信号。
 
 完整版将揭示：
-• 真正阻力
+• 卦象真正含义
 • 关键人物
+• 真正阻力
 • 时间窗口
-• 下一步行动
 
-9. Format similarly in English when lang is English.
+8. English format must be similar:
+Result tendency:
+★★★★☆
+
+Main hexagram: XXX
+
+One direct conclusion.
+
+One reversal / hidden factor.
+
+One future signal.
+
+The full reading reveals:
+• True hexagram meaning
+• Key person
+• Real resistance
+• Timing window
 
 Paid reading requirements:
 1. The paid reading must NOT repeat the free reading with more words.
 2. It must be concrete, useful, and decision-oriented.
-3. It must include the available hexagram structure naturally, for example 本卦、变卦、动爻, but do not over-explain.
-4. It must mention that the judgment is made from the provided hexagram structure and changing lines, not fabricated technical details.
+3. It must include the available hexagram structure naturally: 本卦, 变卦, 动爻.
+4. It must use traditional Liu Yao judgment logic cautiously, but must not invent Na Jia, Six Relatives, Six Spirits, Shi/Ying, month/day strength, or Yong Shen if not provided.
 5. Length:
-   - Chinese: 600-900 Chinese characters.
-   - English: 420-650 words.
-6. Use this structure:
-【一、结果倾向】
+   - Chinese: 650-950 Chinese characters.
+   - English: 450-700 words.
+6. Use this exact Chinese structure when lang is Chinese:
+
+一、结果倾向
+
 Give the direct tendency: likely / difficult / delayed / worth trying / not worth forcing. Include a rough probability when suitable.
 
-【二、当前局势】
-Explain what the situation looks like now.
+二、卦象依据
 
-【三、真正阻力】
-Identify the real obstacle. For career, it may be decision authority, trust, timing, resources, competing priorities. For love, it may be emotional hesitation, past hurt, unclear commitment. For money/legal, emphasize risk.
+Explain 本卦、变卦、动爻 from the provided hexagram structure. Keep it understandable.
 
-【四、关键人物或关键因素】
+三、真正阻力
+
+Identify the real obstacle. For career, it may be decision authority, trust, timing, resources, competing priorities. For love, emotional hesitation, past hurt, unclear commitment. For money/legal, risk and evidence.
+
+四、关键人物或关键因素
+
 Tell the user what person/factor matters most. If unknown, say what type of person/factor it is, not a fake identity.
 
-【五、未来变化】
+五、未来变化
+
 Give a likely change window or signal. Do not promise exact events.
 
-【六、下一步行动】
+六、下一步行动
+
 Give specific next actions. Tell the user whether to push, wait, clarify, prepare evidence, reduce exposure, or stop.
 
-【最终一句】
-End with one concise sentence that feels accurate and memorable.
-
-Topic-specific rules:
-- For career/work: be practical, strategic, and clear about decision makers, timing, and initiative.
-- For love/relationship: be emotionally precise but still direct. Do not flatter the user.
-- For money: be cautious about risk, cost, timing, and impulse.
-- For legal/conflict: be cautious, evidence-focused, and avoid overpromising.
+7. Use similar numbered headings in English.
+8. Do not use markdown bold symbols like **text**.
+9. Plain text only.
 
 Important:
 - Do not claim certainty.
