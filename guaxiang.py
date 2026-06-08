@@ -938,35 +938,32 @@ def call_deepseek(prompt):
                 {
                     "role": "system",
                     "content": """
-You are a highly perceptive I Ching-style divination reader.
+You are a practical Liu Yao / I Ching reading engine.
 
-Your writing must feel:
-- emotionally precise
-- psychologically insightful
-- slightly mystical
-- calm but penetrating
+Your priority is accuracy, structure, and useful judgment, not poetic writing.
 
-The reading should feel ancient, symbolic, and emotionally observant — not analytical or corporate.
+Use the reasoning style of traditional Liu Yao divination, especially the logic associated with Bu Shi Zheng Zong and Zeng Shan Bu Yi:
+- identify the matter type
+- identify the useful focus of the question
+- judge from hexagram structure, changing lines, motion and stillness
+- consider the relation between the asker and the outside party
+- translate the judgment into plain, useful advice
 
-Do NOT sound like:
-- therapy
-- generic motivation
-- customer service
-- AI assistant
+Important limits:
+- Do NOT fabricate technical items that were not provided, such as exact Na Jia stems/branches, Six Relatives, Six Spirits, Shi/Ying positions, month/day strength, or exact Yong Shen placement.
+- If those data are not available, use the provided hexagram structure and moving lines cautiously.
+- Never pretend to quote Bu Shi Zheng Zong directly.
+- Never use empty mystical prose.
 
-Avoid:
-- vague encouragement
-- motivational language
-- generic spirituality
-- repetitive emotional wording
+Do NOT use these vague images or filler words unless directly necessary:
+door, light, water, shadow, river, wind, stars, universe, energy, destiny, awakening, journey, frequency, mist.
 
-Every paragraph must reveal:
-- a concrete tension
-- a hidden emotional dynamic
-- or a directional change.
-
-The user should feel:
-'this strangely understands my current state.'
+Write like an experienced divination consultant:
+- direct
+- grounded
+- specific
+- slightly mysterious but not vague
+- clear about tendency, obstruction, timing, and next action
 
 Output valid JSON only.
 """
@@ -1007,19 +1004,69 @@ def parse_ai_json(raw):
 
 def local_fallback(question, topic, emotion_level, lang):
     if lang == "en":
-        free = "This reading does not point to a closed door. It points to a pause before movement. The real question is whether this still deserves your energy."
-        paid = """This reading suggests that the situation is not completely fixed yet. Something is still moving, but it is not moving in a way that can be forced.
+        free = """Result tendency: ★★★★☆
 
-The deeper issue is not only the final outcome. It is whether you are still willing to keep placing your attention here. If this is about love, the key is emotional rhythm. If this is about work, the key is whether you can regain initiative.
+Conclusion: This is not closed. There is still room to move, but it will not be won by pressure alone.
 
-The next step is not to panic or demand an answer immediately. Watch what changes after you stop pushing. If the other side, the opportunity, or the situation gives no clear response, that silence itself becomes part of the answer."""
+Current state: You are close to the decision area, but the final word is not fully in your hands.
+
+Key reminder: One person or one unresolved concern matters more than your effort itself.
+
+The full reading reveals: the real resistance, the key person, the timing window, and your next move."""
+        paid = """[1. Result tendency]
+This matter has room to succeed, but the result is not completely settled. The tendency is favorable, though delayed. It is closer to "possible with the right move" than "already secured".
+
+[2. Current situation]
+The situation is not empty. You have already entered the field of consideration. The problem is that the final decision is still being weighed by another side.
+
+[3. Real resistance]
+The main resistance is not simply your ability. It is trust, timing, and whether the other side feels safe enough to move forward.
+
+[4. Key factor]
+The key is a person or condition that has not fully spoken yet. Do not assume silence means rejection.
+
+[5. Future movement]
+Watch for a signal in the next one to two weeks: a message, a request for confirmation, or a change in tone.
+
+[6. Next step]
+Do not rush or beg for certainty. Prepare one clear proof of your value, then create a reason for the other side to respond.
+
+[Final sentence]
+This is not about proving harder; it is about making the right person feel there is less risk in choosing you."""
     else:
-        free = "这一卦不是在说事情已经结束，而是在说你正站在一个需要重新判断的位置上。真正的问题，是它还值不值得继续消耗你。"
-        paid = """这一卦显示，事情并不是完全没有变化，但它不会按照你最着急的方式立刻给出答案。
+        free = """结果倾向：★★★★☆
 
-真正需要看的，不只是结果本身，而是你在这件事里已经投入了多少情绪和期待。如果是情感，重点在于对方是否愿意用行动靠近；如果是事业，重点在于你能不能重新拿回主动权。
+结论：这件事不是没机会，偏向可成，但不是靠硬推拿下。
 
-现在不适合反复确认，也不适合逼自己马上做决定。更好的方式，是看接下来有没有真实回应。如果一直只有你在消耗、等待和解释，那么这件事本身已经在给你答案。"""
+当前状态：你已经进入对方的考虑范围，只是最终判断还没有完全落定。
+
+关键提醒：真正影响结果的，不是你有没有能力，而是有一个人或一个顾虑还没被说服。
+
+完整版将揭示：
+• 真正阻力
+• 关键人物
+• 时间窗口
+• 下一步行动"""
+        paid = """【一、结果倾向】
+这件事偏向有机会，大约六到七成。但不是已经稳拿，也不是越催越快。它更像是进入了最后判断区间，差的不是能力本身，而是对方是否愿意把决定真正落下来。
+
+【二、当前局势】
+你现在并不在局外。对方已经看见你，也知道你的价值。问题是这件事仍有犹豫，像是在衡量风险、稳定性和后续成本。卦象给出的重点不是失败，而是“未定”。
+
+【三、真正阻力】
+真正阻力不在明面竞争，而在决策端的保留。对方可能认可你，但还没有完全放心。这种情况下，越急着证明，越容易让人觉得你不稳。
+
+【四、关键人物或关键因素】
+关键在一个能拍板、能推荐、或能影响评价的人身上。这个人未必直接否定你，但他的态度会影响结果倾斜。
+
+【五、未来变化】
+接下来一到两周，容易出现一次信号：追问细节、补材料、再次沟通，或有人态度松动。这个信号比你反复确认更重要。
+
+【六、下一步行动】
+不要频繁催问。你该做的是准备一个能让对方降低顾虑的证明：成果、案例、数据、推荐或更清楚的承诺。主动，但不要显得急。
+
+【最终一句】
+这件事不是不能成，真正要过的关，是让关键的人觉得选你风险更低。"""
 
     return {"free": free, "paid": paid}
 
@@ -1045,49 +1092,98 @@ Casting time:
 Six results, from first to sixth:
 {words}
 
-Hexagram structure:
+Available hexagram structure:
 {hexagram_info["style"]}
 
-Product positioning:
-This is an emotional decision-reading product inspired by I Ching / Chinese oracle culture.
-It should feel ancient, symbolic, mysterious, calm, insightful, and emotionally accurate.
-It must feel like a reading written for one specific person at one specific moment.
+Core requirement:
+This product is a Liu Yao / I Ching decision-reading product.
+The reading must be based on traditional divination reasoning, especially the judgment principles associated with Bu Shi Zheng Zong and Zeng Shan Bu Yi.
 
-Do not sound like:
-- generic horoscope
-- therapy
-- motivational advice
-- corporate analysis
-- AI assistant
+However, you only have the supplied hexagram structure and changing-line information.
+Do NOT invent missing technical details such as exact Na Jia, Six Relatives, Six Spirits, Shi/Ying, month/day strength, or Yong Shen placement.
+When you use traditional reasoning, phrase it as cautious judgment from the available hexagram, moving lines, and topic.
 
-Rules:
-1. Generate both free and paid from the SAME interpretation.
-2. free must be a teaser, not a summary.
-3. free must stop at the most emotionally unresolved point.
-4. free must make the user feel: “I need to see the full reading.”
-5. free length:
-   - Chinese: 90-130 Chinese characters.
-   - English: 55-85 words.
-6. paid length:
-   - Chinese: 300-500 Chinese characters.
-   - English: 220-350 words.
-7. paid must include:
-   - current situation
-   - hidden resistance
-   - emotional or practical key
-   - future movement
-   - next step
-8. Every paragraph must reveal one of these:
-   - a concrete tension
-   - a hidden emotional dynamic
-   - a directional change
-9. For love questions: emotionally delicate, indirect, and piercing.
-10. For career questions: realistic, strategic, and slightly sharp.
-11. For money/legal questions: cautious, grounded, risk-aware.
-12. Use the hexagram structure symbolically. Do not explain technical terms too much.
-13. Do not mention AI.
-14. Do not claim certainty.
-15. Do not say guaranteed, destined, must, absolutely.
+Style direction:
+- Do not write like a novelist.
+- Do not write decorative mystical prose.
+- Do not overuse metaphor.
+- Do not use vague imagery such as door, light, water, shadow, river, wind, stars, universe, energy, awakening, journey, mist.
+- Do not say empty things like “follow your heart”, “trust the universe”, or “everything is still moving”.
+- Write like a grounded Liu Yao consultant who gives a useful decision judgment.
+
+The user wants an answer to the question, not a poem.
+
+Free reading requirements:
+1. The free reading must be useful enough to feel accurate, but it must leave the most valuable details locked.
+2. It must start with a clear tendency rating.
+3. It must directly answer the question in the first few lines.
+4. It must explain the main reason in plain language.
+5. It must give one timing clue or change clue.
+6. It must end with locked hooks that make the user want the full reading.
+7. Length:
+   - Chinese: 160-240 Chinese characters.
+   - English: 90-130 words.
+8. Format exactly like this in Chinese when lang is Chinese:
+结果倾向：★★★★☆
+
+结论：...
+
+当前状态：...
+
+关键提醒：...
+
+未来变化：...
+
+完整版将揭示：
+• 真正阻力
+• 关键人物
+• 时间窗口
+• 下一步行动
+
+9. Format similarly in English when lang is English.
+
+Paid reading requirements:
+1. The paid reading must NOT repeat the free reading with more words.
+2. It must be concrete, useful, and decision-oriented.
+3. It must include the available hexagram structure naturally, for example 本卦、变卦、动爻, but do not over-explain.
+4. It must mention that the judgment is made from the provided hexagram structure and changing lines, not fabricated technical details.
+5. Length:
+   - Chinese: 600-900 Chinese characters.
+   - English: 420-650 words.
+6. Use this structure:
+【一、结果倾向】
+Give the direct tendency: likely / difficult / delayed / worth trying / not worth forcing. Include a rough probability when suitable.
+
+【二、当前局势】
+Explain what the situation looks like now.
+
+【三、真正阻力】
+Identify the real obstacle. For career, it may be decision authority, trust, timing, resources, competing priorities. For love, it may be emotional hesitation, past hurt, unclear commitment. For money/legal, emphasize risk.
+
+【四、关键人物或关键因素】
+Tell the user what person/factor matters most. If unknown, say what type of person/factor it is, not a fake identity.
+
+【五、未来变化】
+Give a likely change window or signal. Do not promise exact events.
+
+【六、下一步行动】
+Give specific next actions. Tell the user whether to push, wait, clarify, prepare evidence, reduce exposure, or stop.
+
+【最终一句】
+End with one concise sentence that feels accurate and memorable.
+
+Topic-specific rules:
+- For career/work: be practical, strategic, and clear about decision makers, timing, and initiative.
+- For love/relationship: be emotionally precise but still direct. Do not flatter the user.
+- For money: be cautious about risk, cost, timing, and impulse.
+- For legal/conflict: be cautious, evidence-focused, and avoid overpromising.
+
+Important:
+- Do not claim certainty.
+- Do not say guaranteed, destined, must, absolutely.
+- Do not mention AI.
+- Do not write Markdown bold symbols like **text**.
+- Plain text only.
 
 Return exactly this JSON:
 {{
