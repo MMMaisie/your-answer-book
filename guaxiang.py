@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, redirect, url_for, abort
 from datetime import datetime
 import hashlib
 import sqlite3
@@ -379,6 +379,57 @@ button{
     min-height:130px;
 }
 
+.pay-note{
+    margin:8px auto 18px;
+    max-width:360px;
+    color:#bca98a !important;
+    font-size:14px !important;
+    line-height:1.85 !important;
+    font-style:italic;
+}
+
+.unlock-list{
+    margin:22px auto 34px;
+    text-align:left;
+    max-width:360px;
+}
+
+.unlock-list div{
+    margin:10px 0;
+    font-size:17px;
+    line-height:1.7;
+    color:#e8d8b7;
+}
+
+.pay-actions{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-top:18px;
+}
+
+.pay-actions button{
+    margin-top:0;
+    height:72px;
+    padding:0 22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.save-tip{
+    margin:0 0 20px;
+    padding:14px 16px;
+    border:1px solid rgba(212,175,55,.18);
+    border-radius:16px;
+    background:rgba(212,175,55,.055);
+    color:#bca98a !important;
+    font-size:14px;
+    line-height:1.8;
+    font-style:italic;
+    white-space:pre-line;
+}
+
 @keyframes floatCoin{
     from{ transform:translateY(0); opacity:.65; }
     to{ transform:translateY(-6px); opacity:1; }
@@ -599,6 +650,9 @@ button{
         </button>
 
             <div id="paidBox" style="display:none;">
+                <p class="save-tip">
+                    {{ "提示：完整解析解锁后，请截图保存。刷新页面后会回到初始页面。" if lang=="zh" else "Tip: After unlocking, please take a screenshot to save your full reading. Refreshing the page will return to the initial page." }}
+                </p>
                 <div class="reading-text paid-reading">
                     {{ paid_result|safe }}
                 </div>
@@ -611,6 +665,10 @@ button{
 
 <script>
 const pageLang = "{{ lang }}";
+const isResultPage = "{{ '1' if result else '0' }}";
+if(isResultPage === "1" && window.history && window.history.replaceState){
+    window.history.replaceState(null, "", "/");
+}
 
 function notice(zh, en){
     alert(pageLang === "zh" ? zh : en);
@@ -757,21 +815,27 @@ function unlockPaidReading(){
     <div class="auto-box">
         <h3>{{ "解锁完整解读" if lang=="zh" else "Unlock Full Reading" }}</h3>
 
-        <p>
-            {{ "免费版只给出结果倾向。完整版会展开卦象依据与具体行动。" if lang=="zh" else "The free version shows the tendency. The full reading reveals the reasoning and next move." }}
+        <p class="pay-note">
+             {{ "完整版将揭示：" if lang=="zh" else "The full reading reveals:" }}
         </p>
 
-        <div class="auto-results">
-            {{ "• 本卦与变卦真正指向\n• 关键人物或关键因素\n• 真正阻力在哪里\n• 未来时间窗口\n• 下一步怎么做" if lang=="zh" else "• Main and changing hexagram meaning\n• Key person or factor\n• Real resistance\n• Timing window\n• What to do next" }}
+        <div class="unlock-list">
+            <div>• {{ "本卦与变卦真正指向" if lang=="zh" else "Main and changing hexagram meaning" }}</div>
+            <div>• {{ "关键人物是谁" if lang=="zh" else "Who the key person is" }}</div>
+            <div>• {{ "真正阻力在哪里" if lang=="zh" else "Where the real resistance lies" }}</div>
+            <div>• {{ "未来时间窗口" if lang=="zh" else "Future timing window" }}</div>
+            <div>• {{ "最优行动建议" if lang=="zh" else "Best next move" }}</div>
         </div>
 
-        <button type="button" onclick="unlockPaidReading()">
-            {{ "¥9.9 RMB 解锁完整解读" if lang=="zh" else "US$1.99 Unlock Full Reading" }}
-        </button>
+        <div class="pay-actions">
+            <button type="button" onclick="unlockPaidReading()">
+                {{ "¥9.9 RMB 解锁完整解读" if lang=="zh" else "US$1.99 Unlock Full Reading" }}
+            </button>
 
-        <button type="button" class="mode-btn" onclick="closePayModal()">
-            {{ "先不看" if lang=="zh" else "Not Now" }}
-        </button>
+            <button type="button" class="mode-btn" onclick="closePayModal()">
+                {{ "先不看" if lang=="zh" else "Not Now" }}
+            </button>
+        </div>
     </div>
 </div>
 </body>
@@ -1250,6 +1314,29 @@ def get_cached_reading(seed_key):
     return None
 
 
+def get_reading_by_seed(seed_key):
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT lang, question, cast_time, free_text, paid_text
+        FROM readings
+        WHERE seed_key=?
+    """, (seed_key,))
+    row = cur.fetchone()
+    conn.close()
+
+    if not row:
+        return None
+
+    return {
+        "lang": row[0],
+        "question": row[1],
+        "cast_time": row[2],
+        "free": row[3],
+        "paid": row[4],
+    }
+
+
 def save_reading(seed_key, lang, question, cast_time, words, topic, emotion_level, free_text, paid_text):
     conn = sqlite3.connect(DB_NAME)
     cur = conn.cursor()
@@ -1283,6 +1370,7 @@ def generate_reading(question, cast_time, words, lang, hour):
     seed_key = stable_hash(seed_raw)
     cached = get_cached_reading(seed_key)
     if cached:
+        cached["seed_key"] = seed_key
         return cached
 
     prompt = build_prompt(lang, question, cast_time, words, topic, emotion_level, seed_key, hexagram_info)
@@ -1298,6 +1386,7 @@ def generate_reading(question, cast_time, words, lang, hour):
     save_reading(seed_key, lang, question, cast_time, words, topic, emotion_level, free_text, paid_text)
 
     return {
+        "seed_key": seed_key,
         "free": free_text,
         "paid": paid_text
     }
@@ -1343,8 +1432,7 @@ def home():
                     hour
                 )
 
-                result = reading["free"]
-                paid_result = reading["paid"]
+                return redirect(url_for("reading_page", seed_key=reading["seed_key"]))
 
     return render_template_string(
         HTML,
@@ -1358,6 +1446,34 @@ def home():
         paid_result=paid_result,
         question=question,
         cast_time=cast_time
+    )
+
+
+@app.route("/reading/<seed_key>", methods=["GET"])
+def reading_page(seed_key):
+    data = get_reading_by_seed(seed_key)
+    if not data:
+        abort(404)
+
+    lang = data["lang"]
+    if lang not in TEXTS:
+        lang = "zh"
+
+    t = TEXTS[lang]
+    now = datetime.now()
+
+    return render_template_string(
+        HTML,
+        t=t,
+        lang=lang,
+        current_year=now.strftime("%Y"),
+        current_month=now.strftime("%m"),
+        current_day=now.strftime("%d"),
+        current_hour=now.strftime("%H"),
+        result=data["free"],
+        paid_result=data["paid"],
+        question=data["question"],
+        cast_time=data["cast_time"]
     )
 
 
