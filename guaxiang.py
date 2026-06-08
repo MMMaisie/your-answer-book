@@ -4,6 +4,7 @@ import hashlib
 import sqlite3
 import json
 import re
+import os
 
 try:
     from openai import OpenAI
@@ -12,7 +13,7 @@ except ImportError:
 
 app = Flask(__name__)
 DB_NAME = "readings.db"
-DEEPSEEK_API_KEY = "sk-5c9bf3b4aabc448f9d071d4860697c44"
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "")
 
 TEXTS = {
     "zh": {
@@ -187,15 +188,6 @@ label,
     font-style:italic;
     opacity:.78;
     white-space:pre-line;
-}
-.manual-note{
-    display:block;
-    margin-top:6px;
-    color:#bca98a;
-    font-size:13.5px;
-    line-height:1.8;
-    font-style:italic;
-    opacity:.78;
 }
 .guide-text{
     max-width:720px;
@@ -577,12 +569,14 @@ button{
         <div class="full-box">
             <h3>{{ t['full_title'] }}</h3>
             <p class="full-hint">{{ t['full_hint'] }}</p>
-            <button type="button" onclick="document.getElementById('paidBox').style.display='block'">
-                {{ t['full_btn'] }}
-            </button>
+            <button type="button" onclick="openPayModal()">
+                 {{ t['full_btn'] }}
+        </button>
 
-            <div id="paidBox">
-                <p>{{ paid_result }}</p>
+            <div id="paidBox" style="display:none;">
+                <div>
+                    {{ paid_result|safe }}
+                </div>
             </div>
         </div>
     </div>
@@ -721,8 +715,40 @@ document.getElementById("mainForm").addEventListener("submit", function(e){
         }
     }
 });
-</script>
+function openPayModal(){
+    document.getElementById("payModal").classList.add("show");
+}
 
+function closePayModal(){
+    document.getElementById("payModal").classList.remove("show");
+}
+
+function unlockPaidReading(){
+    document.getElementById("payModal").classList.remove("show");
+    document.getElementById("paidBox").style.display = "block";
+}
+</script>
+<div id="payModal" class="auto-modal">
+    <div class="auto-box">
+        <h3>{{ "解锁完整解析" if lang=="zh" else "Unlock Full Reading" }}</h3>
+
+        <p>
+            {{ "完整版将展开这一卦真正想提醒你的地方：" if lang=="zh" else "The full reading reveals what this cast is truly pointing toward:" }}
+        </p>
+
+        <div class="auto-results">
+            {{ "• 当前局势\n• 真正阻力\n• 未来变化\n• 下一步建议" if lang=="zh" else "• Current situation\n• Hidden resistance\n• Future movement\n• Next step" }}
+        </div>
+
+        <button type="button" onclick="unlockPaidReading()">
+            {{ "¥9.9 解锁完整解读" if lang=="zh" else "$1.99 Unlock Full Reading" }}
+        </button>
+
+        <button type="button" class="mode-btn" onclick="closePayModal()">
+            {{ "先不看" if lang=="zh" else "Not Now" }}
+        </button>
+    </div>
+</div>
 </body>
 </html>
 """
@@ -892,9 +918,6 @@ def build_hexagram(words):
     }
 
 def call_deepseek(prompt):
-    print("OpenAI is:", OpenAI)
-    print("DEEPSEEK_API_KEY length:", len(DEEPSEEK_API_KEY) if DEEPSEEK_API_KEY else 0)
-
     if OpenAI is None:
         print("OpenAI package not installed. Run: pip install openai")
         return None
@@ -907,8 +930,6 @@ def call_deepseek(prompt):
         api_key=DEEPSEEK_API_KEY,
         base_url="https://api.deepseek.com"
     )
-
-    print("USING DEEPSEEK API...")
 
     try:
         response = client.chat.completions.create(
@@ -958,8 +979,6 @@ Output valid JSON only.
             temperature=0.88,
             max_tokens=1200
         )
-
-        print("DEEPSEEK RESPONSE OK")
 
         return response.choices[0].message.content
 
@@ -1121,13 +1140,11 @@ def generate_reading(question, cast_time, words, lang, hour):
 
     seed_raw = f"{lang}|{question.strip()}|{cast_time}|{','.join(words)}|{topic}|{emotion_level}|{hexagram_info['main_name']}|{hexagram_info['changed_name']}"
     seed_key = stable_hash(seed_raw)
-    print("ENTER generate_reading")
     cached = get_cached_reading(seed_key)
     if cached:
         return cached
 
     prompt = build_prompt(lang, question, cast_time, words, topic, emotion_level, seed_key, hexagram_info)
-    print("CALLING DEEPSEEK NOW")
     raw = call_deepseek(prompt)
     parsed = parse_ai_json(raw)
 
@@ -1205,4 +1222,8 @@ def home():
 
 if __name__ == "__main__":
     init_db()
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", 5000)),
+        debug=os.getenv("FLASK_DEBUG", "0") == "1"
+    )
