@@ -5,6 +5,7 @@ import sqlite3
 import json
 import re
 import os
+from urllib.parse import quote_plus
 
 try:
     from openai import OpenAI
@@ -524,6 +525,7 @@ button{
 
 .result{
     margin-top:40px;
+    scroll-margin-top:24px;
     background:rgba(255,255,255,.03);
     border:1px solid rgba(212,175,55,.2);
     border-radius:24px;
@@ -581,6 +583,40 @@ button{
 #paidBox{
     display:none;
     margin-top:24px;
+}
+
+
+.share-actions{
+    display:flex;
+    gap:12px;
+    margin-top:24px;
+    flex-wrap:wrap;
+}
+
+.share-card-btn,
+.copy-link-btn{
+    flex:1 1 220px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    min-height:58px;
+    border-radius:999px;
+    font-size:17px;
+    font-weight:800;
+    letter-spacing:.03em;
+}
+
+.share-card-btn{
+    background:linear-gradient(90deg,#8d5d17,#e1b85b,#8d5d17);
+    color:#050505;
+}
+
+.copy-link-btn{
+    margin-top:0;
+    background:rgba(255,255,255,.03);
+    color:#e8d8b7;
+    border:1px solid rgba(212,175,55,.28);
 }
 
 @media(max-width:700px){
@@ -691,9 +727,9 @@ button{
         <div id="loadingModal" class="loading-modal">
             <div class="loading-box">
                 <div class="loading-symbol">☯</div>
-                <h3>{{ "卦象正在显化中" if lang=="zh" else "The reading is forming" }}</h3>
+                <h3>{{ "吕主正在推演此卦" if lang=="zh" else "The reading is being revealed" }}</h3>
                 <p>
-                    {{ "正在推演本卦、变卦与动爻，请稍候。不要关闭页面。" if lang=="zh" else "Reading the main hexagram, changing hexagram, and moving lines. Please keep this page open." }}
+                    {{ "本卦、变卦与动爻正在显化。请稍候片刻，不要关闭页面。" if lang=="zh" else "The main hexagram, changing hexagram, and moving lines are forming. Please keep this page open." }}
                 </p>
                 <div class="loading-dots">
                     <span></span><span></span><span></span>
@@ -737,11 +773,22 @@ button{
     </form>
 
     {% if result %}
-    <div class="result">
+    <div class="result" id="resultBox">
         <h2>{{ t['report'] }}</h2>
         <p><strong>{{ t['asked'] }}：</strong>{{ question }}</p>
         <p><strong>{{ t['time_result'] }}：</strong>{{ cast_time }}</p>
         <div class="reading-text free-reading">{{ result }}</div>
+
+        {% if share_url %}
+        <div class="share-actions">
+            <a class="share-card-btn" href="{{ share_url }}">
+                {{ "生成分享卡片" if lang=="zh" else "Create Share Card" }}
+            </a>
+            <button type="button" class="copy-link-btn" onclick="copyReadingLink()">
+                {{ "复制本卦链接" if lang=="zh" else "Copy Reading Link" }}
+            </button>
+        </div>
+        {% endif %}
 
         <div class="full-box">
             <h3>{{ t['full_title'] }}</h3>
@@ -767,12 +814,36 @@ button{
 <script>
 const pageLang = "{{ lang }}";
 const isResultPage = "{{ '1' if result else '0' }}";
-if(isResultPage === "1" && window.history && window.history.replaceState){
-    window.history.replaceState(null, "", "/");
-}
+
+window.addEventListener("load", function(){
+    if(isResultPage === "1"){
+        const box = document.getElementById("resultBox");
+        if(box){
+            setTimeout(function(){
+                box.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }, 300);
+        }
+    }
+});
 
 function notice(zh, en){
     alert(pageLang === "zh" ? zh : en);
+}
+
+function copyReadingLink(){
+    const link = window.location.href;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(link).then(function(){
+            notice("本卦链接已复制。", "Reading link copied.");
+        }).catch(function(){
+            prompt(pageLang === "zh" ? "复制这个链接：" : "Copy this link:", link);
+        });
+    }else{
+        prompt(pageLang === "zh" ? "复制这个链接：" : "Copy this link:", link);
+    }
 }
 
 function setManual(){
@@ -892,7 +963,7 @@ function showLoading(){
         btn.disabled = true;
         btn.style.opacity = ".72";
         btn.style.cursor = "not-allowed";
-        btn.innerText = pageLang === "zh" ? "卦象显化中..." : "Reading...";
+        btn.innerText = pageLang === "zh" ? "吕主推演中..." : "Reading...";
     }
 }
 
@@ -1570,7 +1641,8 @@ def home():
         result=result,
         paid_result=paid_result,
         question=question,
-        cast_time=cast_time
+        cast_time=cast_time,
+        share_url=None
     )
 
 
@@ -1598,7 +1670,264 @@ def reading_page(seed_key):
         result=data["free"],
         paid_result=data["paid"],
         question=data["question"],
-        cast_time=data["cast_time"]
+        cast_time=data["cast_time"],
+        share_url=url_for("share_page", seed_key=seed_key)
+    )
+
+
+SHARE_HTML = """
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ "分享卦卡" if lang=="zh" else "Share Reading Card" }}</title>
+<style>
+:root{
+    --gold:#d4af37;
+    --gold2:#f5d48a;
+    --text:#f3e7c9;
+    --muted:#bca98a;
+    --font-body:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC","Segoe UI",Arial,sans-serif;
+    --font-title:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","KaiTi",serif;
+}
+*{ box-sizing:border-box; }
+body{
+    margin:0;
+    min-height:100vh;
+    background:radial-gradient(circle at 50% -8%, rgba(214,173,79,.24), transparent 48%), linear-gradient(180deg,#100b07,#050505 78%);
+    color:var(--text);
+    font-family:var(--font-body);
+    padding:28px 16px 42px;
+}
+.wrap{
+    max-width:520px;
+    margin:0 auto;
+}
+.card{
+    position:relative;
+    overflow:hidden;
+    border-radius:32px;
+    padding:30px 26px 28px;
+    border:1px solid rgba(212,175,55,.36);
+    background:linear-gradient(180deg,rgba(28,19,12,.96),rgba(5,5,5,.98));
+    box-shadow:0 28px 90px rgba(0,0,0,.72);
+}
+.card:before{
+    content:"";
+    position:absolute;
+    inset:-30% -20% auto;
+    height:180px;
+    background:radial-gradient(circle,rgba(245,212,138,.18),transparent 62%);
+    pointer-events:none;
+}
+.brand{
+    position:relative;
+    text-align:center;
+    margin-bottom:24px;
+}
+.brand h1{
+    margin:0;
+    font-family:var(--font-title);
+    color:var(--gold2);
+    font-size:32px;
+    letter-spacing:.08em;
+    font-weight:700;
+}
+.brand p{
+    margin:8px 0 0;
+    color:var(--muted);
+    font-size:13px;
+    letter-spacing:.08em;
+}
+.section{
+    position:relative;
+    margin:18px 0;
+    padding:16px 16px;
+    border-radius:20px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(212,175,55,.13);
+}
+.label{
+    color:var(--gold2);
+    font-size:14px;
+    font-weight:800;
+    margin-bottom:8px;
+    letter-spacing:.05em;
+}
+.value{
+    color:#f4e8cf;
+    font-size:17px;
+    line-height:1.8;
+    white-space:pre-line;
+}
+.result-text{
+    font-size:16.5px;
+    line-height:1.9;
+    color:#f0dfbf;
+    white-space:pre-line;
+}
+.qr-area{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-top:24px;
+    padding-top:22px;
+    border-top:1px solid rgba(212,175,55,.22);
+}
+.qr{
+    width:118px;
+    height:118px;
+    padding:8px;
+    border-radius:18px;
+    background:#f7f0df;
+    flex:0 0 auto;
+}
+.qr img{
+    width:100%;
+    height:100%;
+    display:block;
+}
+.qr-copy{
+    flex:1;
+    color:#d8c6a1;
+    font-size:14px;
+    line-height:1.7;
+}
+.qr-copy strong{
+    display:block;
+    color:var(--gold2);
+    font-size:16px;
+    margin-bottom:6px;
+}
+.actions{
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+}
+.actions a,
+.actions button{
+    flex:1;
+    border:none;
+    border-radius:999px;
+    min-height:52px;
+    padding:0 16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font-weight:800;
+    font-size:15px;
+    cursor:pointer;
+}
+.primary{
+    background:linear-gradient(90deg,#8d5d17,#e1b85b,#8d5d17);
+    color:#050505;
+}
+.secondary{
+    background:rgba(255,255,255,.04);
+    color:#e8d8b7;
+    border:1px solid rgba(212,175,55,.28)!important;
+}
+.tip{
+    text-align:center;
+    color:#9d8b6f;
+    font-size:13px;
+    margin:18px 0 0;
+    line-height:1.7;
+}
+@media(max-width:520px){
+    body{ padding:18px 12px 34px; }
+    .card{ padding:26px 18px 22px; border-radius:26px; }
+    .brand h1{ font-size:28px; }
+    .qr-area{ align-items:flex-start; }
+    .qr{ width:104px; height:104px; }
+    .actions{ flex-direction:column; }
+}
+@media print{
+    .actions,.tip{ display:none; }
+    body{ background:#050505; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="card" id="shareCard">
+        <div class="brand">
+            <h1>{{ "你的答案之书" if lang=="zh" else "Book of Answers" }}</h1>
+            <p>{{ "一卦一问 · 此刻有答" if lang=="zh" else "One question · One cast" }}</p>
+        </div>
+
+        <div class="section">
+            <div class="label">{{ "问卦" if lang=="zh" else "Question" }}</div>
+            <div class="value">{{ question }}</div>
+        </div>
+
+        <div class="section">
+            <div class="label">{{ "时间" if lang=="zh" else "Time" }}</div>
+            <div class="value">{{ cast_time }}</div>
+        </div>
+
+        <div class="section">
+            <div class="label">{{ "结果" if lang=="zh" else "Result" }}</div>
+            <div class="result-text">{{ summary }}</div>
+        </div>
+
+        <div class="qr-area">
+            <div class="qr">
+                <img src="{{ qr_url }}" alt="QR Code">
+            </div>
+            <div class="qr-copy">
+                <strong>{{ "扫码查看这一卦" if lang=="zh" else "Scan to open this reading" }}</strong>
+                {{ "长按保存这张卡片，或截图分享到小红书 / 微信。" if lang=="zh" else "Save or screenshot this card to share." }}
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a class="primary" href="{{ reading_url }}">{{ "打开完整页面" if lang=="zh" else "Open Reading" }}</a>
+        <button class="secondary" type="button" onclick="copyLink()">{{ "复制链接" if lang=="zh" else "Copy Link" }}</button>
+    </div>
+
+    <div class="tip">
+        {{ "提示：手机端可直接截图保存为打卡照。" if lang=="zh" else "Tip: On mobile, screenshot this card to save it as an image." }}
+    </div>
+</div>
+
+<script>
+function copyLink(){
+    const link = "{{ reading_url }}";
+    if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(link).then(function(){
+            alert("{{ '链接已复制。' if lang=='zh' else 'Link copied.' }}");
+        });
+    }else{
+        prompt("{{ '复制这个链接：' if lang=='zh' else 'Copy this link:' }}", link);
+    }
+}
+</script>
+</body>
+</html>
+"""
+
+@app.route("/share/<seed_key>", methods=["GET"])
+def share_page(seed_key):
+    data = get_reading_by_seed(seed_key)
+    if not data:
+        abort(404)
+
+    lang = data["lang"] if data["lang"] in TEXTS else "zh"
+    reading_url = url_for("reading_page", seed_key=seed_key, _external=True)
+    qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + quote_plus(reading_url)
+
+    return render_template_string(
+        SHARE_HTML,
+        lang=lang,
+        question=data["question"],
+        cast_time=data["cast_time"],
+        summary=data["free"],
+        reading_url=reading_url,
+        qr_url=qr_url
     )
 
 
