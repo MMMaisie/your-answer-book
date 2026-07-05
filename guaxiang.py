@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template_string, redirect, url_for, abort
+from flask import Flask, request, render_template_string, redirect, url_for, abort, jsonify
 from datetime import datetime
 import hashlib
 import sqlite3
@@ -12,9 +12,25 @@ try:
 except ImportError:
     OpenAI = None
 
+try:
+    import stripe
+except ImportError:
+    stripe = None
+
 app = Flask(__name__)
 DB_NAME = "readings.db"
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")
+STRIPE_PRICE_ID = os.getenv("STRIPE_PRICE_ID", "")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+STRIPE_ENABLE_ALIPAY = os.getenv("STRIPE_ENABLE_ALIPAY", "0") == "1"
+ALIPAY_PAYMENT_URL = os.getenv("ALIPAY_PAYMENT_URL", "")
+WECHAT_PAYMENT_URL = os.getenv("WECHAT_PAYMENT_URL", "")
+ALIPAY_QR_URL = os.getenv("ALIPAY_QR_URL", "")
+WECHAT_QR_URL = os.getenv("WECHAT_QR_URL", "")
+
+if stripe is not None and STRIPE_SECRET_KEY:
+    stripe.api_key = STRIPE_SECRET_KEY
 
 TEXTS = {
     "zh": {
@@ -40,26 +56,26 @@ TEXTS = {
         "full_btn": "查看完整解析",
     },
     "en": {
-        "title": "Book of Answers",
-        "subtitle": "Three coins. One question.",
-        "guide_title": "Before You Begin",
-        "guide_text": "Do not rush into the question.\n\nBring your attention to the thing you cannot quite let go of.\n\nPrepare 3 identical coins, or any 3 identical objects with two distinguishable sides.\n\nToss them 6 times.Each time, select how many number/front sides face upward.\n\nDo not ask the same question again and again.The first reading is often closest to your present intuition.",
+        "title": "The Book of Answers",
+        "subtitle": "Ask once. Let the hexagram reveal what the moment is trying to tell you.",
+        "guide_title": "Before You Cast",
+        "guide_text": "Before you ask, pause for a moment.\n\nHold one question in your mind — not a vague wish, but the decision you truly need clarity on.\n\nCast the six lines yourself, or let the system cast them for you.\n\nThe hexagram reflects the pattern around this question now.\n\nAsk once. The first cast is usually the clearest.",
         "question": "Your Question",
-        "question_ph": "Example: Can I get an offer within 3 months? Should I keep holding onto this person? Can I truly secure this project?",
-        "time": "This Moment",
-        "time_ph": "Current time by default. You may edit it.",
+        "question_ph": "Examples: Will I receive the offer? Should I leave this relationship? Is now the right time to move? What is blocking my progress?",
+        "time": "The Moment",
+        "time_ph": "Use the current moment, or adjust the time of your cast.",
         "time_hint": "Example: 9PM on May 17, 2026 → 2026 / 05 / 17 / 21",
-        "coin_title": "The Six Falls",
-        "coin_hint": "Before they fall, hold your true question clearly in mind.Select how many number/front sides face upward each time.",
+        "coin_title": "Cast the Six Lines",
+        "coin_hint": "Hold your question clearly. Each throw becomes one line of the hexagram.",
         "yao": "Throw {n}",
-        "submit": "Read This Cast",
+        "submit": "Reveal the Reading",
         "select": "Select",
-        "report": "The Answer Appears",
-        "asked": "You asked",
-        "time_result": "Casting time",
-        "full_title": "Full Reading",
-        "full_hint": "The full version expands the situation, hidden resistance, future movement, and next step.",
-        "full_btn": "View Full Reading",
+        "report": "Your Reading Reveals",
+        "asked": "Your question",
+        "time_result": "Cast at",
+        "full_title": "The Full Reading",
+        "full_hint": "The full reading reveals what sits beneath the first answer: hidden influence, timing, resistance, and the action the hexagram points toward.",
+        "full_btn": "Reveal the Full Reading",
     }
 }
 
@@ -619,6 +635,76 @@ button{
     border:1px solid rgba(212,175,55,.28);
 }
 
+.manual-pay-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin:18px 0 8px;
+}
+
+.manual-pay-card{
+    border:1px solid rgba(212,175,55,.22);
+    border-radius:18px;
+    padding:14px;
+    background:rgba(255,255,255,.025);
+    text-align:center;
+}
+
+.manual-pay-card h4{
+    margin:0 0 10px;
+    color:#f5d48a;
+    font-size:16px;
+}
+
+.manual-pay-card img{
+    width:150px;
+    height:150px;
+    object-fit:contain;
+    border-radius:12px;
+    background:#fff;
+    padding:8px;
+    display:block;
+    margin:8px auto 12px;
+}
+
+.manual-pay-card a{
+    display:block;
+    color:#f5d48a;
+    text-decoration:none;
+    font-weight:700;
+    margin-top:8px;
+}
+
+.pay-divider{
+    margin:18px 0 10px;
+    color:#8f7b5f;
+    font-size:13px;
+    text-align:center;
+}
+
+.pay-small-note{
+    color:#bca98a !important;
+    font-size:13px !important;
+    line-height:1.75 !important;
+    margin:10px 0 0 !important;
+}
+
+.stripe-pay-btn{
+    margin-top:0;
+}
+
+.manual-unlock-btn{
+    background:rgba(255,255,255,.03) !important;
+    color:#e8d8b7 !important;
+    border:1px solid rgba(212,175,55,.28) !important;
+}
+
+@media(max-width:560px){
+    .manual-pay-grid{
+        grid-template-columns:1fr;
+    }
+}
+
 @media(max-width:700px){
     .container{ padding:42px 18px 64px; }
     .coin-grid{ grid-template-columns:1fr 1fr; gap:10px; }
@@ -691,16 +777,16 @@ button{
 
         <div class="time-inline">
             <input name="year" value="{{ current_year }}" maxlength="4">
-            <span>年</span>
+            <span>{{ "年" if lang=="zh" else "Y" }}</span>
 
             <input name="month" value="{{ current_month }}" maxlength="2">
-            <span>月</span>
+            <span>{{ "月" if lang=="zh" else "M" }}</span>
 
             <input name="day" value="{{ current_day }}" maxlength="2">
-            <span>日</span>
+            <span>{{ "日" if lang=="zh" else "D" }}</span>
 
             <input name="hour" value="{{ current_hour }}" maxlength="2">
-            <span>时</span>
+            <span>{{ "时" if lang=="zh" else "H" }}</span>
         </div>
 
         <div class="time-tip">{{ t['time_hint'] }}</div>
@@ -710,16 +796,16 @@ button{
        <div class="coin-mini-tip">
         {{ t['coin_hint'] }}
         <span class="manual-note">
-            {{ "当然，自己亲手掷出的这一卦，往往更接近答案。" if lang=="zh" else "A reading cast by your own hands is often closer to your true state of mind." }}
+            {{ "当然，自己亲手掷出的这一卦，往往更接近答案。" if lang=="zh" else "A hand-cast reading often carries the clearest intention." }}
         </span>
         </div>
         <div class="cast-mode">
             <button type="button" class="mode-btn active" id="manualBtn" onclick="setManual()">
-                {{ "我自己来" if lang=="zh" else "I’ll Do It" }}
+                {{ "我自己来" if lang=="zh" else "Cast Manually" }}
             </button>
 
             <button type="button" class="mode-btn" id="autoBtn" onclick="autoCast()">
-                {{ "交给系统" if lang=="zh" else "Let Fate Decide" }}
+                {{ "交给系统" if lang=="zh" else "Auto Cast" }}
             </button>
         </div>
 
@@ -727,9 +813,9 @@ button{
         <div id="loadingModal" class="loading-modal">
             <div class="loading-box">
                 <div class="loading-symbol">☯</div>
-                <h3>{{ "吕主正在推演此卦" if lang=="zh" else "The reading is being revealed" }}</h3>
+                <h3>{{ "吕主正在推演此卦" if lang=="zh" else "The hexagram is forming" }}</h3>
                 <p>
-                    {{ "本卦、变卦与动爻正在显化。请稍候片刻，不要关闭页面。" if lang=="zh" else "The main hexagram, changing hexagram, and moving lines are forming. Please keep this page open." }}
+                    {{ "本卦、变卦与动爻正在显化。请稍候片刻，不要关闭页面。" if lang=="zh" else "The lines are settling into place. Please keep this page open." }}
                 </p>
                 <div class="loading-dots">
                     <span></span><span></span><span></span>
@@ -739,16 +825,16 @@ button{
 
         <div id="autoModal" class="auto-modal">
             <div class="auto-box">
-                <h3>{{ "交给系统" if lang=="zh" else "Let Fate Decide" }}</h3>
+                <h3>{{ "交给系统" if lang=="zh" else "Auto Cast" }}</h3>
                 <p id="autoMessage">
-                    {{ "在开始之前，请心中默念真正想问的事。" if lang=="zh" else "Before we begin, hold your true question clearly in mind." }}
+                    {{ "在开始之前，请心中默念真正想问的事。" if lang=="zh" else "Before the cast, hold your question clearly in mind." }}
                 </p>
 
                 <div class="auto-coins">◐ ◑ ◒</div>
                 <div id="autoResults" class="auto-results"></div>
 
                 <button type="button" id="confirmAutoBtn" onclick="startAutoCast()">
-                    {{ "我准备好了" if lang=="zh" else "I’m Ready" }}
+                    {{ "我准备好了" if lang=="zh" else "Begin the Cast" }}
                 </button>
             </div>
         </div>
@@ -782,7 +868,7 @@ button{
         {% if share_url %}
         <div class="share-actions">
             <a class="share-card-btn" href="{{ share_url }}">
-                {{ "生成分享卡片" if lang=="zh" else "Create Share Card" }}
+                {{ "生成分享卡片" if lang=="zh" else "Share Result" }}
             </a>
             <button type="button" class="copy-link-btn" onclick="copyReadingLink()">
                 {{ "复制本卦链接" if lang=="zh" else "Copy Reading Link" }}
@@ -792,14 +878,21 @@ button{
 
         <div class="full-box">
             <h3>{{ t['full_title'] }}</h3>
-            <p class="full-hint">{{ t['full_hint'] }}</p>
-            <button type="button" onclick="openPayModal()">
-                 {{ t['full_btn'] }}
-        </button>
 
-            <div id="paidBox" style="display:none;">
+            {% if paid_unlocked %}
                 <p class="save-tip">
-                    {{ "提示：完整解析解锁后，请截图保存。刷新页面后会回到初始页面。" if lang=="zh" else "Tip: After unlocking, please take a screenshot to save your full reading. Refreshing the page will return to the initial page." }}
+                    {{ "已解锁完整解析。建议截图保存，也可以复制本卦链接稍后查看。" if lang=="zh" else "Complete reading unlocked. Save this page or copy the link to return later." }}
+                </p>
+            {% else %}
+                <p class="full-hint">{{ t['full_hint'] }}</p>
+                <button type="button" onclick="openPayModal()">
+                    {{ t['full_btn'] }}
+                </button>
+            {% endif %}
+
+            <div id="paidBox" style="display:{{ 'block' if paid_unlocked else 'none' }};">
+                <p class="save-tip">
+                    {{ "提示：完整解析解锁后，请截图保存，也可以复制本卦链接。" if lang=="zh" else "Tip: Save this page or copy the link after unlocking." }}
                 </p>
                 <div class="reading-text paid-reading">
                     {{ paid_result|safe }}
@@ -905,7 +998,7 @@ function startAutoCast(){
     msg.innerText =
         pageLang === "zh"
         ? "系统正在为你起这一卦。"
-        : "The system is casting this reading for you.";
+        : "The system is casting the six lines.";
 
     let i = 1;
 
@@ -927,7 +1020,7 @@ function startAutoCast(){
             msg.innerText =
                 pageLang === "zh"
                 ? "六次已完成。结果已经填入页面。"
-                : "All six throws are complete. The results have been filled in.";
+                : "The six lines are complete. Your cast is ready.";
 
             setTimeout(() => {
                 document.getElementById("autoModal").classList.remove("show");
@@ -963,7 +1056,7 @@ function showLoading(){
         btn.disabled = true;
         btn.style.opacity = ".72";
         btn.style.cursor = "not-allowed";
-        btn.innerText = pageLang === "zh" ? "吕主推演中..." : "Reading...";
+        btn.innerText = pageLang === "zh" ? "吕主推演中..." : "Revealing...";
     }
 }
 
@@ -998,34 +1091,66 @@ function closePayModal(){
 }
 
 function unlockPaidReading(){
-    document.getElementById("payModal").classList.remove("show");
-    document.getElementById("paidBox").style.display = "block";
+    notice(
+        "如果你使用支付宝备用入口付款，请截图保存付款记录。备用入口不会自动核验；自动解锁请使用银行卡 / Alipay 支付。",
+        "If you use the backup Alipay option, please keep a payment screenshot. Backup Alipay is not automatically verified; use card / Alipay checkout for automatic unlock."
+    );
 }
 </script>
 <div id="payModal" class="auto-modal">
     <div class="auto-box">
-        <h3>{{ "解锁完整解读" if lang=="zh" else "Unlock Full Reading" }}</h3>
+        <h3>{{ "解锁完整解读" if lang=="zh" else "Reveal the Complete Reading" }}</h3>
 
         <p class="pay-note">
-             {{ "完整版将揭示：" if lang=="zh" else "The full reading reveals:" }}
+             {{ "完整版将揭示：" if lang=="zh" else "Your complete reading reveals:" }}
         </p>
 
         <div class="unlock-list">
-            <div>• {{ "本卦与变卦真正指向" if lang=="zh" else "Main and changing hexagram meaning" }}</div>
-            <div>• {{ "关键人物是谁" if lang=="zh" else "Who the key person is" }}</div>
-            <div>• {{ "真正阻力在哪里" if lang=="zh" else "Where the real resistance lies" }}</div>
-            <div>• {{ "未来时间窗口" if lang=="zh" else "Future timing window" }}</div>
-            <div>• {{ "最优行动建议" if lang=="zh" else "Best next move" }}</div>
+            <div>• {{ "本卦与变卦真正指向" if lang=="zh" else "The deeper meaning of the hexagram" }}</div>
+            <div>• {{ "关键人物是谁" if lang=="zh" else "Hidden influences affecting the outcome" }}</div>
+            <div>• {{ "真正阻力在哪里" if lang=="zh" else "The real obstacle beneath the surface" }}</div>
+            <div>• {{ "未来时间窗口" if lang=="zh" else "Timing and future developments" }}</div>
+            <div>• {{ "最优行动建议" if lang=="zh" else "Practical guidance for your next step" }}</div>
         </div>
 
         <div class="pay-actions">
-            <button type="button" onclick="unlockPaidReading()">
-                {{ "¥9.9 RMB 解锁完整解读" if lang=="zh" else "US$1.99 Unlock Full Reading" }}
-            </button>
+            {% if stripe_enabled and seed_key %}
+            <form method="POST" action="{{ url_for('create_checkout_session', seed_key=seed_key) }}">
+                <button type="submit" class="stripe-pay-btn">
+                    {{ "银行卡 / 支付宝 支付 AU$1.99" if lang=="zh" else "Reveal the Full Reading — AU$1.99" }}
+                </button>
+            </form>
+            <p class="pay-small-note">
+                {{ "支持银行卡；支付宝通过 Stripe Checkout 预留，审核启用后可自动跳转并自动解锁。" if lang=="zh" else "Secure checkout by Stripe. Card, Apple Pay and Google Pay are available now. Alipay will appear automatically after Stripe approval." }}
+            </p>
+            {% else %}
+            <p class="pay-small-note">
+                {{ "本地测试未检测到 Stripe 密钥或价格 ID，所以不会显示支付按钮。部署到 Render 后，只要 STRIPE_SECRET_KEY 和 STRIPE_PRICE_ID 已配置，支付按钮会自动出现。" if lang=="zh" else "Payment is hidden in this local test because Stripe keys or Price ID are not configured. On Render, the payment button appears automatically when STRIPE_SECRET_KEY and STRIPE_PRICE_ID are set." }}
+            </p>
+            {% endif %}
+
+            {% if alipay_payment_url or alipay_qr_url %}
+            <div class="pay-divider">
+                {{ "支付宝备用入口" if lang=="zh" else "Alipay backup" }}
+            </div>
+            <div class="manual-pay-grid" style="grid-template-columns:1fr;">
+                <div class="manual-pay-card">
+                    <h4>{{ "支付宝" if lang=="zh" else "Alipay" }}</h4>
+                    {% if alipay_qr_url %}
+                        <img src="{{ alipay_qr_url }}" alt="Alipay QR">
+                    {% endif %}
+                    {% if alipay_payment_url %}
+                        <a href="{{ alipay_payment_url }}" target="_blank">{{ "打开支付宝支付链接" if lang=="zh" else "Open Alipay payment link" }}</a>
+                    {% endif %}
+                    <p class="pay-small-note">{{ "备用支付宝入口不会自动核验；自动解锁请使用上方 Stripe Checkout。" if lang=="zh" else "Backup Alipay is not automatically verified. For automatic unlock, use Stripe Checkout above." }}</p>
+                </div>
+            </div>
+            {% endif %}
 
             <button type="button" class="mode-btn" onclick="closePayModal()">
                 {{ "先不看" if lang=="zh" else "Not Now" }}
             </button>
+        </div>
         </div>
     </div>
 </div>
@@ -1050,6 +1175,42 @@ def init_db():
             created_at TEXT
         )
     """)
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS payments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            seed_key TEXT NOT NULL,
+            stripe_session_id TEXT,
+            status TEXT NOT NULL DEFAULT 'paid',
+            amount_total INTEGER,
+            currency TEXT,
+            created_at TEXT,
+            paid_at TEXT
+        )
+    """)
+
+    # Database migration for older local/Render databases.
+    # CREATE TABLE IF NOT EXISTS will not add new columns to an existing table,
+    # so we add any missing columns explicitly.
+    cur.execute("PRAGMA table_info(payments)")
+    existing_cols = {row[1] for row in cur.fetchall()}
+    required_cols = {
+        "seed_key": "TEXT",
+        "stripe_session_id": "TEXT",
+        "status": "TEXT DEFAULT 'paid'",
+        "amount_total": "INTEGER",
+        "currency": "TEXT",
+        "created_at": "TEXT",
+        "paid_at": "TEXT",
+    }
+    for col, col_type in required_cols.items():
+        if col not in existing_cols:
+            cur.execute(f"ALTER TABLE payments ADD COLUMN {col} {col_type}")
+
+    # Make paid lookup and duplicate Stripe callbacks stable.
+    cur.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_payments_seed_key ON payments(seed_key)")
+    cur.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_payments_stripe_session ON payments(stripe_session_id)")
+
     conn.commit()
     conn.close()
 
@@ -1222,32 +1383,75 @@ def call_deepseek(prompt):
                 {
                     "role": "system",
                     "content": """
-You are a practical Liu Yao / I Ching reading engine.
+You are a professional traditional Chinese Liu Yao / I Ching divination master and a premium English I Ching reader.
 
-Your priority is accuracy, structure, and useful judgment, not poetic writing.
+Your job is not to entertain, flatter, or comfort. Your job is to read the cast and make the answer feel worth paying for.
 
-Use the reasoning style of traditional Liu Yao divination, especially the logic associated with Bu Shi Zheng Zong and Zeng Shan Bu Yi:
-- identify the matter type
-- identify the useful focus of the question
-- judge from hexagram structure, changing lines, motion and stillness
-- consider the relation between the asker and the outside party
-- translate the judgment into plain, useful advice
+Core discipline:
+- Judgment comes before advice.
+- Never soften an unfavorable hexagram just to sound kind.
+- Never create hope if the cast does not support it.
+- Never default to a positive conclusion.
+- If the hexagram points to failure, delay, loss, rejection, separation, or low probability, say it directly.
+- If the hexagram points to success, growth, union, return, or completion, say that directly.
+- Do not add a comforting ending after a negative judgment.
+
+Premium value requirement:
+The paid answer must feel materially deeper than the free answer.
+It must reveal at least three things the free answer did not reveal:
+1. the actual pattern shown by the main hexagram,
+2. the hidden pressure or influence behind the situation,
+3. the timing or condition under which the outcome changes,
+4. the concrete action the user should take or avoid.
+
+Avoid generic reusable phrases. Do not repeatedly use:
+- key person
+- trust issue
+- wait patiently
+- follow-up message
+- document request
+- one to two weeks
+- hidden opportunity
+- communication is the key
+unless the cast clearly supports that exact idea.
+
+Traditional logic:
+Use the judgment style of Liu Yao and classical divination texts such as Bu Shi Zheng Zong and Zeng Shan Bu Yi, but do NOT pretend to quote them.
+Judge only from the provided information:
+- main hexagram
+- changing hexagram
+- moving lines
+- motion vs stillness
+- upper and lower trigram tendency
+- the wording of the question
+- whether the cast suggests growth, obstruction, reduction, conflict, union, waiting, return, completion, incompletion, dispersal, stillness, or reversal.
 
 Important limits:
-- Do NOT fabricate technical items that were not provided, such as exact Na Jia stems/branches, Six Relatives, Six Spirits, Shi/Ying positions, month/day strength, or exact Yong Shen placement.
-- If those data are not available, use the provided hexagram structure and moving lines cautiously.
-- Never pretend to quote Bu Shi Zheng Zong directly.
-- Never use empty mystical prose.
+Do NOT fabricate Na Jia, Six Relatives, Six Spirits, Shi/Ying, month/day strength, or Yong Shen placement. If not provided, the judgment is based on hexagram image, movement, and change tendency.
 
-Do NOT use these vague images or filler words unless directly necessary:
-door, light, water, shadow, river, wind, stars, universe, energy, destiny, awakening, journey, frequency, mist.
+English style:
+When the required language is English, write like a refined tarot / I Ching reading site:
+- mysterious but clear
+- atmospheric but useful
+- emotionally resonant, not sugary
+- elegant, not robotic
+- symbolic, but still practical
+Use phrases such as:
+- the hexagram suggests
+- this cast points to
+- beneath the surface
+- the energy around this question
+- what is moving now
+- what is not yet ready to move
+But never become vague or poetic filler.
 
-Write like an experienced divination consultant:
-- direct
-- grounded
-- specific
-- slightly mysterious but not vague
-- clear about tendency, obstruction, timing, and next action
+Emotional value rule:
+The answer should make the user feel: "This understood my situation and gave me something I did not already know."
+This does NOT mean always making them feel good.
+A difficult reading can still be valuable if it is clear, specific, and gives them a better decision.
+
+Uniqueness rule:
+Every reading must feel tied to this exact cast. Vary the wording, obstacles, timing, and advice according to the hexagram. Do not reuse the same structure of examples inside the body beyond the required section headings.
 
 Output valid JSON only.
 """
@@ -1257,7 +1461,7 @@ Output valid JSON only.
                     "content": prompt
                 }
             ],
-            temperature=0.88,
+            temperature=0.45,
             max_tokens=1200
         )
 
@@ -1296,7 +1500,7 @@ Current state: You are close to the decision area, but the final word is not ful
 
 Key reminder: One person or one unresolved concern matters more than your effort itself.
 
-The full reading reveals: the real resistance, the key person, the timing window, and your next move."""
+Your complete reading reveals: the real resistance, the key person, the timing window, and your next move."""
         paid = """[1. Result tendency]
 This matter has room to succeed, but the result is not completely settled. The tendency is favorable, though delayed. It is closer to "possible with the right move" than "already secured".
 
@@ -1320,11 +1524,13 @@ This is not about proving harder; it is about making the right person feel there
     else:
         free = """结果倾向：★★★★☆
 
-本卦：以当前卦象看，事情有机会。
+本卦：当前卦象偏向可成。
 
-但真正决定结果的人，并不是你正在接触的这个人。
+这件事有机会，但过程不会完全按你预想推进。
 
-未来两周会出现一个信号。
+真正影响结果的，是对方是否放心，而不是你单方面多努力。
+
+未来两周留意追问、补充材料或态度松动。
 
 完整版将揭示：
 • 卦象真正含义
@@ -1366,8 +1572,33 @@ def build_prompt(lang, question, cast_time, words, topic, emotion_level, seed_ke
 You must output valid JSON only.
 
 Language: {lang_name}
-Topic: {topic_name}
+Topic inferred by program: {topic_name}
 Emotion level: {emotion_level}
+
+ENGLISH STYLE RULES, ONLY WHEN Language is English:
+- Write like a premium tarot / I Ching reading site, not like a chatbot.
+- The tone should feel mysterious, calm, elegant, emotionally resonant, and useful.
+- Use terms such as: Overall Energy, Current Hexagram, Immediate Insight, Hidden Influence, Signs Ahead, Timing, Practical Guidance.
+- Avoid crude fortune-telling language like "you are destined to" or "fate guarantees".
+- Avoid robotic phrases like "based on the data" or "the analysis suggests".
+- Keep the mystery restrained. Do not write purple prose.
+- The answer must feel personal to the user's question, but never invent facts about the user's life.
+- Free English should create curiosity without revealing all logic.
+- Paid English must feel worth AU$1.99: more specific, more structured, more decisive, and less generic than the free answer.
+- Paid English section headings must be:
+  1. Overall Outlook
+  2. What This Hexagram Reveals
+  3. Hidden Influences
+  4. The Real Obstacle
+  5. Timing
+  6. Practical Guidance
+- Free English structure must use:
+  Overall Energy
+  Current Hexagram
+  Immediate Insight
+  Hidden Influence
+  Signs Ahead
+  The complete reading reveals:
 Seed key: {seed_key}
 
 User question:
@@ -1376,38 +1607,92 @@ User question:
 Casting time:
 {cast_time}
 
-Six results, from first to sixth:
+Six coin results, from first to sixth:
 {words}
 
 Available hexagram structure:
 {hexagram_info["style"]}
 
-Core requirement:
-This product is a Liu Yao / I Ching decision-reading product.
-The reading must be based on traditional divination reasoning, especially the judgment principles associated with Bu Shi Zheng Zong and Zeng Shan Bu Yi.
+READING POSITIONING:
+This is a paid/free Liu Yao decision reading product.
+The user is not paying for emotional comfort.
+The user is paying for a clear judgment based on the cast.
 
-However, you only have the supplied hexagram structure and changing-line information.
-Do NOT invent missing technical details such as exact Na Jia, Six Relatives, Six Spirits, Shi/Ying, month/day strength, or Yong Shen placement.
-When you use traditional reasoning, phrase it as cautious judgment from the available hexagram, moving lines, and topic.
+ABSOLUTE RULES:
+1. Do not comfort the user.
+2. Do not make the answer sound positive unless the hexagram supports it.
+3. Do not avoid negative conclusions.
+4. Do not say “there is still hope” after a bad judgment unless the changing hexagram clearly gives recovery.
+5. Do not use counseling language.
+6. Do not turn every matter into “trust”, “key person”, “communication”, or “waiting”.
+7. Do not use the same obstacle pattern for all questions.
+8. Do not invent technical Liu Yao data that is not provided.
+9. If the supplied hexagram data is insufficient for full classical Liu Yao, say the judgment is from hexagram image, moving lines, and change tendency.
+10. The first paid-reading paragraph must directly answer the user’s question.
 
-Style direction:
-- Do not write like a novelist.
-- Do not write decorative mystical prose.
-- Do not overuse metaphor.
-- Do not use vague imagery such as door, light, water, shadow, river, wind, stars, universe, energy, awakening, journey, mist.
-- Do not say empty things like “follow your heart”, “trust the universe”, or “everything is still moving”.
-- Write like a grounded Liu Yao consultant who gives a useful decision judgment.
+HOW TO JUDGE:
+First silently determine what the user is really asking: success/failure, timing, relationship direction, money gain/loss, approval, exam result, offer, legal outcome, purchase, health tendency, travel, family matter, or another decision.
+Do not rely only on the broad topic label. Infer the actual objective from the wording.
 
-The user wants an answer to the question, not a poem.
+Then judge from:
+- 本卦: the current state and nature of the matter
+- 变卦: where the matter is moving
+- 动爻: where the change or break point lies
+- 上卦/下卦: outer condition vs inner foundation
+- whether the matter is growing, weakening, blocked, scattering, joining, returning, repeating, completing, or failing to complete
 
-Free reading requirements:
-1. The free reading is a teaser with a useful tendency, not a full answer.
-2. It must include the main hexagram name, but do not use brackets like 《》 or [].
-3. It must not explain changing lines, technical reasoning, or full hexagram logic.
-4. It must not reveal the most valuable details.
-5. Chinese length: 100-150 Chinese characters. Do not exceed 150 Chinese characters.
-6. English length: 70-110 words.
-7. Chinese format must be exactly:
+NEGATIVE JUDGMENT RULE:
+If the hexagram tendency is unfavorable, say it plainly.
+Examples of acceptable direct language:
+- 这件事三个月内不稳。
+- 成功率偏低。
+- 不是没有机会，但不是现在。
+- 第一轮容易落空。
+- 这卦不主快成。
+- 问感情则主散，问事业则主削减，问审批则主拖延。
+- This cast does not favor quick success.
+- The chance is low unless the situation changes.
+
+Do not add a comforting ending after a negative judgment.
+
+PROBABILITY RULE:
+When giving probability, use one of these bands only:
+- very low: 10-20%
+- low: 30-40%
+- mixed/uncertain: 50%
+- moderate: 60-70%
+- strong: 75-85%
+- very strong: 90%+
+Do not default to 60-70%.
+The probability must match the hexagram tendency.
+
+TIMING RULE:
+Timing must match the user’s question horizon.
+If the user asks “三个月”, discuss within three months: first month / middle phase / later phase.
+If the user asks “下个月”, discuss weeks.
+If the user asks “今年”, discuss quarters or seasons.
+Do not always say “one to two weeks”.
+Do not promise exact dates.
+
+FREE READING REQUIREMENTS:
+The free reading must give useful direction but not reveal the full logic.
+It should be short, direct, and teaser-like.
+It must include:
+- result tendency stars
+- main hexagram name
+- one direct conclusion
+- one reversal/hidden factor
+- one timing or observable signal
+- full-version teaser list
+
+Chinese free reading:
+- 100-150 Chinese characters
+- do not exceed 150 Chinese characters
+- no technical explanation
+- no changing-line analysis
+- no brackets around hexagram name
+- must directly answer the question
+- format exactly:
 
 结果倾向：
 ★★★★☆
@@ -1422,72 +1707,78 @@ Free reading requirements:
 
 完整版将揭示：
 • 卦象真正含义
-• 关键人物
+• 关键人物或关键因素
 • 真正阻力
 • 时间窗口
 
-8. English format must be similar:
-Result tendency:
-★★★★☆
+English free reading:
+- 70-110 words
+- same structure
 
-Main hexagram: XXX
+PAID READING REQUIREMENTS:
+The paid reading must feel like a real divination judgment, not an AI explanation.
+Do not repeat the free reading with more words.
+Do not write generic advice.
+Do not over-explain psychology.
+Every important conclusion must connect back to 本卦, 变卦, 动爻, or the cast tendency.
 
-One direct conclusion.
+Chinese paid reading length: 650-950 Chinese characters.
+English paid reading length: 450-700 words.
+Plain text only.
+No markdown bold.
+No emojis.
 
-One reversal / hidden factor.
+Chinese paid reading structure must be exactly:
 
-One future signal.
+一、最终判断
 
-The full reading reveals:
-• True hexagram meaning
-• Key person
-• Real resistance
-• Timing window
-
-Paid reading requirements:
-1. The paid reading must NOT repeat the free reading with more words.
-2. It must be concrete, useful, and decision-oriented.
-3. It must include the available hexagram structure naturally: 本卦, 变卦, 动爻.
-4. It must use traditional Liu Yao judgment logic cautiously, but must not invent Na Jia, Six Relatives, Six Spirits, Shi/Ying, month/day strength, or Yong Shen if not provided.
-5. Length:
-   - Chinese: 650-950 Chinese characters.
-   - English: 450-700 words.
-6. Use this exact Chinese structure when lang is Chinese:
-
-一、结果倾向
-
-Give the direct tendency: likely / difficult / delayed / worth trying / not worth forcing. Include a rough probability when suitable.
+First sentence must directly answer the user’s question.
+Use direct language: 能 / 不能 / 偏成 / 偏难 / 会拖 / 会反复 / 不宜强求 / 值得继续.
+Include probability band only if suitable.
+Do not start with background.
 
 二、卦象依据
 
-Explain 本卦、变卦、动爻 from the provided hexagram structure. Keep it understandable.
+Explain 本卦、变卦、动爻 using only the provided hexagram structure.
+Make it sound like judging a cast, not like psychology.
+For example: 本卦见剥，则先削后定；变卦见坤，则后面偏向承接、等待，不主强攻.
 
 三、真正阻力
 
-Identify the real obstacle. For career, it may be decision authority, trust, timing, resources, competing priorities. For love, emotional hesitation, past hurt, unclear commitment. For money/legal, risk and evidence.
+State the obstacle indicated by the hexagram.
+Do not automatically say “关键人物” or “对方是否放心”.
+If the obstacle is timing, say timing.
+If it is weakening, say weakening.
+If it is competition, say competition.
+If it is lack of movement, say lack of movement.
+If the cast does not show a clear obstacle, say the obstacle is not sharply shown.
 
 四、关键人物或关键因素
 
-Tell the user what person/factor matters most. If unknown, say what type of person/factor it is, not a fake identity.
+Only mention a person if the question and hexagram support an outside authority.
+Otherwise identify a factor: timing, quota, evidence, preparation, money, health, distance, emotional will, process, competition, or personal action.
+Do not fabricate identity.
 
 五、未来变化
 
-Give a likely change window or signal. Do not promise exact events.
+Give a broad timing window consistent with the user’s question horizon.
+Say what kind of observable change would confirm the direction.
+If the hexagram is unfavorable, say what would need to change before the matter can improve.
 
 六、下一步行动
 
-Give specific next actions. Tell the user whether to push, wait, clarify, prepare evidence, reduce exposure, or stop.
+Give direct action.
+Possible actions: push, stop, wait, change strategy, reduce risk, prepare evidence, ask once, do not ask, withdraw, accept delay, try another path.
+No motivational ending.
 
-7. Use similar numbered headings in English.
-8. Do not use markdown bold symbols like **text**.
-9. Plain text only.
+English paid reading must use the six mystical reading sections listed above. It should feel like a premium tarot-style guidance page, but the logic must still come from the hexagram.
 
-Important:
-- Do not claim certainty.
-- Do not say guaranteed, destined, must, absolutely.
-- Do not mention AI.
-- Do not write Markdown bold symbols like **text**.
-- Plain text only.
+For English paid readings, do not give a generic summary. Make the user feel the upgrade was valuable by including:
+- one clear yes/no/likely/unlikely/delayed judgment,
+- one hidden influence that was not obvious from the question,
+- one condition that would change the outcome,
+- one practical next step and one thing to avoid,
+- a short closing line that is memorable but not motivational fluff.
 
 Return exactly this JSON:
 {{
@@ -1496,6 +1787,60 @@ Return exactly this JSON:
 }}
 """
 
+
+def mark_paid(seed_key, stripe_session_id=None, amount_total=None, currency=None):
+    """Record a verified paid Checkout Session.
+
+    This function is intentionally defensive because the local SQLite file
+    may have been created before the payments table had its current shape.
+    """
+    init_db()
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    now = datetime.now().isoformat()
+
+    try:
+        cur.execute("""
+            SELECT id FROM payments
+            WHERE seed_key=?
+            LIMIT 1
+        """, (seed_key,))
+        row = cur.fetchone()
+
+        if row:
+            cur.execute("""
+                UPDATE payments
+                SET stripe_session_id=?,
+                    status='paid',
+                    amount_total=?,
+                    currency=?,
+                    paid_at=?
+                WHERE seed_key=?
+            """, (stripe_session_id, amount_total, currency, now, seed_key))
+        else:
+            cur.execute("""
+                INSERT INTO payments
+                (seed_key, stripe_session_id, status, amount_total, currency, created_at, paid_at)
+                VALUES (?, ?, 'paid', ?, ?, ?, ?)
+            """, (seed_key, stripe_session_id, amount_total, currency, now, now))
+
+        conn.commit()
+        print("PAYMENT RECORDED:", seed_key, stripe_session_id, flush=True)
+    finally:
+        conn.close()
+
+def has_paid(seed_key):
+    init_db()
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT 1 FROM payments
+        WHERE seed_key=? AND status='paid'
+        LIMIT 1
+    """, (seed_key,))
+    row = cur.fetchone()
+    conn.close()
+    return row is not None
 
 def get_cached_reading(seed_key):
     conn = sqlite3.connect(DB_NAME)
@@ -1561,14 +1906,21 @@ def generate_reading(question, cast_time, words, lang, hour):
 
     hexagram_info = build_hexagram(words)
 
-    seed_raw = f"{lang}|{question.strip()}|{cast_time}|{','.join(words)}|{topic}|{emotion_level}|{hexagram_info['main_name']}|{hexagram_info['changed_name']}"
+    # Cache rule:
+    # same language + same question + same casting time + same six results = same reading.
+    # This keeps the answer stable for the same cast, while a different question/time/cast still creates a new result.
+    normalized_question = " ".join(question.strip().split())
+    normalized_words = ",".join(str(w).strip() for w in words)
+    seed_raw = f"{lang}|{normalized_question}|{cast_time}|{normalized_words}"
     seed_key = stable_hash(seed_raw)
-    cached = None
-    #cached = get_cached_reading(seed_key)
-    #if cached:
-    #    cached["seed_key"] = seed_key
-    #    return cached
 
+    cached = get_cached_reading(seed_key)
+    if cached:
+        print("CACHE HIT:", seed_key, flush=True)
+        cached["seed_key"] = seed_key
+        return cached
+
+    print("NEW READING - calling DeepSeek:", seed_key, flush=True)
     prompt = build_prompt(lang, question, cast_time, words, topic, emotion_level, seed_key, hexagram_info)
     raw = call_deepseek(prompt)
     parsed = parse_ai_json(raw)
@@ -1588,11 +1940,156 @@ def generate_reading(question, cast_time, words, lang, hour):
     }
 
 
+
+
+@app.route("/create-checkout-session/<seed_key>", methods=["POST"])
+def create_checkout_session(seed_key):
+    data = get_reading_by_seed(seed_key)
+    if not data:
+        abort(404)
+
+    if has_paid(seed_key):
+        return redirect(url_for("reading_page", seed_key=seed_key))
+
+    if stripe is None or not STRIPE_SECRET_KEY or not STRIPE_PRICE_ID:
+        return redirect(url_for("reading_page", seed_key=seed_key))
+
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            mode="payment",
+            payment_method_types=(["card", "alipay"] if STRIPE_ENABLE_ALIPAY else ["card"]),
+            line_items=[
+                {
+                    "price": STRIPE_PRICE_ID,
+                    "quantity": 1,
+                }
+            ],
+            success_url=url_for("payment_success", seed_key=seed_key, _external=True) + "?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=url_for("reading_page", seed_key=seed_key, _external=True),
+            metadata={
+                "seed_key": seed_key
+            }
+        )
+        return redirect(checkout_session.url, code=303)
+    except Exception as e:
+        print("Stripe checkout error:", repr(e))
+        return redirect(url_for("reading_page", seed_key=seed_key))
+
+
+@app.route("/payment/success/<seed_key>", methods=["GET"])
+def payment_success(seed_key):
+    print("===================================", flush=True)
+    print("ENTER payment_success", flush=True)
+    print("seed_key =", seed_key, flush=True)
+    print("args =", request.args, flush=True)
+    print("===================================", flush=True)
+
+    data = get_reading_by_seed(seed_key)
+    if not data:
+        abort(404)
+
+    session_id = request.args.get("session_id", "").strip()
+    print("session_id =", session_id, flush=True)
+
+    if not session_id or stripe is None or not STRIPE_SECRET_KEY:
+        print("NO SESSION ID / STRIPE NOT CONFIGURED", flush=True)
+        return redirect(url_for("reading_page", seed_key=seed_key))
+
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+
+        # Stripe objects are not always normal Python dicts.
+        # Convert to a plain dict first so .get() works reliably.
+        if hasattr(session, "to_dict_recursive"):
+            session_data = session.to_dict_recursive()
+        elif hasattr(session, "to_dict"):
+            session_data = session.to_dict()
+        else:
+            session_data = dict(session)
+
+        payment_status = session_data.get("payment_status")
+        metadata = session_data.get("metadata") or {}
+        session_seed = metadata.get("seed_key")
+        session_id_from_stripe = session_data.get("id", session_id)
+        amount_total = session_data.get("amount_total")
+        currency = session_data.get("currency")
+
+        print("payment_status =", payment_status, flush=True)
+        print("metadata =", metadata, flush=True)
+        print("session_seed =", session_seed, flush=True)
+
+        if session_seed == seed_key and payment_status == "paid":
+            print("MARK PAID", flush=True)
+
+            mark_paid(
+                seed_key=seed_key,
+                stripe_session_id=session_id_from_stripe,
+                amount_total=amount_total,
+                currency=currency,
+            )
+
+            print("PAYMENT RECORDED AND REDIRECTING", flush=True)
+            return redirect(url_for("reading_page", seed_key=seed_key))
+
+        print("VERIFY FAILED", flush=True)
+        print("session_seed:", session_seed, "expected:", seed_key, "status:", payment_status, flush=True)
+
+    except Exception as e:
+        print("VERIFY ERROR", flush=True)
+        print(repr(e), flush=True)
+
+    return redirect(url_for("reading_page", seed_key=seed_key))
+
+
+@app.route("/stripe/webhook", methods=["POST"])
+def stripe_webhook():
+    if stripe is None or not STRIPE_WEBHOOK_SECRET:
+        return jsonify({"ok": False, "reason": "webhook not configured"}), 400
+
+    payload = request.get_data()
+    sig_header = request.headers.get("Stripe-Signature", "")
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload=payload,
+            sig_header=sig_header,
+            secret=STRIPE_WEBHOOK_SECRET,
+        )
+    except Exception as e:
+        print("Stripe webhook signature error:", repr(e))
+        return jsonify({"ok": False}), 400
+
+    event_type = event.get("type") if isinstance(event, dict) else event["type"]
+
+    if event_type == "checkout.session.completed":
+        session = event["data"]["object"]
+
+        if hasattr(session, "to_dict_recursive"):
+            session_data = session.to_dict_recursive()
+        elif hasattr(session, "to_dict"):
+            session_data = session.to_dict()
+        else:
+            session_data = dict(session)
+
+        metadata = session_data.get("metadata") or {}
+        seed_key = metadata.get("seed_key")
+
+        if seed_key and session_data.get("payment_status") == "paid":
+            mark_paid(
+                seed_key=seed_key,
+                stripe_session_id=session_data.get("id"),
+                amount_total=session_data.get("amount_total"),
+                currency=session_data.get("currency"),
+            )
+
+    return jsonify({"received": True})
+
+
 @app.route("/", methods=["GET", "POST"])
 def home():
-    lang = request.form.get("lang", "zh")
+    lang = request.form.get("lang", "en")
     if lang not in TEXTS:
-        lang = "zh"
+        lang = "en"
 
     t = TEXTS[lang]
     now = datetime.now()
@@ -1642,7 +2139,14 @@ def home():
         paid_result=paid_result,
         question=question,
         cast_time=cast_time,
-        share_url=None
+        share_url=None,
+        seed_key="",
+        paid_unlocked=False,
+        stripe_enabled=bool(stripe is not None and STRIPE_SECRET_KEY and STRIPE_PRICE_ID),
+        alipay_payment_url=ALIPAY_PAYMENT_URL,
+        wechat_payment_url=WECHAT_PAYMENT_URL,
+        alipay_qr_url=ALIPAY_QR_URL,
+        wechat_qr_url=WECHAT_QR_URL
     )
 
 
@@ -1654,7 +2158,7 @@ def reading_page(seed_key):
 
     lang = data["lang"]
     if lang not in TEXTS:
-        lang = "zh"
+        lang = "en"
 
     t = TEXTS[lang]
     now = datetime.now()
@@ -1671,7 +2175,14 @@ def reading_page(seed_key):
         paid_result=data["paid"],
         question=data["question"],
         cast_time=data["cast_time"],
-        share_url=url_for("share_page", seed_key=seed_key)
+        share_url=url_for("share_page", seed_key=seed_key),
+        seed_key=seed_key,
+        paid_unlocked=has_paid(seed_key),
+        stripe_enabled=bool(stripe is not None and STRIPE_SECRET_KEY and STRIPE_PRICE_ID),
+        alipay_payment_url=ALIPAY_PAYMENT_URL,
+        wechat_payment_url=WECHAT_PAYMENT_URL,
+        alipay_qr_url=ALIPAY_QR_URL,
+        wechat_qr_url=WECHAT_QR_URL
     )
 
 
@@ -1916,7 +2427,7 @@ def share_page(seed_key):
     if not data:
         abort(404)
 
-    lang = data["lang"] if data["lang"] in TEXTS else "zh"
+    lang = data["lang"] if data["lang"] in TEXTS else "en"
     reading_url = url_for("reading_page", seed_key=seed_key, _external=True)
     qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + quote_plus(reading_url)
 
