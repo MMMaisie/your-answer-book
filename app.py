@@ -384,7 +384,7 @@ def payment_success(seed_key):
  if not sid.startswith('cs_'):abort(400)
  try:
   s=stripe_client.v1.checkout.sessions.retrieve(sid)
-  d=s.to_dict_recursive() if hasattr(s,'to_dict_recursive') else dict(s)
+  d=s.to_dict() if hasattr(s,'to_dict') else dict(s)
   if not fulfill(d,seed_key):abort(403)
  except (stripe.StripeError,ValueError):abort(400)
  with connect() as c:r=c.execute('SELECT access_key FROM readings WHERE seed_key=?',(seed_key,)).fetchone()
@@ -397,11 +397,13 @@ def payment_success(seed_key):
 def stripe_webhook():
  secret=os.getenv(STRIPE_ENV_PREFIX+'WEBHOOK_SECRET','')
  if not secret:return jsonify(error='not configured'),503
- try:e=stripe.Webhook.construct_event(request.get_data(),request.headers.get('Stripe-Signature',''),secret)
+ try:
+  event=stripe.Webhook.construct_event(request.get_data(),request.headers.get('Stripe-Signature',''),secret)
+  e=event.to_dict() if hasattr(event,'to_dict') else dict(event)
  except (ValueError,stripe.SignatureVerificationError):return jsonify(error='invalid signature'),400
  if e.get('livemode') is not (not STRIPE_TEST_MODE):return jsonify(error='wrong mode'),400
  if e['type'] in ('checkout.session.completed','checkout.session.async_payment_succeeded'):
-  d=e['data']['object'];fulfill(d.to_dict_recursive() if hasattr(d,'to_dict_recursive') else dict(d))
+  fulfill(e['data']['object'])
  return jsonify(received=True)
 
 @app.errorhandler(400)
