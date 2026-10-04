@@ -25,8 +25,19 @@ if not secret:
 app.config.update(SECRET_KEY=secret,MAX_CONTENT_LENGTH=32768,SESSION_COOKIE_HTTPONLY=True,
  SESSION_COOKIE_SAMESITE='Lax',SESSION_COOKIE_SECURE=os.getenv('COOKIE_SECURE','0')=='1',
  PERMANENT_SESSION_LIFETIME=timedelta(days=30),DB_PATH=os.getenv('DB_PATH',str(ROOT/'readings.db')))
-stripe.api_key=os.getenv('STRIPE_SECRET_KEY','')
-PRICE_ID=os.getenv('STRIPE_PRICE_ID','')
+STRIPE_MODE=os.getenv('STRIPE_MODE','live')
+if STRIPE_MODE not in ('test','live'):raise RuntimeError('STRIPE_MODE must be test or live.')
+STRIPE_TEST_MODE=STRIPE_MODE=='test'
+STRIPE_ENV_PREFIX='STRIPE_TEST_' if STRIPE_TEST_MODE else 'STRIPE_'
+STRIPE_KEY=os.getenv(STRIPE_ENV_PREFIX+'SECRET_KEY','')
+if STRIPE_KEY and not STRIPE_KEY.startswith(('sk_test_','rk_test_') if STRIPE_TEST_MODE else ('sk_live_','rk_live_')):
+ raise RuntimeError('Stripe key does not match STRIPE_MODE.')
+stripe_client=stripe.StripeClient(STRIPE_KEY) if STRIPE_KEY else None
+PRICE_ID=os.getenv(STRIPE_ENV_PREFIX+'PRICE_ID','')
+PAYMENT_STATUS='test_paid' if STRIPE_TEST_MODE else 'paid'
+def checkout_ready():
+ return bool(stripe_client and PRICE_ID and PUBLIC_URL and SUPPORT_EMAIL and
+             os.getenv(STRIPE_ENV_PREFIX+'WEBHOOK_SECRET') and (STORAGE_DURABLE or STRIPE_TEST_MODE))
 PUBLIC_URL=(os.getenv('PUBLIC_BASE_URL') or os.getenv('RENDER_EXTERNAL_URL','')).rstrip('/')
 AI_KEY=os.getenv('DEEPSEEK_API_KEY','')
 AI_MODEL=os.getenv('DEEPSEEK_MODEL','deepseek-chat')
@@ -83,13 +94,13 @@ def prepare():
 def headers(r):
  r.headers['X-Content-Type-Options']='nosniff';r.headers['X-Frame-Options']='DENY'
  r.headers['Referrer-Policy']='no-referrer'
- r.headers['Content-Security-Policy']="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
+ r.headers['Content-Security-Policy']="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; form-action 'self' https://checkout.stripe.com; frame-ancestors 'none'; base-uri 'self'"
  if request.path.startswith(('/r/','/reading/','/payment','/history')):
   r.headers['Cache-Control']='private, no-store';r.headers['X-Robots-Tag']='noindex, nofollow'
  return r
 
 @app.context_processor
-def context():return {'lang':getattr(g,'lang','zh'),'csrf':session.get('csrf'),'hexagrams':HEXAGRAMS,'support_email':SUPPORT_EMAIL,'timezone_labels':TIMEZONE_LABELS}
+def context():return {'lang':getattr(g,'lang','zh'),'csrf':session.get('csrf'),'hexagrams':HEXAGRAMS,'support_email':SUPPORT_EMAIL,'timezone_labels':TIMEZONE_LABELS,'stripe_test_mode':STRIPE_TEST_MODE}
 
 def flash(message,category='message'):
  return flask_flash(t(message),category)
@@ -151,7 +162,7 @@ def call_ai(question,cast,lang,tier,free=''):
   raise ReadingError('本次解读未能完成，未生成模板答案。请稍后重试。') from None
 
 def paid(seed):
- with connect() as c:return c.execute("SELECT 1 FROM payments WHERE seed_key=? AND status='paid'",(seed,)).fetchone() is not None
+ with connect() as c:return c.execute("SELECT 1 FROM payments WHERE seed_key=? AND status=?",(seed,PAYMENT_STATUS)).fetchone() is not None
 
 def consume_quota(kind='free'):
  day=datetime.now(ZoneInfo('Asia/Shanghai')).strftime('%Y-%m-%d')
@@ -269,7 +280,7 @@ def reading_page(access):
  # No paid generation on GET: refreshes, previews and crawlers must not trigger model spend.
  full=cached_text(r,'paid',g.lang) if unlocked else ''
  return render_template('reading.html',reading=r,cast=cast_from_row(r),unlocked=unlocked,full=full,free_text=cached_text(r,'free',g.lang),
-   checkout_enabled=bool(stripe.api_key and PRICE_ID and PUBLIC_URL and SUPPORT_EMAIL and STORAGE_DURABLE),share=False)
+   checkout_enabled=checkout_ready(),share=False)
 
 @app.post('/r/<access>/full')
 def full_reading(access):
@@ -329,9 +340,11 @@ def policy():return render_template('policy.html')
 @app.get('/healthz')
 def health():
  with connect() as c:c.execute('SELECT 1')
- return jsonify(ok=True,version=PROMPT_VERSION,languages=['zh','en'])
+ return jsonify(ok=True,version=PROMPT_VERSION,languages=['zh','en'],payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready())
 
 def fulfill(session_data,expected_seed=None):
+ if session_data.get('livemode') is not (not STRIPE_TEST_MODE):return False
+ if not STRIPE_TEST_MODE and not STORAGE_DURABLE:return False
  sid=session_data.get('id');seed=(session_data.get('metadata') or {}).get('seed_key')
  if session_data.get('payment_status')!='paid' or not sid or not seed:return False
  if expected_seed and seed!=expected_seed:return False
@@ -339,22 +352,25 @@ def fulfill(session_data,expected_seed=None):
   order=c.execute('SELECT * FROM orders WHERE session_id=?',(sid,)).fetchone()
   if not order or order['seed_key']!=seed or order['price_id']!=PRICE_ID:return False
   if c.execute('SELECT 1 FROM payments WHERE stripe_session_id=?',(sid,)).fetchone():return True
-  c.execute("INSERT OR IGNORE INTO payments(seed_key,stripe_session_id,status,amount_total,currency,created_at,paid_at) VALUES(?,?,'paid',?,?,?,?)",
-    (seed,sid,session_data.get('amount_total'),session_data.get('currency'),datetime.now().isoformat(),datetime.now().isoformat()))
+  c.execute("INSERT OR IGNORE INTO payments(seed_key,stripe_session_id,status,amount_total,currency,created_at,paid_at) VALUES(?,?,?,?,?,?,?)",
+    (seed,sid,PAYMENT_STATUS,session_data.get('amount_total'),session_data.get('currency'),datetime.now().isoformat(),datetime.now().isoformat()))
  return True
 
 @app.post('/r/<access>/checkout')
 def checkout(access):
  r=fetch_private(access)
  if paid(r['seed_key']):return redirect(url_for('reading_page',access=access))
- if not(stripe.api_key and PRICE_ID and PUBLIC_URL and SUPPORT_EMAIL and STORAGE_DURABLE):flash('付款服务暂未开启。','error');return redirect(url_for('reading_page',access=access))
+ if not checkout_ready():flash('付款服务暂未开启。','error');return redirect(url_for('reading_page',access=access))
  try:
+  price=stripe_client.v1.prices.retrieve(PRICE_ID)
+  if price.livemode is not (not STRIPE_TEST_MODE) or not price.active or price.type!='one_time':raise ValueError('Invalid price')
   params=dict(mode='payment',line_items=[{'price':PRICE_ID,'quantity':1}],
+    integration_identifier='answerbook_'+''.join(secrets.choice('abcdefghijklmnopqrstuvwxyz') for _ in range(8)),
     metadata={'seed_key':r['seed_key']},
     success_url=PUBLIC_URL+url_for('payment_success',seed_key=r['seed_key'])+'?session_id={CHECKOUT_SESSION_ID}',
     cancel_url=PUBLIC_URL+url_for('reading_page',access=access))
-  if os.getenv('STRIPE_ENABLE_ALIPAY','0')=='1':params['payment_method_types']=['card','alipay']
-  s=stripe.checkout.Session.create(**params)
+  s=stripe_client.v1.checkout.sessions.create(params)
+  if s.livemode is not (not STRIPE_TEST_MODE):raise ValueError('Invalid session mode')
   with connect() as c:c.execute('INSERT OR IGNORE INTO orders VALUES(?,?,?,?)',(s.id,r['seed_key'],PRICE_ID,datetime.now().isoformat()))
   return redirect(s.url,code=303)
  except Exception:
@@ -363,11 +379,11 @@ def checkout(access):
 
 @app.get('/payment/success/<seed_key>')
 def payment_success(seed_key):
- if not stripe.api_key:abort(503)
+ if not stripe_client:abort(503)
  sid=request.args.get('session_id','')
  if not sid.startswith('cs_'):abort(400)
  try:
-  s=stripe.checkout.Session.retrieve(sid)
+  s=stripe_client.v1.checkout.sessions.retrieve(sid)
   d=s.to_dict_recursive() if hasattr(s,'to_dict_recursive') else dict(s)
   if not fulfill(d,seed_key):abort(403)
  except (stripe.StripeError,ValueError):abort(400)
@@ -379,10 +395,11 @@ def payment_success(seed_key):
 
 @app.post('/stripe/webhook')
 def stripe_webhook():
- secret=os.getenv('STRIPE_WEBHOOK_SECRET','')
+ secret=os.getenv(STRIPE_ENV_PREFIX+'WEBHOOK_SECRET','')
  if not secret:return jsonify(error='not configured'),503
  try:e=stripe.Webhook.construct_event(request.get_data(),request.headers.get('Stripe-Signature',''),secret)
  except (ValueError,stripe.SignatureVerificationError):return jsonify(error='invalid signature'),400
+ if e.get('livemode') is not (not STRIPE_TEST_MODE):return jsonify(error='wrong mode'),400
  if e['type'] in ('checkout.session.completed','checkout.session.async_payment_succeeded'):
   d=e['data']['object'];fulfill(d.to_dict_recursive() if hasattr(d,'to_dict_recursive') else dict(d))
  return jsonify(received=True)
