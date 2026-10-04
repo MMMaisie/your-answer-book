@@ -1,0 +1,39 @@
+# Optional blueprint for a NEW service. This does not update or deploy your current service.
+# A persistent disk requires a paid service; review current Render costs before creating.
+services:
+  - type: web
+    name: your-answer-book-v4
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120
+    healthCheckPath: /healthz
+    disk:
+      name: reading-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: APP_ENV
+        value: production
+      - key: DB_PATH
+        value: /var/data/readings.db
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: TRUST_PROXY
+        value: "1"
+      - key: STORAGE_DURABLE
+        value: "1"
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: SUPPORT_EMAIL
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PRICE_ID
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false

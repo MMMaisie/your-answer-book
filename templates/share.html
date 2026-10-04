@@ -1,0 +1,2 @@
+{% extends 'base.html' %}{% from 'macros.html' import cast_cards %}
+{% block content %}<section class="share-page"><p class="eyebrow">{{t('这一刻 · 一幅卦象')}}</p><h1>{{hx(cast.main).name}}</h1>{{cast_cards(cast)}}<p class="share-verse">{{hx(cast.main).meaning}}。</p><p>{{t('这是一张公开卦象卡，不含提问者的个人问题和解读。')}}</p><button type="button" class="secondary" data-copy>{{t('复制分享链接')}}</button><a href="{{url_for('home')}}" class="text-link">{{t('起自己的这一卦')}}</a></section>{% endblock %}

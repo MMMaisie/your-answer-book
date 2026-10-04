@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="{{ 'zh-CN' if lang == 'zh' else 'en' }}">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{{t('你的答案之书 · 六十四象')}}{% endblock %}</title>
+<meta name="description" content="{{ '以六次掷币成卦，以六十四幅中国古典画读懂卦象。查看本卦、变卦、动爻与有依据的解读。' if lang=='zh' else 'Six throws form a hexagram. Explore 64 Chinese paintings, changing lines and evidence-based interpretation.' }}">
+<link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='site.css') }}">
+<script src="{{ url_for('static',filename='site.js') }}" defer></script>
+{% block head %}{% endblock %}</head>
+<body data-lang="{{ lang }}" data-deck="{{url_for('static',filename='deck.json')}}">
+<header class="masthead"><a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">易</span><span>{{t('你的答案之书')}}<small>THE BOOK OF ANSWERS</small></span></a>
+<nav aria-label="{{ '主导航' if lang=='zh' else 'Navigation' }}"><a href="{{ url_for('deck') }}">{{ '六十四象' if lang=='zh' else 'The 64 images' }}</a><a href="{{ url_for('history') }}">{{ '我的卦' if lang=='zh' else 'My readings' }}</a><a href="{{ request.path ~ ('?lang=en' if lang=='zh' else '?lang=zh') }}">{{ 'EN' if lang=='zh' else '中文' }}</a></nav></header>
+<main>{% for category,message in get_flashed_messages(with_categories=true) %}<div class="notice {{ category }}" role="alert">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main>
+<footer><span>{{t('一问 · 六爻 · 一卦')}}</span><a href="{{ url_for('policy') }}">{{ t('使用与隐私说明') if lang=='zh' else 'Use & privacy' }}</a><span>{{ '传统文化与自我反思 · 不承诺预测结果' if lang=='zh' else 'Traditional symbolism for reflection, without guaranteed predictions' }}</span></footer>
+<dialog id="card-dialog" aria-labelledby="dialog-title"><button type="button" class="dialog-close" aria-label="{{t('关闭卦牌')}}">×</button><div id="card-dialog-content"></div></dialog></body></html>
