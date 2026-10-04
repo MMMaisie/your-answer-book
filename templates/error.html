@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<section class="empty-state"><p class="eyebrow">{{status}}</p><h1>{{ t('暂时无法完成请求') if status>=500 else t('这扇门，暂未打开。') }}</h1><p>{{t('链接可能已关闭，或页面需要刷新。你的私密解读需要正确的保存链接。')}}</p><a class="text-link" href="{{url_for('home')}}">{{t('回到起卦页面')}}</a></section>{% endblock %}

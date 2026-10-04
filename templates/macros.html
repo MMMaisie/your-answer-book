@@ -1,0 +1,21 @@
+{% macro card(h,caption='',flip=false) -%}
+<article class="oracle-card {% if flip %}reveal-card{% endif %}">
+ <div class="card-head"><span>{{ caption or t('卦象') }}</span><span>{{ '%02d'|format(h.number) }} / 64</span></div>
+ <div class="painting atlas-{{ h.atlas }} cell-{{ h.cell }} art-{{ h.number }}" role="img" aria-label="{{ hx(h).motif }}"></div>
+ <div class="card-body"><span class="card-symbol" aria-hidden="true">{{ h.symbol }}</span><h2>{{ hx(h).name }}</h2><p>{{ hx(h).theme }}</p></div>
+</article>
+{%- endmacro %}
+{% macro diagram(rows) -%}
+<div class="line-diagram" aria-label="{{t('六爻，自下而上')}}">{% for r in rows|reverse %}<div class="line-row {{ 'moving' if r.moving else '' }}"><span class="position">{{ r.position }}</span><span class="yao-line {{ 'yang' if r.yang else 'yin' }}"><i></i><i></i></span><span class="line-tag">{{ '○' if r.value==9 else ('×' if r.value==6 else '') }} {{t(r.label)}}</span></div>{% endfor %}</div>
+{%- endmacro %}
+{% macro cast_cards(cast) -%}
+<div class="cast-cards">{{ card(cast.main,t('本卦 · 此刻之象'),true) }}{% if cast.moving %}<span class="change-link">{{t('变')}}</span>{{ card(cast.changed,t('变卦 · 动爻所之'),true) }}{% else %}<div class="still-note"><span class="eyebrow">{{t('静卦')}}</span><h3>{{t('六爻皆静')}}</h3><p>{{t('本次没有动爻。')}}<br>{{t('不另立变卦，也不凭空推断转折。')}}</p></div>{% endif %}</div>
+{%- endmacro %}
+{% macro plate(cast) -%}
+<section class="plate unified-plate" aria-label="{{t('六爻卦盘')}}"><div class="plate-title"><h2>{{t('六爻卦盘 · 看动处')}}</h2><button type="button" class="secondary" data-plate-toggle aria-expanded="false">{{t('展开排盘详情')}}</button></div>
+<p>{% if cast.moving %}{{t('第')}} {{cast.moving|join('、')}} {{t('爻发动。老阳变阴，老阴变阳；其余爻不变。')}}{% else %}{{t('六爻皆静，本次没有动爻，不另立变卦。')}}{% endif %}</p>
+<div class="plate-meta"><span>{{t(cast.palace.name)}} {{t('宫 ·')}} {{t(cast.palace.element)}} · {{t(cast.palace.stage)}}</span>{% if cast.calendar %}<span>{{t(cast.calendar.month)}} {{t('月 ·')}} {{t(cast.calendar.day)}} {{t('日')}}</span><span>{{t('旬空')}} {{t(cast.calendar.xunkong)}}</span>{% endif %}</div>
+<div class="table-wrap"><table><thead><tr><th>{{t('爻位 / 世应')}}</th><th>{{t('本卦')}}</th><th>{{t('变化')}}</th><th>{{t('变卦') if cast.moving else t('变化后')}}</th><th class="technical-col">{{t('六神')}}</th><th class="technical-col">{{t('六亲 / 纳甲')}}</th><th class="technical-col">{{t('动爻化出')}}</th></tr></thead><tbody>{% for r in cast.rows|reverse %}<tr class="{{'moving-row is-moving' if r.moving else ''}}"><td>{{r.position}}{{t('爻')}} {{t(r.label)}}</td><td><span class="yao-line {{'yang' if r.yang else 'yin'}}"><i></i><i></i></span></td><td>{{t('阳 → 阴') if r.value==9 else (t('阴 → 阳') if r.value==6 else t('静'))}}</td><td>{% if cast.moving %}<span class="yao-line {{'yang' if (not r.yang if r.moving else r.yang) else 'yin'}}"><i></i><i></i></span>{% else %}{{t('不变')}}{% endif %}</td><td class="technical-col">{{t(r.god)}}</td><td class="technical-col">{{t(r.kin)}} {{t(r.stem)}} {{t(r.branch)}} {{t(r.element)}}{% if r.empty %}<span class="badge">{{t('空')}}</span>{% endif %}{% if r.hidden %}<small>{{t('伏：')}}{{t(r.hidden.kin)}} {{t(r.hidden.stem)}} {{t(r.hidden.branch)}} {{t(r.hidden.element)}}</small>{% endif %}</td><td class="technical-col">{% if r.changed %}{{t(r.changed.kin)}} {{t(r.changed.stem)}} {{t(r.changed.branch)}} {{t(r.changed.element)}}{% else %}—{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+<p class="fineprint">{{t('初爻在底，上爻在顶；亮色行是动爻。展开详情可查看同一行的六神、六亲和纳甲。')}}</p>
+{% if cast.calendar %}<p class="fineprint">{{t('排盘时间：')}}{{cast.calendar.beijing_time}} {{t('· 北京时间（UTC+8）。')}}{{t(cast.calendar.convention)}}{{t('。变卦表示动爻所之，不是保证发生的未来。')}}</p>{% endif %}</section>
+{%- endmacro %}
