@@ -141,14 +141,14 @@ def validate_chart_claims(text,cast):
  rows=cast.get('rows',cast.get('lines',cast.get('yao',[])))
  month=(cast.get('calendar') or {}).get('month','')
  if month and month[-1] in ELEMENTS:
-  from reading_knowledge import CLASH
+  CLASH=dict(zip('子丑寅卯辰巳午未申酉戌亥','午未申酉戌亥子丑寅卯辰巳'))
   for m in re.finditer(r'([子丑寅卯辰巳午未申酉戌亥])(?:[木火土金水]|爻)?(?:为|逢|临|属|是|已|正|现|\s){0,3}月破',text):
    if not re.search(r'若|如果|非|未|不',text[max(0,m.start()-3):m.start()]) and CLASH[month[-1]]!=m[1]:
     raise ValueError('month-broken claim contradicts calendar')
   for m in re.finditer(r'\b(zi|chou|yin|mao|chen|si|wu|wei|shen|you|xu|hai)\s+(?:line\s+)?is\s+month[- ]broken\b',text,re.I):
    if CLASH[month[-1]]!=BRANCH_EN[m[1].lower()]:raise ValueError('month-broken claim contradicts calendar')
  if month and month[-1] in ELEMENTS:
-  from reading_knowledge import CLASH
+  CLASH=dict(zip('子丑寅卯辰巳午未申酉戌亥','午未申酉戌亥子丑寅卯辰巳'))
   for m in re.finditer(r'([子丑寅卯辰巳午未申酉戌亥])[木火土金水]?(?:爻)?(?:旬)?空(?:且|而|又)?(?:月)?破',text):
    prefix=text[max(0,m.start()-8):m.start()]
    if not re.search(r'若|如果|不|并非',prefix) and CLASH[month[-1]]!=m[1]:
@@ -168,7 +168,7 @@ def validate_chart_claims(text,cast):
 def normalize_headings(text,lang,tier):
  """Normalize exact heading punctuation only; never shorten or rewrite content."""
  if not isinstance(text,str):return text
- from reading_knowledge import PAID_HEADINGS
+ PAID_HEADINGS={'zh':('盘面与主次','阻力与可变条件','行动与边界','规则依据'),'en':('Chart and priorities','Obstacles and conditions','Actions and boundaries','Source notes')}
  headings=(('初判','关键依据') if lang=='zh' else ('Initial reading','Key evidence')) if tier=='free' else PAID_HEADINGS[lang]
  for heading in headings:
   text=re.sub(r'(?m)^\s*'+re.escape(heading)+r'\s*[:：]\s*',lambda m:'【'+heading+'】',text)

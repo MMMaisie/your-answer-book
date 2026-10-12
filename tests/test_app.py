@@ -138,9 +138,10 @@ def test_ai_failure_is_not_template(client,monkeypatch):
 
 
 def test_fulfillment_paid_binding_and_replay(client,monkeypatch):
+ monkeypatch.setattr(site,'STORAGE_DURABLE',True)
  submit(client);r=row_for(client);monkeypatch.setattr(site,'PRICE_ID','price_test')
  with site.connect() as db:db.execute('INSERT INTO orders VALUES(?,?,?,?)',('cs_test_valid',r['seed_key'],'price_test','now'))
- d={'id':'cs_test_valid','metadata':{'seed_key':r['seed_key']},'payment_status':'unpaid','amount_total':199,'currency':'aud'}
+ d={'id':'cs_test_valid','livemode':True,'metadata':{'seed_key':r['seed_key']},'payment_status':'unpaid','amount_total':199,'currency':'aud'}
  assert not site.fulfill(d);assert not site.paid(r['seed_key'])
  d['payment_status']='paid';assert not site.fulfill(d,'wrong-seed')
  assert site.fulfill(d);assert site.fulfill(d)
@@ -149,9 +150,10 @@ def test_fulfillment_paid_binding_and_replay(client,monkeypatch):
 
 
 def test_webhook_async_and_bad_signature(client,monkeypatch):
+ monkeypatch.setattr(site,'STORAGE_DURABLE',True)
  submit(client);r=row_for(client);monkeypatch.setenv('STRIPE_WEBHOOK_SECRET','whsec_test');monkeypatch.setattr(site,'PRICE_ID','price_test')
  with site.connect() as db:db.execute('INSERT INTO orders VALUES(?,?,?,?)',('cs_test_async',r['seed_key'],'price_test','now'))
- def event(*args):return {'type':'checkout.session.async_payment_succeeded','data':{'object':{'id':'cs_test_async','metadata':{'seed_key':r['seed_key']},'payment_status':'paid'}}}
+ def event(*args):return {'livemode':True,'type':'checkout.session.async_payment_succeeded','data':{'object':{'id':'cs_test_async','livemode':True,'metadata':{'seed_key':r['seed_key']},'payment_status':'paid'}}}
  monkeypatch.setattr(site.stripe.Webhook,'construct_event',event)
  assert client.post('/stripe/webhook',data=b'{}').status_code==200;assert site.paid(r['seed_key'])
  def bad(*a):raise ValueError('invalid signature')
@@ -160,11 +162,12 @@ def test_webhook_async_and_bad_signature(client,monkeypatch):
 
 
 def test_prompt_quality(client):
- c=build_cast([2]*6,datetime(2026,10,4,16))
- p=site.reading_prompt('三个月内有offer吗',c,'zh','free')
- assert '至少引用两条' in p and '不能保证' in p and '不留故意的悬念' in p
- assert '乾为天' in p and '世' in p and '辛亥' in p
- assert 'Emotion level:' not in p
+ from simple_reading import SYSTEM,context
+ c=build_cast([2]*6,datetime(2026,10,4,16));data,refs=context('三个月内有offer吗',c)
+ assert '自行识别问意' in SYSTEM and '不制造焦虑' in SYSTEM
+ assert '乾为天'==data['cast']['main']['name']
+ assert len(data['book_rules'])>=104 and data['foundation_facts']
+ assert data['question']=='三个月内有offer吗'
 
 
 def test_migration_keeps_existing_data(client,tmp_path):
@@ -223,7 +226,7 @@ def test_english_ui_has_no_untranslated_text(client,route):
 
 def test_language_switch_translates_without_new_cast_or_charge(client,monkeypatch):
  response=submit(client);r=row_for(client);calls=[]
- def translate(text,lang,tier):calls.append((lang,tier));return '【Initial reading】English translation with preserved evidence. '*5
+ def translate(text,lang,tier,cast=None,question=''):calls.append((lang,tier));return '【Initial reading】English translation with preserved evidence. '*5
  monkeypatch.setattr(site,'call_translation',translate)
  page=client.get(response.location+'?lang=en')
  assert b'Translate initial reading to English' in page.data and calls==[]
@@ -238,7 +241,7 @@ def test_paid_language_cache_and_original_are_preserved(client,monkeypatch):
  response=submit(client);r=row_for(client);mark(r)
  client.post(response.location+'/full',data={'csrf':csrf(client)})
  original=row_for(client)['paid_text'];calls=[]
- def translate(text,lang,tier):calls.append((text,lang,tier));return '【Chart and priorities】Translated full reading. '*5
+ def translate(text,lang,tier,cast=None,question=''):calls.append((text,lang,tier));return '【Chart and priorities】Translated full reading. '*5
  monkeypatch.setattr(site,'call_translation',translate)
  for _ in range(2):assert client.post(response.location+'/full?lang=en',data={'csrf':csrf(client)}).status_code==302
  assert len(calls)==1 and calls[0]==(original,'en','paid')
@@ -246,9 +249,152 @@ def test_paid_language_cache_and_original_are_preserved(client,monkeypatch):
  assert b'Translated full reading' in client.get(response.location+'?lang=en').data
  with site.connect() as db:assert db.execute('SELECT COUNT(*) FROM payments').fetchone()[0]==1
 
+def test_english_first_creation_and_paid_always_translate_chinese(client,monkeypatch):
+ calls=[]
+ def ai(question,cast,lang,tier,free=''):
+  calls.append(('generate',lang,tier,free))
+  return '中文初判及依据' if tier=='free' else '中文付费完整分析'
+ def translate(text,lang,tier,cast=None,question=''):
+  calls.append(('translate',lang,tier,text));return 'English '+tier
+ monkeypatch.setattr(site,'call_ai',ai);monkeypatch.setattr(site,'call_translation',translate)
+ client.get('/?lang=en');response=submit(client);r=row_for(client)
+ assert response.status_code==302 and r['lang']=='zh'
+ assert r['free_text']=='中文初判及依据'
+ assert calls==[('generate','zh','free',''),('translate','en','free','中文初判及依据')]
+ mark(r)
+ for _ in range(2):assert client.post(response.location+'/full?lang=en',data={'csrf':csrf(client)}).status_code==302
+ assert calls[2:]==[('generate','zh','paid','中文初判及依据'),('translate','en','paid','中文付费完整分析')]
+ assert row_for(client)['paid_text']=='中文付费完整分析'
+ with site.connect() as db:
+  assert db.execute('SELECT COUNT(*) FROM generation_locks').fetchone()[0]==0
+  assert db.execute('SELECT COUNT(*) FROM payments').fetchone()[0]==1
+ assert site.cached_text(row_for(client),'paid','en')=='English paid'
+
+def test_completed_generation_is_rechecked_after_acquiring_lock(client,monkeypatch):
+ response=submit(client);r=row_for(client);calls=[]
+ real_cached=site.cached_text
+ first=[True]
+ def cache_with_completed_peer(row,tier,lang):
+  result=real_cached(row,tier,lang)
+  if first[0]:
+   first[0]=False
+   with site.connect() as db:
+    db.execute('UPDATE readings SET paid_text=?,paid_version=? WHERE seed_key=?',('peer-completed-reading',site.PROMPT_VERSION,r['seed_key']))
+  return result
+ monkeypatch.setattr(site,'cached_text',cache_with_completed_peer)
+ monkeypatch.setattr(site,'consume_quota',lambda *a:calls.append('quota'))
+ monkeypatch.setattr(site,'call_ai',lambda *a:calls.append('AI'))
+ with site.app.test_request_context('/'):
+  site.g.lang='zh'
+  assert site.generate_text(r,'paid','zh')=='peer-completed-reading'
+ assert calls==[]
+ with site.connect() as db:
+  assert db.execute('SELECT COUNT(*) FROM generation_locks').fetchone()[0]==0
+
 def test_english_ai_prompt_uses_english_section_headings(client):
- from hexagrams import build_cast
- free=site.reading_prompt('Should I change jobs?',build_cast([0,1,2,3,2,1]),'en','free')
- full=site.reading_prompt('Should I change jobs?',build_cast([0,1,2,3,2,1]),'en','paid')
- assert '【Initial reading】' in free and '【初判】' not in free
- assert '【Chart and priorities】' in full and '【盘面与主次】' not in full
+ from simple_reading import HEADINGS
+ assert HEADINGS['en']['free']==('Initial reading','Overall outlook')
+ assert HEADINGS['en']['paid'][0]=='Chart and priorities'
+
+
+def test_test_payment_never_unlocks_live(client,monkeypatch):
+ submit(client);r=row_for(client)
+ monkeypatch.setattr(site,'STRIPE_TEST_MODE',True)
+ monkeypatch.setattr(site,'PAYMENT_STATUS','test_paid')
+ monkeypatch.setattr(site,'PRICE_ID','price_test')
+ monkeypatch.setattr(site,'STORAGE_DURABLE',False)
+ with site.connect() as db:db.execute('INSERT INTO orders VALUES(?,?,?,?)',('cs_test_isolated',r['seed_key'],'price_test','now'))
+ d={'id':'cs_test_isolated','livemode':True,'metadata':{'seed_key':r['seed_key']},'payment_status':'paid'}
+ assert not site.fulfill(d)
+ d['livemode']=False
+ assert site.fulfill(d);assert site.fulfill(d);assert site.paid(r['seed_key'])
+ monkeypatch.setattr(site,'PAYMENT_STATUS','paid')
+ assert not site.paid(r['seed_key'])
+ monkeypatch.setattr(site,'STRIPE_TEST_MODE',False)
+ d['livemode']=True
+ assert not site.fulfill(d)
+
+
+def test_checkout_test_session_and_recovery(client,monkeypatch):
+ from types import SimpleNamespace
+ submit(client);r=row_for(client)
+ monkeypatch.setattr(site,'STRIPE_TEST_MODE',True)
+ monkeypatch.setattr(site,'STRIPE_ENV_PREFIX','STRIPE_TEST_')
+ monkeypatch.setattr(site,'PAYMENT_STATUS','test_paid')
+ monkeypatch.setattr(site,'PRICE_ID','price_test')
+ monkeypatch.setattr(site,'STORAGE_DURABLE',False)
+ monkeypatch.setattr(site,'PUBLIC_URL','https://example.com')
+ monkeypatch.setattr(site,'SUPPORT_EMAIL','support@example.com')
+ monkeypatch.setenv('STRIPE_TEST_WEBHOOK_SECRET','test-signing-placeholder')
+ captured=[]
+ data={'id':'cs_test_recovery','livemode':False,'metadata':{'seed_key':r['seed_key']},'payment_status':'paid'}
+ def create(params):
+  captured.append(params)
+  return SimpleNamespace(id=data['id'],livemode=False,url='https://checkout.stripe.com/test')
+ fake=SimpleNamespace(v1=SimpleNamespace(prices=SimpleNamespace(retrieve=lambda _:SimpleNamespace(livemode=False,active=True,type='one_time')),checkout=SimpleNamespace(sessions=SimpleNamespace(create=create,retrieve=lambda _:site.stripe.checkout.Session.construct_from(data,'placeholder')))))
+ monkeypatch.setattr(site,'stripe_client',fake)
+ response=client.post('/r/'+r['access_key']+'/checkout',data={'csrf':csrf(client)})
+ assert response.status_code==303
+ assert response.location=='https://checkout.stripe.com/test'
+ assert 'payment_method_types' not in captured[0]
+ assert captured[0]['line_items']==[{'price':'price_test','quantity':1}]
+ assert client.get('/payment/success/'+r['seed_key']+'?session_id='+data['id']).status_code==302
+ assert site.paid(r['seed_key'])
+ assert client.post('/r/'+r['access_key']+'/full',data={'csrf':csrf(client)}).status_code==302
+ assert 'PRIVATE_FULL_SENTINEL' in client.get('/r/'+r['access_key']).text
+
+
+def test_checkout_requires_webhook_and_live_storage(client,monkeypatch):
+ monkeypatch.setattr(site,'stripe_client',object())
+ monkeypatch.setattr(site,'PRICE_ID','price_test')
+ monkeypatch.setattr(site,'PUBLIC_URL','https://example.com')
+ monkeypatch.setattr(site,'SUPPORT_EMAIL','support@example.com')
+ monkeypatch.setattr(site,'STRIPE_TEST_MODE',True)
+ monkeypatch.setattr(site,'STRIPE_ENV_PREFIX','STRIPE_TEST_')
+ monkeypatch.setattr(site,'STORAGE_DURABLE',False)
+ monkeypatch.delenv('STRIPE_TEST_WEBHOOK_SECRET',raising=False)
+ assert not site.checkout_ready()
+ monkeypatch.setenv('STRIPE_TEST_WEBHOOK_SECRET','test-signing-placeholder')
+ assert site.checkout_ready()
+ monkeypatch.setattr(site,'STRIPE_TEST_MODE',False)
+ assert not site.checkout_ready()
+
+
+def test_webhook_real_sdk_object_and_signature(client,monkeypatch):
+ import hashlib,hmac,time
+ submit(client);r=row_for(client)
+ monkeypatch.setattr(site,'STRIPE_TEST_MODE',True)
+ monkeypatch.setattr(site,'STRIPE_ENV_PREFIX','STRIPE_TEST_')
+ monkeypatch.setattr(site,'PAYMENT_STATUS','test_paid')
+ monkeypatch.setattr(site,'PRICE_ID','price_fixture')
+ signing='test-signing-placeholder'
+ monkeypatch.setenv('STRIPE_TEST_WEBHOOK_SECRET',signing)
+ with site.connect() as db:db.execute('INSERT INTO orders VALUES(?,?,?,?)',('cs_test_sdk',r['seed_key'],'price_fixture','now'))
+ payload=json.dumps({'id':'evt_fixture','object':'event','livemode':False,'type':'checkout.session.completed','data':{'object':{'id':'cs_test_sdk','object':'checkout.session','livemode':False,'metadata':{'seed_key':r['seed_key']},'payment_status':'paid'}}})
+ ts=str(int(time.time()))
+ sig=hmac.new(signing.encode(),(ts+'.'+payload).encode(),hashlib.sha256).hexdigest()
+ headers={'Stripe-Signature':f't={ts},v1={sig}'}
+ assert client.post('/stripe/webhook',data=payload,headers=headers).status_code==200
+ assert site.paid(r['seed_key'])
+ assert client.post('/stripe/webhook',data=payload,headers=headers).status_code==200
+
+
+def test_failed_generation_refunds_free_owner_but_retains_api_attempt_budget(client,monkeypatch):
+ monkeypatch.setenv('FREE_DAILY_LIMIT','1')
+ original=site.call_ai
+ def fail(*args):raise site.ReadingError('测试失败')
+ monkeypatch.setattr(site,'call_ai',fail)
+ for _ in range(3):assert submit(client).status_code==200
+ with site.connect() as db:
+  assert db.execute("SELECT count FROM usage WHERE bucket LIKE 'owner-success-%'").fetchone()[0]==0
+  assert db.execute("SELECT count FROM usage WHERE bucket='global'").fetchone()[0]==3
+ monkeypatch.setattr(site,'call_ai',original)
+ assert submit(client).status_code==302
+ result=submit(client,'另一个问题，会顺利吗？')
+ assert '查看已有卦'.encode() in result.data
+ assert '/history'.encode() in result.data
+
+
+def test_chart_line_labels_follow_language_inside_macro(client):
+ assert '6爻'.encode() in client.get('/demo?lang=zh').data
+ assert b'Line 6' in client.get('/demo?lang=en').data

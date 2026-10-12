@@ -1,0 +1,20 @@
+{
+  "release": "v45r1_free_outlook_only",
+  "program_tests_passed": 196,
+  "program_tests_failed": 0,
+  "sample_questions": 128,
+  "question_categories": 17,
+  "all_questions_passed_to_model_context": true,
+  "real_deepseek_calls": 0,
+  "real_model_acceptance": "NOT_RUN",
+  "live_stripe_acceptance": "NOT_RUN_FOR_THIS_VERSION",
+  "foundation_cast_combinations_checked": 4096,
+  "no_prediction_accuracy_claim": true,
+  "runtime_book_clauses": 141,
+  "book_cases_archive": 133,
+  "book_cases_retrievable": 112,
+  "quarantined_source_cases": 21,
+  "web_search": "OPTIONAL_REQUIRES_BRAVE_SEARCH_API_KEY",
+  "old_judgement_engine_used": false,
+  "free_content": "overall tendency and uncertainty only; detailed obstacles and advice reserved for paid"
+}

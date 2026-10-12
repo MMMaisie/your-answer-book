@@ -1,0 +1,19 @@
+{
+"career":{"expected":"官鬼","questions":["我什么时候能拿到offer？","我能找到工作吗？","跳槽会顺利吗？","这次面试能过吗？","我会被裁员吗？","我能转正吗？","今年能升职吗？","这家公司会录取我吗？","When will I get a job?","Will I pass probation?"]},
+"money":{"expected":"妻财","questions":["我什么时候能赚到钱？","这笔钱什么时候到账？","他欠的钱能还给我吗？","我的工资能按时发吗？","这个项目能赚钱吗？","奖金能拿到吗？","退税什么时候到账？","这个生意能赚钱吗？","Will I get paid?","Will my refund arrive?"]},
+"relationship":{"expected":"RELATIONSHIP_ALTERNATIVES","questions":["我跟他能不能结婚？","我跟她能不能结婚？","我们能结婚吗？","我什么时候能脱单？","他喜欢我吗？","她会跟我复合吗？","这段感情能继续吗？","我们会分手吗？","Does he love me?","Will we get back together?"]},
+"self_health":{"expected":"世","questions":["我的身体怎么样？","我这个病什么时候能好？","我最近总是不舒服，能恢复吗？","我的健康会好转吗？","我手术能顺利吗？","我能恢复健康吗？","Will my health improve?","Will my surgery go well?"]},
+"parents":{"expected":"父母","questions":["我爸身体怎么样？","我妈什么时候回来？","父亲的病会好转吗？","妈妈能平安回家吗？","Will my dad return?","Will my mum recover?"]},
+"children":{"expected":"子孙","questions":["我儿子身体怎么样？","孩子什么时候回来？","我女儿考试能顺利吗？","我想问孩子平安吗？","Will my son return?","Will my daughter recover?"]},
+"siblings":{"expected":"兄弟","questions":["我哥什么时候回来？","我姐的病能好转吗？","弟弟工作怎么样？","妹妹是否平安？","Will my brother return?","Will my sister recover?"]},
+"travel":{"expected":"世","questions":["我这次出行顺利吗？","我出国能顺利吗？","我去旅游安全吗？","这次旅行能成行吗？","我能顺利搬家吗？","我回家路上顺利吗？","Will my trip go well?","Will my journey be safe?"]},
+"documents":{"expected":"父母","questions":["合同能签下来吗？","我的签证能批吗？","申请能获批吗？","证书什么时候拿到？","文件能审批通过吗？","通知书能收到吗？","Will my visa be approved?","Will the contract be signed?"]},
+"exam":{"expected":"EXAM_ALTERNATIVES","questions":["我考试能过吗？","这次考研能上岸吗？","我能通过雅思吗？","我能考上大学吗？","这次笔试能过吗？","考试成绩会好吗？","Will I pass the exam?","Will I get into university?"]},
+"housing":{"expected":"父母","questions":["这套房子适合住吗？","我能租到房子吗？","这个房屋会有问题吗？","买房手续能顺利吗？","租约能签下来吗？","房子装修能顺利吗？","Will I find a rental home?","Will my lease be signed?"]},
+"lost_property":{"expected":"妻财","questions":["我的钱包能找回来吗？","丢的钱能找回来吗？","手机丢了能找到吗？","钥匙找不到了，还能找到吗？","丢的首饰能回来吗？","银行卡丢了能找到吗？","Will I find my lost wallet?","Will I find my lost phone?"]},
+"weather":{"expected":"父母","questions":["明天会下雨吗？","什么时候有雨？","这次会有大雨吗？","雨什么时候来？","Will it rain?","When will the rain arrive?"]},
+"clear_weather":{"expected":"子孙","questions":["什么时候天晴？","雨什么时候停？","会放晴吗？","雨能停吗？","When will the rain stop?","Will the weather clear?"]},
+"legal_self":{"expected":"世","questions":["我的官司能赢吗？","我这次诉讼顺利吗？","我的纠纷能解决吗？","我能打赢官司吗？","Will I win my lawsuit?","Will my legal dispute be resolved?"]},
+"animals":{"expected":"子孙","questions":["我的猫会回来吗？","我的狗平安吗？","我的鹦鹉能找到吗？","我的宠物身体怎么样？","Will my cat return?","Will my pet recover?"]},
+"genuine_ambiguity":{"expected":null,"questions":["他什么时候回来？","这个怎么样？","能不能成？","孩子和父亲都病了","我想问工作和感情","我姑病了","能活多久？","Is it good?"]}
+}

@@ -219,3 +219,10 @@ EN.update({
 EN['一起掷三枚硬币，记录数字面朝上的个数，重复六次。爻位自下而上。海外当地时间转换到北京时间，按节气定月、零点换日，不做真太阳时修正。不同门派换日口径可能不同。']=EN['数字面记2、背面记3：0正面为老阳（9），1为少阴（8），2为少阳（7），3为老阴（6）。爻位自下而上。海外当地时间转换到北京时间，按节气定月、零点换日，不做真太阳时修正。不同门派换日口径可能不同。']
 
 EN.update({'六十四象':'The 64 Images','关闭卦牌':'Close card','主导航':'Main navigation'})
+
+EN.update({
+'本次解读未能完成，请稍后重试。':'The reading could not be completed. Please try again later.',
+'本次翻译未能完成，中文解读仍可查看，请稍后重试。':'The translation could not be completed. The Chinese reading remains available; please retry later.',
+'请先生成本卦初判，再查看完整解读。':'Generate this cast’s initial reading before viewing the full reading.',
+'今日解读次数已用完。可以查看已有卦，解锁完整解读；新的免费初判请明天再来。':'Your daily free readings are used. You can unlock a full reading for an existing cast; new free readings are available tomorrow.',
+'服务今日请求额度已达上限，请稍后或明天再试。':'The service request limit has been reached. Please try later or tomorrow.'})
