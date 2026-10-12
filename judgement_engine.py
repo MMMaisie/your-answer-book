@@ -57,20 +57,23 @@ def classify_question(question, context=None):
                 'illness':illness_context(question,context),'source_ids':['focal','QA-18']}
     patterns=(
       ('子孙',r'^(?:子|女)(?:近|久|急|远)?病|^子何日脱难|^子在.{0,10}何日回|^子.{0,12}(?:出|归)|儿子|女儿|孩子|子女|问子|占子|子嗣|求子|侄|孙儿|孙女|求晴|天晴|雨止|\b(?:son|daughter|my child|children|nephew|niece|clear weather)\b'),
-      ('妻财',r'何日得财|开店|卖货|脱货|索房价|出外贸易|失银物|往买卖|赌钱|桑叶贵贱|仆(?:何日回|近出|逃)|逃仆|嫂嫂|弟妇|妾(?:近|久)?病|求财|收款|收入|生意|投资|收益|妻子|妻(?:病|在|去)|\b(?:wealth|money|income|business|investment|profit|my wife)\b'),
-      ('官鬼',r'升选|图谋补缺|乡试|会试|升迁|升职|录用|求职|功名|丈夫|老公|占夫|夫(?:急|近|远)?病|\b(?:promotion|job offer|hired|my husband)\b'),
+      ('妻财',r'何日得财|开店|卖货|脱货|索房价|出外贸易|失银物|往买卖|赌钱|桑叶贵贱|仆(?:何日回|近出|逃)|逃仆|嫂嫂|弟妇|妾(?:近|久)?病|求财|收款|收入|生意|投资|收益|女性伴侣|女朋友|妻子|妻(?:病|在|去)|\b(?:wealth|money|income|business|investment|profit|female partner|girlfriend|my wife)\b'),
+      ('官鬼',r'升选|图谋补缺|乡试|会试|升迁|升职|录用|求职|功名|男性伴侣|男朋友|丈夫|老公|占夫|夫(?:急|近|远)?病|\b(?:promotion|job offer|hired|male partner|boyfriend|my husband)\b'),
       ('父母',r'^父(?:何日归|近出|远出|在任|在乱军|官事)|师(?:近|久)?病|何日有大雨|文书|合同|证书|父亲|母亲|爸爸|妈妈|问父|问母|父(?:急|近|远)?病|母(?:急|近|远)?病|何日雨(?!止)|何日有雨|下雨|\b(?:document|contract|certificate|my father|my mother|rainfall)\b'),
       ('兄弟',r'^兄(?:近|久)?病|^妹临产|兄弟|姐妹|姊妹|哥哥|弟弟|姐姐|妹妹|弟(?:病|被)|兄(?:病|被)|\b(?:my brother|my sister|sibling)\b'),
       ('世',r'自占(?:近|久)?病|自陈|自己(?:疾病|处境|出行|终身)|本人(?:处境|出行)|一人自病|\b(?:my own situation|my own journey)\b'),
       ('应',r'交疏之人|交疏的人|不熟悉的人|\b(?:unrelated visitor|the counterparty)\b'))
     for kin, pattern in patterns:
         if re.search(pattern,question,re.I): found.append(kin)
+    general_relationship=not found and bool(re.search(r'找对象|找到对象|脱单|姻缘|恋爱|婚恋|找伴侣|find (?:a |my )?partner|start dating',question,re.I))
     relation_kin=explicit_relation_subject(question)
     relation_ambiguous=relation_kin=='RELATION_SUBJECTS_NEED_CLARIFICATION'
     if relation_ambiguous:found=[];relation_kin=None
     elif relation_kin:found=[relation_kin]
     purpose=context.get('purpose') or ('timing' if re.search(r'何日|何时|什么时候|几时|何年|何月|归期|哪天|几号|几点|哪年|哪个月|哪个时辰|when|what date|what hour|which month|which year',question,re.I) else 'general')
     horizon=context.get('horizon') or ('near' if re.search(r'近期|近事|这几天|soon|near term',question,re.I) else 'far' if re.search(r'远期|长远|long term',question,re.I) else 'unspecified')
+    if general_relationship and not found:
+        return {'kin':'RELATIONSHIP_ALTERNATIVES','method':'CONDITIONAL_PARTNER_ALTERNATIVES','matched_kins':['妻财','官鬼'],'purpose':purpose,'horizon':horizon,'time_unit':requested_time_unit(question,context),'context_questions':[],'illness':illness_context(question,context),'source_ids':['focal','QA-18']}
     return {'kin':found[0] if len(found)==1 else None,'method':'EXPLICIT_RELATION' if relation_kin else 'EXPLICIT_WORDS' if len(found)==1 else 'NEEDS_CONTEXT',
             'matched_kins':found,'purpose':purpose,'horizon':horizon,'time_unit':requested_time_unit(question,context),
             'context_questions':[] if len(found)==1 else ['CLARIFY_SINGLE_SUBJECT_OR_SEPARATE_QUESTIONS'] if relation_ambiguous else subject_context_questions(question),
@@ -206,7 +209,11 @@ def evaluate(question,cast,context=None):
                 if a['local_status']=='ACTIVE_LOCAL':a['local_status']='CONDITIONS_REQUIRE_REVIEW'
     revalidate_rescue_sources(assessments,dynamic_rescue_reviews)
     bypos={a['position']:a for a in assessments};kin=intent['kin']; facts=chart_facts(cast)
-    if kin in ('世','应'):
+    if kin=='RELATIONSHIP_ALTERNATIVES':
+        layer='main';pool={}
+        candidates=[{'position':r['position'],'branch':r['branch'],'kin':r['kin']} for r in cast['rows'] if r['kin'] in ('妻财','官鬼')]
+        intent['scope']='GENERAL_RELATIONSHIP_ONLY_NO_GENDER_ASSUMPTION'
+    elif kin in ('世','应'):
         layer='main';pool={};candidates=[{'position':r['position'],'branch':r['branch']} for r in cast['rows'] if r['label']==kin]
     else:
         pool=facts['focal_search_candidates'].get(kin,{})

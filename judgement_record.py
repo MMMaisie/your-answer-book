@@ -207,7 +207,7 @@ CONDITION_EN={
 
 FREE_CONDITIONS={
  'void':('旬空不等于无力，仍须核对生扶与动变。','Void alone does not mean powerless; support and changes still matter.'),
- 'month_break':('月破形成限制，实际作用仍看生扶与动变。','The month clashes with this line; its effect still depends on support and changes.'),
+ 'month_break':('月破带来限制，但不等于没有机会。','A month clash is a restriction, not proof that there is no opportunity.'),
  'month_clash':('有月冲，不能直接断作冲散或解除克制。','A month clash alone does not establish scattering or release from control.'),
  'day_clash':('有日冲，不能直接断作暗动或冲散。','A day clash alone does not establish hidden movement or scattering.'),
  'month_combine':('有月合，不能直接断作合绊或解除克制。','A month combination alone does not establish binding or release from control.'),
@@ -222,7 +222,7 @@ def condition_prose(record,key,lang,tier):
         return ('第'+position+'爻：' if lang=='zh' else 'Line '+position+': ')+FREE_CONDITIONS[key.split('.',1)[1]][0 if lang=='zh' else 1]
     return record['condition_texts'][key][lang]
 
-def expand_verified_slots(raw,receipt,record,lang,tier,translation=False):
+def expand_verified_slots(raw,receipt,record,lang,tier,translation=False,semantic_summary=False):
     """Bind declared evidence to literal program-owned prose in the actual body."""
     import copy
     result=copy.deepcopy(raw)
@@ -241,7 +241,8 @@ def expand_verified_slots(raw,receipt,record,lang,tier,translation=False):
     body='\n'.join(value.get(field,'') for field in fields if isinstance(value.get(field),str))
     found_facts=re.findall(r'\{F:([A-Za-z0-9_.-]+)\}',body)
     found_conditions=re.findall(r'\{C:([A-Za-z0-9_.-]+)\}',body)
-    if set(found_facts)!=set(receipt['fact_ids']) or set(found_conditions)!=set(receipt['condition_ids']):
+    if semantic_summary and (tier!='free' or not translation or found_facts or found_conditions):raise ValueError('invalid semantic summary path')
+    if not semantic_summary and (set(found_facts)!=set(receipt['fact_ids']) or set(found_conditions)!=set(receipt['condition_ids'])):
         raise ValueError('declared evidence must match actual body slots')
     if any('zh' not in record['facts'].get(key,{}) for key in found_facts):
         raise ValueError('fact is not an approved prose slot')
