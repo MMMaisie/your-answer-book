@@ -164,6 +164,8 @@ def call_ai(question,cast,lang,tier,free=''):
  except ReadingError:raise
  except Exception as error:
   app.logger.warning('Simple reading failed: category=%s status=%s',failure_category(error),getattr(error,'status_code',None))
+  length_detail=re.search(r'(free|paid) length (\d+); allowed (\d+)-(\d+)',str(error))
+  if length_detail:app.logger.warning('Reading length rejected: tier=%s count=%s min=%s max=%s',*length_detail.groups())
   raise ReadingError('本次解读未能完成，请稍后重试。') from None
 
 def paid(seed):

@@ -11,7 +11,7 @@ RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).rea
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v45r1-free-outlook-book-reference-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v45r2-bounded-prose-repair-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -113,18 +113,34 @@ def options(model,max_tokens=8192):
 def generate(client,question,cast,model,external_search=None):
  data,refs=context(question,cast,external_search)
  messages=[{'role':'system','content':SYSTEM},{'role':'user','content':json.dumps(data,ensure_ascii=False)}]
- traces=[]
- for attempt in range(2):
-  response=client.chat.completions.create(model=model,messages=messages,**options(model))
-  if response.choices[0].finish_reason!='stop':raise ValueError('incomplete reading')
-  raw=response.choices[0].message.content or '{}'
-  try:
-   value=check_bundle(json.loads(raw),cast,refs)
-   return {'bundle':value,'reference_ids':list(refs),'external_status':data['external_reference']['status'],'external_references':data['external_reference']['results']}
-  except (ValueError,TypeError) as error:
-   traces.append(str(error))
-   if attempt:raise ValueError('reading validation failed: '+str(error)) from error
-   messages+= [{'role':'assistant','content':raw},{'role':'user','content':'修正这份JSON：'+str(error)+'。保持原综合判断和参考依据；长度问题只调整表达，不改变吉凶或删除条件。免费目标70字，付费目标275字；不要解释修改过程。'}]
+ response=client.chat.completions.create(model=model,messages=messages,**options(model))
+ if response.choices[0].finish_reason!='stop':raise ValueError('incomplete reading')
+ raw=response.choices[0].message.content or '{}'
+ value=json.loads(raw)
+ try:
+  check_bundle(value,cast,refs)
+ except (ValueError,TypeError) as error:
+  # Length corrections edit prose only, never regenerate analysis or sources.
+  if re.search(r'(?:free|paid) length ',str(error)):
+   invalid=[]
+   for tier in ('free','paid'):
+    try:check_parts(value[tier],tier,'zh',cast)
+    except ValueError as e:
+     if ' length ' not in str(e):raise
+     invalid.append(tier)
+   repair={'analysis':value['analysis'],'parts':{tier:value[tier] for tier in invalid},'ranges':{tier:[50,80] if tier=='free' else [250,300] for tier in invalid}}
+   correction=[{'role':'system','content':SYSTEM+'\n现在只做正文编辑，不重新解卦。只返回输入parts中指定版本的JSON对象，键为free或paid，内部字段保持原样。保留方向、确定程度和付费条件；免费仍只说整体倾向。按实际字符数调整，免费目标65字，付费目标270字。不要返回analysis或sources。'}, {'role':'user','content':json.dumps(repair,ensure_ascii=False)}]
+   response=client.chat.completions.create(model=model,messages=correction,**options(model,2048))
+   if response.choices[0].finish_reason!='stop':raise ValueError('incomplete prose repair')
+   edited=json.loads(response.choices[0].message.content or '{}')
+   for tier in invalid:value[tier]=edited[tier]
+   check_bundle(value,cast,refs)
+  else:
+   messages += [{'role':'assistant','content':raw},{'role':'user','content':'修正这份JSON：'+str(error)+'。保持原综合判断和参考依据；免费目标65字，付费目标270字；不要解释修改过程。'}]
+   response=client.chat.completions.create(model=model,messages=messages,**options(model))
+   if response.choices[0].finish_reason!='stop':raise ValueError('incomplete reading')
+   value=check_bundle(json.loads(response.choices[0].message.content or '{}'),cast,refs)
+ return {'bundle':value,'reference_ids':list(refs),'external_status':data['external_reference']['status'],'external_references':data['external_reference']['results']}
 
 def render(bundle,tier,lang='zh',translated=None):
  parts=translated or bundle[tier]

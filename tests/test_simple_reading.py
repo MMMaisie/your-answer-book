@@ -103,3 +103,15 @@ def test_free_outlook_contract_and_paid_detail_boundary():
  assert '规则依据' not in free
  assert sample()['paid']['conditions'] not in free
  assert '关键依据' not in free
+
+
+def test_length_repair_preserves_original_analysis_and_paid_text():
+ bad=sample();bad['free']['direction']='太短';bad['free']['evidence']='太短'
+ corrected={'free':sample()['free']}
+ model=Model([bad,corrected])
+ result=engine.generate(model,'求职',CAST,'mock')['bundle']
+ assert result['analysis']==bad['analysis']
+ assert result['paid']==bad['paid']
+ assert result['sources']==bad['sources']
+ assert len(model.calls)==2
+ assert '只做正文编辑' in model.calls[1]['messages'][0]['content']

@@ -1,6 +1,6 @@
 {
-  "release": "v45r1_free_outlook_only",
-  "program_tests_passed": 196,
+  "release": "v45r2_bounded_prose_repair",
+  "program_tests_passed": 197,
   "program_tests_failed": 0,
   "sample_questions": 128,
   "question_categories": 17,
