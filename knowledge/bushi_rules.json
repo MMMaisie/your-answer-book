@@ -1,0 +1,1701 @@
+{
+  "version": "bushi-reviewed-104-delivery-v1",
+  "rules": [
+    {
+      "id": "five_elements",
+      "chapter": "五行属性",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 1,
+      "pdf_page": 12,
+      "printed_page": 11,
+      "tags": [
+        "基础",
+        "生克"
+      ],
+      "summary": "五行相生依次为木火土金水木，相克为木克土、土克水、水克火、火克金、金克木。生克关系只是关系事实，吉凶还取决于所问与用神。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "branch_relations",
+      "chapter": "五行属性·六合相合及六冲相冲",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 1,
+      "pdf_page": 12,
+      "printed_page": 11,
+      "tags": [
+        "合冲",
+        "基础"
+      ],
+      "summary": "六合为子丑、寅亥、卯戌、辰酉、巳申、午未；六冲为子午、丑未、寅申、卯酉、辰戌、巳亥。合冲与生克可同时存在，不把合一律判吉、冲一律判凶。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "najia",
+      "chapter": "纳甲装卦歌",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 1,
+      "pdf_page": 16,
+      "printed_page": 15,
+      "tags": [
+        "基础",
+        "排盘"
+      ],
+      "summary": "纳甲依上下卦分别装天干地支，爻位从下向上排列；六亲以本卦所属宫的五行为参照。变爻六亲继续按本宫五行判定。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "focal",
+      "chapter": "用神分类定例第一",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "tags": [
+        "用神",
+        "通用"
+      ],
+      "summary": "先明确占问对象与关系，再取六亲。文书与庇护类参照父母，功名与丈夫类参照官鬼，财物与妻子类参照妻财，同辈参照兄弟，子女类参照子孙。古代关系分类不能替代用户提供的实际对象。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "self_other",
+      "chapter": "世应论用神第二",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "tags": [
+        "用神",
+        "世应",
+        "关系"
+      ],
+      "summary": "世为自己，应代表对方或所指对象；但关系明确的亲属应按六亲取用。不能仅因应爻出现就替换已有明确的用神。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "support",
+      "chapter": "原忌仇神论第四",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "tags": [
+        "原神",
+        "用神",
+        "通用"
+      ],
+      "summary": "生用神者为原神；原神是否能生用，还需检查动静、日月扶抑及变爻受制等条件，不能把存在原神直接当作有效支持。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "obstruction",
+      "chapter": "原忌仇神论第四",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "tags": [
+        "忌神",
+        "仇神",
+        "通用"
+      ],
+      "summary": "克用神者为忌神，克原神并生忌神者为仇神。忌神受制、原神参与转生等结构可能改变克用的效力，须把生克链条整体检查。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "hidden",
+      "chapter": "伏神正传第六",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "tags": [
+        "伏神",
+        "用神"
+      ],
+      "summary": "用神不现才从本宫首卦寻找伏神；已有用神出现，即使逢空破仍先分析出现之爻。不可用另一个伏神逃避不利的明爻条件。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "six_spirits",
+      "chapter": "六兽评论第七",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "tags": [
+        "六神",
+        "通用"
+      ],
+      "summary": "六神只能附着六亲与生克作辅助取象；青龙附忌神不一定有利，白虎生用也不必为凶。不能凭玄武就指控偷盗，凭白虎就断伤亡。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "growth",
+      "chapter": "四生逐位论第八",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "tags": [
+        "长生",
+        "墓绝"
+      ],
+      "summary": "本书重长生、墓、绝：木长生亥墓未绝申，火长生寅墓戌绝亥，金长生巳墓丑绝寅，水土长生申墓辰绝巳。须结合生克扶救，不把所有十二运状态机械叠加。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "month_break",
+      "chapter": "月破论第九",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "tags": [
+        "月破",
+        "日月",
+        "通用"
+      ],
+      "summary": "月建冲爻为月破；月破不代表永久无用。动爻与变爻仍需分析生克，出月、值日、合补等是传统观察条件；安静衰弱兼空而受克的组合则需更谨慎。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "void",
+      "chapter": "旬空论第十",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "tags": [
+        "旬空",
+        "通用"
+      ],
+      "summary": "旬空不能一律判无用。旺相、有生扶、发动或变空等仍需分析后续条件；衰弱安静又受克、兼月破则不同。出旬、值日、填实等只能作有条件的观察线索。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "reversal",
+      "chapter": "反吟卦定例第十一",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "tags": [
+        "反吟",
+        "动爻"
+      ],
+      "summary": "爻变地支相冲是爻的反吟，可提示反复；卦的反吟是另一层结构，不能从一条爻相冲宣称整卦反吟。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "rescue",
+      "chapter": "绝处逢生克处逢生论第十六",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "tags": [
+        "墓绝",
+        "原神"
+      ],
+      "summary": "遇绝或克时还要看是否有动爻、日月生扶救应；存在不利关系不等于不利结论必成。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "advance",
+      "chapter": "变出进退神论第十七",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 4,
+      "printed_page": 42,
+      "tags": [
+        "进退",
+        "动爻"
+      ],
+      "summary": "进神为亥子、寅卯、巳午、申酉，以及丑辰、辰未、未戌、戌丑的本变方向；反方向为退神。只对实际发动的本爻与变爻判定，进退描述增减，不自动等同吉凶。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "one_question",
+      "chapter": "卦有验不验论第十八",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 4,
+      "printed_page": 42,
+      "tags": [
+        "用神",
+        "通用"
+      ],
+      "summary": "问事需明确对象、身份与真实目标；代占必须说明关系。一次多问互不相干的事项会造成取用不清。不要把结果未应验归罪于用户不诚。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "no_reroll",
+      "chapter": "辟增删卜易之谬",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 5,
+      "printed_page": 43,
+      "tags": [
+        "方法",
+        "通用"
+      ],
+      "summary": "本书批评只看用神或忌神持世而忽略生克动静、反复摇到满意卦象的做法。不得鼓励用户付费或重复起卦以获得有利结论。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "no_omens",
+      "chapter": "辟卜筮全书神煞之谬",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 8,
+      "printed_page": 46,
+      "tags": [
+        "六神",
+        "方法"
+      ],
+      "summary": "避免舍弃用神生克而单凭神煞、卦身作判断；神煞与附属取象不能成为独立结论依据。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "job",
+      "chapter": "黄金策·求名",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 30,
+      "printed_page": 68,
+      "tags": [
+        "工作",
+        "考试",
+        "官鬼",
+        "父母"
+      ],
+      "summary": "求名类同时观察官鬼与父母：目标成就和文书学业各有侧重。现代工作可作关系映射，但录用、合同、收入是不同目标，不混为一个用神。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "money",
+      "chapter": "黄金策·求财",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 2,
+      "pdf_page": 31,
+      "printed_page": 69,
+      "tags": [
+        "财运",
+        "妻财",
+        "子孙"
+      ],
+      "summary": "求财以妻财为主要参照，并分析生财来源及对财的消耗或限制；不能仅见财爻就声称必有收益，也不能仅见兄弟就断亏损。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "return_control",
+      "chapter": "十八问答·第二问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 1,
+      "printed_page": 79,
+      "tags": [
+        "回头生克",
+        "动爻"
+      ],
+      "summary": "动爻化出的五行克本爻称回头克；原用受克与忌仇受克的意义不同。需检查本爻角色与日月，不把所有回头克解释成用户遇灾。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "triple",
+      "chapter": "十八问答·第四问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 5,
+      "printed_page": 83,
+      "tags": [
+        "三合",
+        "动爻"
+      ],
+      "summary": "三合要检验参与爻、动静、日月及缺支的条件，成用神或原神之局与成忌仇之局意义不同。三个地支齐全只是候选结构，不能未经检查就判成局合化。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "reversal_weight",
+      "chapter": "十八问答·第五问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 8,
+      "printed_page": 86,
+      "tags": [
+        "反吟",
+        "动爻"
+      ],
+      "summary": "反吟有轻重：用神是否变出冲克比单看反复象更关键。先检查用神，再解释事件的反复。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "stagnation",
+      "chapter": "十八问答·第六问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 9,
+      "printed_page": 87,
+      "tags": [
+        "伏吟",
+        "动爻"
+      ],
+      "summary": "伏吟也需分内外及用神状态。变爻地支相同可标记爻伏吟候选，但不能以静卦的本变同卦误判所有静卦都为伏吟。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "hidden_release",
+      "chapter": "十八问答·第九问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 15,
+      "printed_page": 93,
+      "tags": [
+        "伏神",
+        "原神"
+      ],
+      "summary": "伏神能否出，检查日月与动爻对伏神的扶抑、飞神是否生伏或克伏，以及飞神空破或被冲克；不能仅因有伏神就虚构暗中人物。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "advance_conditions",
+      "chapter": "十八问答·第十问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 17,
+      "printed_page": 95,
+      "tags": [
+        "进退",
+        "旬空",
+        "月破"
+      ],
+      "summary": "进退要分旺相、休囚与空破冲合等限制；有扶助的退神在近事中可能暂不退，受阻的进神可能待条件解除才进。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "combine_clash",
+      "chapter": "十八问答·第十一问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 19,
+      "printed_page": 97,
+      "tags": [
+        "合冲",
+        "世应"
+      ],
+      "summary": "冲中逢合与合处逢冲可用来解释聚散变化，但须明确先后关系与实际爻的作用，不把一般象义冒充事实。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "clash_scope",
+      "chapter": "十八问答·第十三问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 24,
+      "printed_page": 102,
+      "tags": [
+        "合冲",
+        "通用"
+      ],
+      "summary": "六冲六合需随占事及用神状态分析，不能统一按冲凶合吉处理。古代疾病断语不得作为现代诊断或生死预测。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "punishment",
+      "chapter": "十八问答·第十四问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 27,
+      "printed_page": 105,
+      "tags": [
+        "刑害",
+        "通用"
+      ],
+      "summary": "刑害要结合用神是否受伤与生扶；不能只见刑害即断凶。生克与世用关系优先，古例中的灾病推断不作为现代事实。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "single_move",
+      "chapter": "十八问答·第十五问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 28,
+      "printed_page": 106,
+      "tags": [
+        "动爻",
+        "暗动"
+      ],
+      "summary": "独发独静主要辅助观察成败迟速，吉凶仍推用神。日冲候选也可能影响动静判断，不能只数明动爻就宣布唯一作用爻。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "quiet",
+      "chapter": "十八问答·第十六问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 30,
+      "printed_page": 108,
+      "tags": [
+        "静卦",
+        "动爻"
+      ],
+      "summary": "尽静尽发只是动静类型，须结合日月与用神；没有明动不等于完全没有作用，也不能将变卦相同说成新阶段。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "multiple_focal",
+      "chapter": "十八问答·第十七问",
+      "source": "卜筮正宗（用户提供精校版，规则释义）",
+      "part": 3,
+      "pdf_page": 31,
+      "printed_page": 109,
+      "tags": [
+        "用神",
+        "通用"
+      ],
+      "summary": "用神多现时要比较持世、日月关联与空破等关节点；不能永远选最旺或最近的一爻，也不能把所有同六亲都视为同一个人物。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries"
+    },
+    {
+      "id": "return_effect",
+      "chapter": "回头克",
+      "part": 3,
+      "pdf_page": 1,
+      "printed_page": 79,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "回头生克检查变爻对本动爻的作用，先核对五行方向，不把本爻克变爻误称回头克。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "回头",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "focal_scope",
+      "chapter": "回头克",
+      "part": 3,
+      "pdf_page": 1,
+      "printed_page": 79,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "回头克落在用神、世爻或其他六亲的意义不同，须说明它与所问的联系。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "回头",
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "clash_and_control",
+      "chapter": "反吟",
+      "part": 3,
+      "pdf_page": 8,
+      "printed_page": 86,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "爻支相冲与五行相克分别记录；存在冲不等于同时存在回头克。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "回头"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "focal_unaffected",
+      "chapter": "反吟",
+      "part": 3,
+      "pdf_page": 8,
+      "printed_page": 86,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "反吟须检查用神是否直接受影响，不能只凭卦有反吟断全部事项失败。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "same_branch",
+      "chapter": "伏吟",
+      "part": 3,
+      "pdf_page": 9,
+      "printed_page": 87,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "伏吟案例中需逐爻核对变前变后的地支相同，不以卦名不同排除伏吟。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "inner_outer",
+      "chapter": "伏吟",
+      "part": 3,
+      "pdf_page": 9,
+      "printed_page": 87,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "区分内外卦出现的重复结构，解释其作用范围，不能泛化为所有人事均停滞。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "empty_support",
+      "chapter": "旬空",
+      "part": 3,
+      "pdf_page": 10,
+      "printed_page": 88,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "空爻仍须看日月扶抑与作用条件，旬空本身不能代替对整个结构的判断。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "empty_day_clash",
+      "chapter": "旬空",
+      "part": 3,
+      "pdf_page": 10,
+      "printed_page": 88,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "空爻逢冲须区分具体条件，不能把所有日冲静爻都标为暗动。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "暗动"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "hidden_four_release",
+      "chapter": "伏神",
+      "part": 3,
+      "pdf_page": 15,
+      "printed_page": 93,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "伏神得日月扶持、飞爻生扶、飞爻被冲克、飞爻受空破等是不同的可用条件，逐项核对。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "伏神"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "hidden_four_obstacles",
+      "chapter": "伏神",
+      "part": 3,
+      "pdf_page": 15,
+      "printed_page": 93,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "伏神缺乏扶助、飞爻得助而克伏、伏神陷于墓绝或空破等，应作为受阻条件分别核对。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "伏神",
+        "墓绝"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "flying_direction",
+      "chapter": "伏神",
+      "part": 3,
+      "pdf_page": 15,
+      "printed_page": 93,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "飞生伏、伏生飞、飞克伏、伏克飞不能混写，飞伏的五行作用方向须明确。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "伏神"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "advance_empty",
+      "chapter": "进退",
+      "part": 3,
+      "pdf_page": 17,
+      "printed_page": 95,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "动爻化进而本爻或变爻旬空，不等于已立即推进；解释还需要何种条件解除。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "进退"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "advance_with_return_control",
+      "chapter": "进退",
+      "part": 3,
+      "pdf_page": 17,
+      "printed_page": 95,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "同卦一爻化进与另一关键爻回头克可以同时出现，不能只摘取化进支持乐观结论。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "进退",
+        "回头"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "retreat_scope",
+      "chapter": "进退",
+      "part": 3,
+      "pdf_page": 17,
+      "printed_page": 95,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "化退要指明哪个六亲、哪个事项受影响，不能把局部变化写成整体必败。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "进退"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "combine_with_generation",
+      "chapter": "冲合",
+      "part": 3,
+      "pdf_page": 19,
+      "printed_page": 97,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "合与生可以同时存在，记录两种关系后再判断对用神的条件意义。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "clash_with_support",
+      "chapter": "冲合",
+      "part": 3,
+      "pdf_page": 19,
+      "printed_page": 97,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "用神受冲又得日月扶助时应并列解释条件，不把冲单独当作最终结论。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "hexagram_not_verdict",
+      "chapter": "六冲六合",
+      "part": 3,
+      "pdf_page": 24,
+      "printed_page": 102,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "六冲六合是结构信息，书中案例强调用神状态与生克仍需参与判断。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "future_calendar",
+      "chapter": "六冲六合",
+      "part": 3,
+      "pdf_page": 26,
+      "printed_page": 104,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "书中以节令转换后的月建判断后续条件，不能把未来月建写成当前月建。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "single_move_not_only_focus",
+      "chapter": "独发独静",
+      "part": 3,
+      "pdf_page": 28,
+      "printed_page": 106,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "独发爻值得检查，但仍需联系用神和世应，不能自动替换占问对象。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "世应"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "static_day_clash",
+      "chapter": "独发独静",
+      "part": 3,
+      "pdf_page": 28,
+      "printed_page": 106,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "本卦无明动爻仍可能有日冲静爻，先列日冲事实，再辨旺衰和空破。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "暗动"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "quiet_not_no_information",
+      "chapter": "尽静尽发",
+      "part": 3,
+      "pdf_page": 30,
+      "printed_page": 108,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "静卦仍需看日月、用神、世应和空破，不能因无动爻给出统一的模糊结论。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "取用",
+        "世应",
+        "静卦"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "many_moves_priorities",
+      "chapter": "尽静尽发",
+      "part": 3,
+      "pdf_page": 30,
+      "printed_page": 108,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "多爻发动时按占问对象寻找主次，不把所有动爻平均罗列当成解卦。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "multiple_candidates",
+      "chapter": "用神两现",
+      "part": 3,
+      "pdf_page": 31,
+      "printed_page": 109,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "用神多现先列出候选爻位，说明为何取某一爻，不采用固定的最旺者优先。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "empty_and_broken_candidates",
+      "chapter": "用神两现",
+      "part": 3,
+      "pdf_page": 31,
+      "printed_page": 109,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "两个候选分别空、破时保留两者差异，不能因为一爻状态差就忽略另一爻。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "moving_and_support",
+      "chapter": "用神两现",
+      "part": 3,
+      "pdf_page": 31,
+      "printed_page": 109,
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像与文字核对；现代措辞释义",
+      "summary": "比较动静、变爻与支持条件时应解释选用理由，候选表不等于最终取用。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "focal_parent",
+      "chapter": "用神分类定例第一",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "父母类包含长辈、师长以及文书、衣物、舟车、宅舍等庇护与承载对象。具体取用须先识别所问对象。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "工作"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "focal_official",
+      "chapter": "用神分类定例第一",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "官鬼在功名问题中可作官星，在忧疑阻碍问题中意义不同，不能只因官鬼出现就统一判凶。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "focal_sibling",
+      "chapter": "用神分类定例第一",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "同辈亲属与知交朋友属于兄弟类；身份不明确时不可擅自填入亲属或性别。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "focal_wealth",
+      "chapter": "用神分类定例第一",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "财物、货价及具体资产以妻财类考察；古代人身从属分类需与现代对象描述分开。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "focal_child",
+      "chapter": "用神分类定例第一",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "子女、学生、禽畜以及解忧类对象可涉及子孙；子孙不是任何问题的统一吉神。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "self_focal",
+      "chapter": "世应论用神第二",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "直接问自身处境时考察世爻；世与应的身份随问题而定，不把世应关系替代所有六亲取用。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "世应"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "counterparty_focal",
+      "chapter": "世应论用神第二",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "没有明确亲属名分的对方或指定地点可考察应爻，需说明对应关系。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "世应"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "functional_focal",
+      "chapter": "用神问答第三",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "同一名称在不同关系下未必同一取用；原书以庇护我与供我使用的功能关系解释分类。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "origin_then_condition",
+      "chapter": "原忌仇神论第四",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "先确定用神，再由生用者识别原神，识别之后还要判断其是否具备实际生用条件。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "origin_waiting",
+      "chapter": "原忌仇神论第四",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "用神空、破、衰或伏藏，得原神扶助也不等于即时兑现，还须说明用神可用的等待条件。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "取用",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "origin_blocked",
+      "chapter": "原忌仇神论第四",
+      "part": 2,
+      "pdf_page": 1,
+      "printed_page": 39,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "原神休囚不动，或动化墓绝、回头克、月破、退神，或受日月克制，均须检查是否阻断生用。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "月破",
+        "进退",
+        "回头",
+        "生克",
+        "墓绝"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "obstruction_origin_chain",
+      "chapter": "原忌仇神论第四",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "忌神与原神同时发动时，检查忌神是否转生原神、原神再生用神；不能仅凭有忌神发动断受克。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "obstruction_blocked",
+      "chapter": "原忌仇神论第四",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "忌神受回头克、日月冲克或其他动爻制约时，应检查克用效力是否受到限制。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "回头",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "temporary_avoidance",
+      "chapter": "原忌仇神论第四",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "用神暂空或伏藏所表现的暂避，不代表永久排除风险；仍须观察出空出伏后的生克条件。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "取用",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "enemy_two_relations",
+      "chapter": "原忌仇神论第四",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "仇神须同时检查克原神与生忌神的关系，不以单一不利六亲名称代替生克链。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "manifest_before_hidden",
+      "chapter": "伏神正传第六",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "已有所需六亲出现时，先分析其空破动静等条件；不能仅因状态差就另外替换为任意伏神。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "伏神"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "hidden_palace_origin",
+      "chapter": "伏神正传第六",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "缺用神时从本宫首卦寻找对应六亲的伏藏位置，不从任意其他卦拼接伏神。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "伏神",
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "spirits_subordinate",
+      "chapter": "六兽评论第七",
+      "part": 2,
+      "pdf_page": 2,
+      "printed_page": 40,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "六神附于用神、忌神时仍需以生克与所问为主，青龙不保证吉、白虎不保证凶。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "growth_primary",
+      "chapter": "四生逐位论第八",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "本章重点关注长生、墓、绝，不将十二长生的每个名称机械叠加成独立吉凶。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "墓绝"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "growth_relation_overlap",
+      "chapter": "四生逐位论第八",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "长生系统中的位置可能同时具有生克、合冲、进退关系，须核对实际关系而非仅报名称。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "进退",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "break_not_dead",
+      "chapter": "月破论第九",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "月破不能一律等同于无用；动爻仍需核对生克他爻，变爻仍需核对作用于本爻。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "月破",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "break_recovery",
+      "chapter": "月破论第九",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "出月、值日、合与填实是书中考察月破后续变化的条件，不应把当前月破写成永久状态。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "月破"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "break_compounded",
+      "chapter": "月破论第九",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "月破且静、空、衰弱，又受日月或动爻克害，属于需特别核对的复合受制条件。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "月破"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "void_not_dead",
+      "chapter": "旬空论第十",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "旺相、发动、得扶、动化空或伏而旺相等旬空状态需区别分析，不统一视为无用。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "void_recovery_types",
+      "chapter": "旬空论第十",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "出旬、值日、合空、冲起、冲实、填补分别作为条件记录，不能混成一个无依据的日期。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "void_compounded",
+      "chapter": "旬空论第十",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "休囚安静、受克、伏而受克或静弱月破又空等复合条件，不能仅以出旬自动判恢复。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "月破"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "reverse_levels",
+      "chapter": "反吟卦定例第十一",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "区分卦级反吟与爻变相冲；两者可同时出现，也可仅其中一层出现。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "rescue_effective",
+      "chapter": "绝处逢生克处逢生论第十六",
+      "part": 2,
+      "pdf_page": 3,
+      "printed_page": 41,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "用神处绝或受克，须检查是否有动爻生扶与其效力；不能只凭墓绝名称下结论。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "生克",
+        "墓绝"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "earth_fire_exception",
+      "chapter": "绝处逢生克处逢生论第十六",
+      "part": 2,
+      "pdf_page": 4,
+      "printed_page": 42,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "本章对土在巳的绝与火生土并存作条件辨析：得日月帮扶与受制时须分开判断，不能固定写土遇巳必绝。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "生克",
+        "墓绝"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "progress_target",
+      "chapter": "变出进退神论第十七",
+      "part": 2,
+      "pdf_page": 4,
+      "printed_page": 42,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "进退改变的是相应爻的作用趋势；对用神或忌神的意义不同，化进并非统一利好。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "进退",
+        "取用",
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "intent_before_cast",
+      "chapter": "卦有验不验论第十八",
+      "part": 2,
+      "pdf_page": 4,
+      "printed_page": 42,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "代占身份、所问目标和真实问题应先说明，否则取用可能不同；现代系统应澄清信息，不归咎于用户不诚。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "strength_dynamic_joint",
+      "chapter": "黄金策总断千金赋直解",
+      "part": 2,
+      "pdf_page": 13,
+      "printed_page": 51,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "旺衰与动静共同参与合冲生克判断，不能把任何一项标签当作完整结论。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "生克"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "start_end",
+      "chapter": "黄金策总断千金赋直解",
+      "part": 2,
+      "pdf_page": 13,
+      "printed_page": 51,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "动爻与变爻分别提供起始与后续结构信息，需将两者连起来解释。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "help_weak",
+      "chapter": "黄金策总断千金赋直解",
+      "part": 2,
+      "pdf_page": 13,
+      "printed_page": 51,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "休囚爻有有效生扶时仍须重新判断；弱不等于永远无用。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "combine_restraint",
+      "chapter": "黄金策总断千金赋直解",
+      "part": 2,
+      "pdf_page": 13,
+      "printed_page": 51,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "动爻逢合可能受绊，合处也可能有克伤；不能把合统一解释为顺利达成。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "conditions_to_timing",
+      "chapter": "黄金策总断千金赋直解",
+      "part": 2,
+      "pdf_page": 13,
+      "printed_page": 51,
+      "type": "classical_rule_paraphrase",
+      "review": "本轮原页图像核对；现代措辞释义",
+      "summary": "合住待冲、休囚待生旺等是应期推导条件，先确定需要改变的结构，再讨论时间。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "triple_members",
+      "part": 3,
+      "pdf_page": 5,
+      "printed_page": 83,
+      "chapter": "三合",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "申子辰水、巳酉丑金、寅午戌火、亥卯未木是四组三合，三会不可替代三合。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "三合"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "triple_target",
+      "part": 3,
+      "pdf_page": 5,
+      "printed_page": 83,
+      "chapter": "三合",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "三合需明确合局的五行及其与用神、原神、忌神、仇神的关系，合局本身不统一判吉。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用",
+        "生克",
+        "三合"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "triple_activation",
+      "part": 3,
+      "pdf_page": 5,
+      "printed_page": 83,
+      "chapter": "三合",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "先检查明动、日冲静爻与日月补足等参与条件，不能只见三支齐全即自动成有效局。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "暗动",
+        "三合"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "triple_missing_static",
+      "part": 3,
+      "pdf_page": 5,
+      "printed_page": 83,
+      "chapter": "三合",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "两动一静或缺一支的情形，说明尚缺的发动、值日或日月补足条件，不与三爻齐发混写。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "三合"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "triple_member_block",
+      "part": 3,
+      "pdf_page": 5,
+      "printed_page": 83,
+      "chapter": "三合",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "局内某成员空破、合住、墓绝时，逐项检查它对成局和应期的影响，不忽略有问题的成员。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "旬空",
+        "墓绝",
+        "三合"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "punishment_conditional",
+      "part": 3,
+      "pdf_page": 27,
+      "printed_page": 105,
+      "chapter": "三刑六害",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "三刑必须联系用神休囚、受克与是否得生扶，不能仅三刑齐全就判凶。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "取用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "punishment_generation",
+      "part": 3,
+      "pdf_page": 27,
+      "printed_page": 105,
+      "chapter": "三刑六害",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "刑与生并存时须解释生扶效力，不能用刑标签覆盖世用获得的支持。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "six_harm_no_support",
+      "part": 3,
+      "pdf_page": 27,
+      "printed_page": 105,
+      "chapter": "三刑六害",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "本问明说六害试验无验而不录；不能将其他流派的六害必凶判断冒充本书规则。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "intent_return_vs_health",
+      "part": 3,
+      "pdf_page": 33,
+      "printed_page": 111,
+      "chapter": "问意",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "问归期和问平安的目标不同，即使同一对象同一盘，也不能把未归结论扩大为身体有害。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "intent_current_vs_promotion",
+      "part": 3,
+      "pdf_page": 33,
+      "printed_page": 111,
+      "chapter": "问意",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "问现任处境与问是否升迁应分别取用，不能把升迁未成扩大为现职必失。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "工作"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    },
+    {
+      "id": "intent_literal_vs_real",
+      "part": 3,
+      "pdf_page": 33,
+      "printed_page": 111,
+      "chapter": "问意",
+      "type": "classical_rule_paraphrase",
+      "review": "原页图像核对",
+      "summary": "若问题过宽或真实目标未说明，应先澄清；不能把失败归因于用户不诚以回避验证。",
+      "runtime_eligible": true,
+      "provenance": "classical_paraphrase_with_modern_boundaries",
+      "tags": [
+        "通用"
+      ],
+      "tag_provenance": "关键词检索索引，不是新增书籍规则"
+    }
+  ],
+  "scope": "已核对的104条释义；非整书永久训练，非全规则完备，现实准确率未测。",
+  "supplemental": [
+    {
+      "title": "天干和地支",
+      "publisher": "香港天文台",
+      "url": "https://www.hko.gov.hk/sc/gts/time/stemsandbranches.htm",
+      "reviewed_on": "2026-10-05",
+      "use": "仅核对干支循环等历法事实；不证明六爻预测有效。"
+    }
+  ]
+}

@@ -1,0 +1,3556 @@
+{
+  "scope": "完整材料登记与待核队列，不是全部学习或解卦认证",
+  "pages": [
+    {
+      "id": "PAGE-000",
+      "printed_page": null,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 1
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-001",
+      "printed_page": 1,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 2
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-002",
+      "printed_page": 2,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 3
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-003",
+      "printed_page": 3,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 4
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-004",
+      "printed_page": 4,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 5
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-005",
+      "printed_page": 5,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 6
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-006",
+      "printed_page": 6,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 7
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-007",
+      "printed_page": 7,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 8
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-008",
+      "printed_page": 8,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 9
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-009",
+      "printed_page": 9,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 10
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-010",
+      "printed_page": 10,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 11
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-011",
+      "printed_page": 11,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 12
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-012",
+      "printed_page": 12,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 13
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-013",
+      "printed_page": 13,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 14
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-014",
+      "printed_page": 14,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 15
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-015",
+      "printed_page": 15,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 16
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-016",
+      "printed_page": 16,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 17
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-017",
+      "printed_page": 17,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 18
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-018",
+      "printed_page": 18,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 19
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-019",
+      "printed_page": 19,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 20
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-020",
+      "printed_page": 20,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 21
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-021",
+      "printed_page": 21,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 22
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-022",
+      "printed_page": 22,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 23
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-023",
+      "printed_page": 23,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 24
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-024",
+      "printed_page": 24,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 25
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-025",
+      "printed_page": 25,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 26
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-026",
+      "printed_page": 26,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 27
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-027",
+      "printed_page": 27,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 28
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-028",
+      "printed_page": 28,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 29
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-029",
+      "printed_page": 29,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 30
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-030",
+      "printed_page": 30,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 31
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-031",
+      "printed_page": 31,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 32
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-032",
+      "printed_page": 32,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 33
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-033",
+      "printed_page": 33,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 34
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-034",
+      "printed_page": 34,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 35
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-035",
+      "printed_page": 35,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 36
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-036",
+      "printed_page": 36,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 37
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-037",
+      "printed_page": 37,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 38
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-038",
+      "printed_page": 38,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 39
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-039",
+      "printed_page": 39,
+      "sources": [
+        {
+          "part": 1,
+          "pdf_page": 40
+        },
+        {
+          "part": 2,
+          "pdf_page": 1
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-040",
+      "printed_page": 40,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 2
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-041",
+      "printed_page": 41,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 3
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-042",
+      "printed_page": 42,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 4
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-043",
+      "printed_page": 43,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 5
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-044",
+      "printed_page": 44,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 6
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-045",
+      "printed_page": 45,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 7
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-046",
+      "printed_page": 46,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 8
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-047",
+      "printed_page": 47,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 9
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-048",
+      "printed_page": 48,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 10
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-049",
+      "printed_page": 49,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 11
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-050",
+      "printed_page": 50,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 12
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-051",
+      "printed_page": 51,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 13
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-052",
+      "printed_page": 52,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 14
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-053",
+      "printed_page": 53,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 15
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-054",
+      "printed_page": 54,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 16
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-055",
+      "printed_page": 55,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 17
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-056",
+      "printed_page": 56,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 18
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-057",
+      "printed_page": 57,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 19
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-058",
+      "printed_page": 58,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 20
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-059",
+      "printed_page": 59,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 21
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-060",
+      "printed_page": 60,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 22
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-061",
+      "printed_page": 61,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 23
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-062",
+      "printed_page": 62,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 24
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-063",
+      "printed_page": 63,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 25
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-064",
+      "printed_page": 64,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 26
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-065",
+      "printed_page": 65,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 27
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-066",
+      "printed_page": 66,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 28
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-067",
+      "printed_page": 67,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 29
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-068",
+      "printed_page": 68,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 30
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-069",
+      "printed_page": 69,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 31
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-070",
+      "printed_page": 70,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 32
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-071",
+      "printed_page": 71,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 33
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-072",
+      "printed_page": 72,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 34
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-073",
+      "printed_page": 73,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 35
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-074",
+      "printed_page": 74,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 36
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-075",
+      "printed_page": 75,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 37
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-076",
+      "printed_page": 76,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 38
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-077",
+      "printed_page": 77,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 39
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-078",
+      "printed_page": 78,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 40
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-079",
+      "printed_page": 79,
+      "sources": [
+        {
+          "part": 2,
+          "pdf_page": 41
+        },
+        {
+          "part": 3,
+          "pdf_page": 1
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-080",
+      "printed_page": 80,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 2
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-081",
+      "printed_page": 81,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 3
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-082",
+      "printed_page": 82,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 4
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-083",
+      "printed_page": 83,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 5
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-084",
+      "printed_page": 84,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 6
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-085",
+      "printed_page": 85,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 7
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-086",
+      "printed_page": 86,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 8
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-087",
+      "printed_page": 87,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 9
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-088",
+      "printed_page": 88,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 10
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-089",
+      "printed_page": 89,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 11
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-090",
+      "printed_page": 90,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 12
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-091",
+      "printed_page": 91,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 13
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-092",
+      "printed_page": 92,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 14
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-093",
+      "printed_page": 93,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 15
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-094",
+      "printed_page": 94,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 16
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-095",
+      "printed_page": 95,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 17
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-096",
+      "printed_page": 96,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 18
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-097",
+      "printed_page": 97,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 19
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-098",
+      "printed_page": 98,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 20
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-099",
+      "printed_page": 99,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 21
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-100",
+      "printed_page": 100,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 22
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-101",
+      "printed_page": 101,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 23
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-102",
+      "printed_page": 102,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 24
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-103",
+      "printed_page": 103,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 25
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-104",
+      "printed_page": 104,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 26
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-105",
+      "printed_page": 105,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 27
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-106",
+      "printed_page": 106,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 28
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-107",
+      "printed_page": 107,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 29
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-108",
+      "printed_page": 108,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 30
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-109",
+      "printed_page": 109,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 31
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-110",
+      "printed_page": 110,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 32
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-111",
+      "printed_page": 111,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 33
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    },
+    {
+      "id": "PAGE-112",
+      "printed_page": 112,
+      "sources": [
+        {
+          "part": 3,
+          "pdf_page": 34
+        }
+      ],
+      "text_review_status": "raw_ocr_not_verified",
+      "raw_ocr_runtime_eligible": false
+    }
+  ],
+  "cases": [
+    {
+      "id": "BOOK-P048-C1",
+      "source": {
+        "part": 2,
+        "pdf_page": 10,
+        "printed_page": 48,
+        "slot": "C1"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P050-C1",
+      "source": {
+        "part": 2,
+        "pdf_page": 12,
+        "printed_page": 50,
+        "slot": "C1"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P050-C2",
+      "source": {
+        "part": 2,
+        "pdf_page": 12,
+        "printed_page": 50,
+        "slot": "C2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P077-L1",
+      "source": {
+        "part": 2,
+        "pdf_page": 39,
+        "printed_page": 77,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P077-R1",
+      "source": {
+        "part": 2,
+        "pdf_page": 39,
+        "printed_page": 77,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P077-L2",
+      "source": {
+        "part": 2,
+        "pdf_page": 39,
+        "printed_page": 77,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P077-R2",
+      "source": {
+        "part": 2,
+        "pdf_page": 39,
+        "printed_page": 77,
+        "slot": "R2"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P078-L1",
+      "source": {
+        "part": 2,
+        "pdf_page": 40,
+        "printed_page": 78,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P079-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 1,
+        "printed_page": 79,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P079-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 1,
+        "printed_page": 79,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P079-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 1,
+        "printed_page": 79,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P079-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 1,
+        "printed_page": 79,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P080-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 2,
+        "printed_page": 80,
+        "slot": "L1"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P080-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 2,
+        "printed_page": 80,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P080-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 2,
+        "printed_page": 80,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P080-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 2,
+        "printed_page": 80,
+        "slot": "R2"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P080-L3",
+      "source": {
+        "part": 3,
+        "pdf_page": 2,
+        "printed_page": 80,
+        "slot": "L3"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P080-R3",
+      "source": {
+        "part": 3,
+        "pdf_page": 2,
+        "printed_page": 80,
+        "slot": "R3"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P081-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 3,
+        "printed_page": 81,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P082-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 4,
+        "printed_page": 82,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P082-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 4,
+        "printed_page": 82,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P082-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 4,
+        "printed_page": 82,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P082-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 4,
+        "printed_page": 82,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P083-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 5,
+        "printed_page": 83,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P083-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 5,
+        "printed_page": 83,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P083-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 5,
+        "printed_page": 83,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P083-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 5,
+        "printed_page": 83,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P084-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 6,
+        "printed_page": 84,
+        "slot": "L1"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P084-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 6,
+        "printed_page": 84,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P084-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 6,
+        "printed_page": 84,
+        "slot": "L2"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P084-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 6,
+        "printed_page": 84,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P084-L3",
+      "source": {
+        "part": 3,
+        "pdf_page": 6,
+        "printed_page": 84,
+        "slot": "L3"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P084-R3",
+      "source": {
+        "part": 3,
+        "pdf_page": 6,
+        "printed_page": 84,
+        "slot": "R3"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P085-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 7,
+        "printed_page": 85,
+        "slot": "L1"
+      },
+      "source_field_status": "MISSING_FIELDS",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "incomplete_calendar"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P085-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 7,
+        "printed_page": 85,
+        "slot": "R1"
+      },
+      "source_field_status": "MISSING_FIELDS",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "incomplete_calendar"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P086-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 8,
+        "printed_page": 86,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P086-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 8,
+        "printed_page": 86,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P086-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 8,
+        "printed_page": 86,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P086-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 8,
+        "printed_page": 86,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P086-L3",
+      "source": {
+        "part": 3,
+        "pdf_page": 8,
+        "printed_page": 86,
+        "slot": "L3"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P087-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 9,
+        "printed_page": 87,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P087-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 9,
+        "printed_page": 87,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P087-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 9,
+        "printed_page": 87,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P087-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 9,
+        "printed_page": 87,
+        "slot": "R2"
+      },
+      "source_field_status": "MISSING_FIELDS",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "incomplete_calendar"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P088-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 10,
+        "printed_page": 88,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P088-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 10,
+        "printed_page": 88,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P088-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 10,
+        "printed_page": 88,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P088-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 10,
+        "printed_page": 88,
+        "slot": "R2"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P088-L3",
+      "source": {
+        "part": 3,
+        "pdf_page": 10,
+        "printed_page": 88,
+        "slot": "L3"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P088-R3",
+      "source": {
+        "part": 3,
+        "pdf_page": 10,
+        "printed_page": 88,
+        "slot": "R3"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P089-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 11,
+        "printed_page": 89,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P089-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 11,
+        "printed_page": 89,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P089-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 11,
+        "printed_page": 89,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P089-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 11,
+        "printed_page": 89,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P089-L3",
+      "source": {
+        "part": 3,
+        "pdf_page": 11,
+        "printed_page": 89,
+        "slot": "L3"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P089-R3",
+      "source": {
+        "part": 3,
+        "pdf_page": 11,
+        "printed_page": 89,
+        "slot": "R3"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P090-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 12,
+        "printed_page": 90,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P091-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 13,
+        "printed_page": 91,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P091-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 13,
+        "printed_page": 91,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P091-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 13,
+        "printed_page": 91,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P091-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 13,
+        "printed_page": 91,
+        "slot": "R2"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P092-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 14,
+        "printed_page": 92,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P092-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 14,
+        "printed_page": 92,
+        "slot": "R1"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P092-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 14,
+        "printed_page": 92,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P093-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 15,
+        "printed_page": 93,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P093-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 15,
+        "printed_page": 93,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P093-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 15,
+        "printed_page": 93,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P093-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 15,
+        "printed_page": 93,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P094-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 16,
+        "printed_page": 94,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P094-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 16,
+        "printed_page": 94,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P095-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 17,
+        "printed_page": 95,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P095-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 17,
+        "printed_page": 95,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P095-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 17,
+        "printed_page": 95,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P095-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 17,
+        "printed_page": 95,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P096-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 18,
+        "printed_page": 96,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P097-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 19,
+        "printed_page": 97,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P097-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 19,
+        "printed_page": 97,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P097-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 19,
+        "printed_page": 97,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P097-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 19,
+        "printed_page": 97,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P098-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 20,
+        "printed_page": 98,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P098-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 20,
+        "printed_page": 98,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P098-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 20,
+        "printed_page": 98,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P098-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 20,
+        "printed_page": 98,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P099-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 21,
+        "printed_page": 99,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P099-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 21,
+        "printed_page": 99,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "CHECKPOINT_GAP"
+    },
+    {
+      "id": "BOOK-P099-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 21,
+        "printed_page": 99,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P099-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 21,
+        "printed_page": 99,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P100-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 22,
+        "printed_page": 100,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P100-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 22,
+        "printed_page": 100,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "CHECKPOINT_GAP"
+    },
+    {
+      "id": "BOOK-P100-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 22,
+        "printed_page": 100,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P100-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 22,
+        "printed_page": 100,
+        "slot": "R2"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P101-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 23,
+        "printed_page": 101,
+        "slot": "L1"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P101-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 23,
+        "printed_page": 101,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P101-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 23,
+        "printed_page": 101,
+        "slot": "L2"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P101-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 23,
+        "printed_page": 101,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P101-L3",
+      "source": {
+        "part": 3,
+        "pdf_page": 23,
+        "printed_page": 101,
+        "slot": "L3"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P102-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 24,
+        "printed_page": 102,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P102-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 24,
+        "printed_page": 102,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P102-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 24,
+        "printed_page": 102,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P102-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 24,
+        "printed_page": 102,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P103-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 25,
+        "printed_page": 103,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P103-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 25,
+        "printed_page": 103,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P103-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 25,
+        "printed_page": 103,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P103-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 25,
+        "printed_page": 103,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P104-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 26,
+        "printed_page": 104,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P104-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 26,
+        "printed_page": 104,
+        "slot": "R1"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P104-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 26,
+        "printed_page": 104,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P105-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 27,
+        "printed_page": 105,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P105-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 27,
+        "printed_page": 105,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P105-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 27,
+        "printed_page": 105,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P105-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 27,
+        "printed_page": 105,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "SELECTED_CHECKPOINTS_MATCH"
+    },
+    {
+      "id": "BOOK-P106-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 28,
+        "printed_page": 106,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P106-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 28,
+        "printed_page": 106,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P106-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 28,
+        "printed_page": 106,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P106-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 28,
+        "printed_page": 106,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P107-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 29,
+        "printed_page": 107,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P107-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 29,
+        "printed_page": 107,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P107-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 29,
+        "printed_page": 107,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P108-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 30,
+        "printed_page": 108,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P108-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 30,
+        "printed_page": 108,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P108-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 30,
+        "printed_page": 108,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P108-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 30,
+        "printed_page": 108,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P109-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 31,
+        "printed_page": 109,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P109-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 31,
+        "printed_page": 109,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P109-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 31,
+        "printed_page": 109,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P109-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 31,
+        "printed_page": 109,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P110-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 32,
+        "printed_page": 110,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P111-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 33,
+        "printed_page": 111,
+        "slot": "L1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P111-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 33,
+        "printed_page": 111,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P111-L2",
+      "source": {
+        "part": 3,
+        "pdf_page": 33,
+        "printed_page": 111,
+        "slot": "L2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P111-R2",
+      "source": {
+        "part": 3,
+        "pdf_page": 33,
+        "printed_page": 111,
+        "slot": "R2"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P112-L1",
+      "source": {
+        "part": 3,
+        "pdf_page": 34,
+        "printed_page": 112,
+        "slot": "L1"
+      },
+      "source_field_status": "NEEDS_SOURCE_RECHECK",
+      "field_retrieval_eligible": false,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [
+        "source_field_discrepancy"
+      ],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    },
+    {
+      "id": "BOOK-P112-R1",
+      "source": {
+        "part": 3,
+        "pdf_page": 34,
+        "printed_page": 112,
+        "slot": "R1"
+      },
+      "source_field_status": "CORE_FIELDS_MATCH",
+      "field_retrieval_eligible": true,
+      "full_reasoning_certified": false,
+      "remaining": "独立核对取用理由、有效作用、综合结论与适用条件",
+      "source_issues": [],
+      "selected_checkpoint_status": "NOT_INDEPENDENTLY_CHECKPOINT_REVIEWED"
+    }
+  ],
+  "chapters": [
+    {
+      "chapter_number": 1,
+      "title": "用神分类定例",
+      "part": 2,
+      "pdf_page": 1,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 2,
+      "title": "世应论用神",
+      "part": 2,
+      "pdf_page": 1,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 3,
+      "title": "用神问答",
+      "part": 2,
+      "pdf_page": 1,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 4,
+      "title": "原忌仇神论",
+      "part": 2,
+      "pdf_page": 1,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 5,
+      "title": "飞神正论",
+      "part": 2,
+      "pdf_page": 2,
+      "status": "主文已看，飞神多义未建完整模型",
+      "note": ""
+    },
+    {
+      "chapter_number": 6,
+      "title": "伏神正传",
+      "part": 2,
+      "pdf_page": 2,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 7,
+      "title": "六兽评论",
+      "part": 2,
+      "pdf_page": 2,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 8,
+      "title": "四生逐位论",
+      "part": 2,
+      "pdf_page": 3,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 9,
+      "title": "月破论",
+      "part": 2,
+      "pdf_page": 3,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 10,
+      "title": "旬空论",
+      "part": 2,
+      "pdf_page": 3,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 11,
+      "title": "反吟卦定例",
+      "part": 2,
+      "pdf_page": 3,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 12,
+      "title": null,
+      "part": 2,
+      "pdf_page": null,
+      "status": "上传主文未见，标题未确认",
+      "note": "十二至十五不得依据其他版本目录自动填入内容"
+    },
+    {
+      "chapter_number": 13,
+      "title": null,
+      "part": 2,
+      "pdf_page": null,
+      "status": "上传主文未见，标题未确认",
+      "note": "十二至十五不得依据其他版本目录自动填入内容"
+    },
+    {
+      "chapter_number": 14,
+      "title": null,
+      "part": 2,
+      "pdf_page": null,
+      "status": "上传主文未见，标题未确认",
+      "note": "十二至十五不得依据其他版本目录自动填入内容"
+    },
+    {
+      "chapter_number": 15,
+      "title": null,
+      "part": 2,
+      "pdf_page": null,
+      "status": "上传主文未见，标题未确认",
+      "note": "十二至十五不得依据其他版本目录自动填入内容"
+    },
+    {
+      "chapter_number": 16,
+      "title": "绝处逢生克处逢生",
+      "part": 2,
+      "pdf_page": 3,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 17,
+      "title": "变出进退神",
+      "part": 2,
+      "pdf_page": 4,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    },
+    {
+      "chapter_number": 18,
+      "title": "卦有验不验",
+      "part": 2,
+      "pdf_page": 4,
+      "status": "已核对主文并整理核心释义，未验证全部应用",
+      "note": ""
+    }
+  ],
+  "complete_book_certified": false,
+  "raw_ocr_policy": "只供人工核对定位；不进入DeepSeek判断依据"
+}

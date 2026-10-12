@@ -1,0 +1,434 @@
+{
+  "scope": "原页人工提取的中间判断检查点；不含历史应验结局，不是完整案例金标准",
+  "review_method": "核对第二部分PDF第3页及第三部分PDF第5、6、8、9、27页图像；新增第三部分PDF第4、21、22页原图人工核对（页82、99、100）。",
+  "full_case_certified": false,
+  "cases": [
+    {
+      "id": "BOOK-P083-L1",
+      "context": {
+        "focal_kin": "世"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 5,
+        "printed_page": 83
+      },
+      "checks": [
+        {
+          "kind": "triple",
+          "branches": "亥卯未",
+          "members": [
+            [
+              "main",
+              3
+            ],
+            [
+              "main",
+              1
+            ],
+            [
+              "changed",
+              1
+            ]
+          ]
+        },
+        {
+          "kind": "triple",
+          "branches": "巳酉丑",
+          "members": [
+            [
+              "main",
+              6
+            ],
+            [
+              "main",
+              4
+            ],
+            [
+              "changed",
+              4
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "BOOK-P083-R1",
+      "context": {
+        "focal_kin": "官鬼"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 5,
+        "printed_page": 83
+      },
+      "checks": [
+        {
+          "kind": "triple",
+          "branches": "寅午戌",
+          "members": [
+            [
+              "main",
+              2
+            ],
+            [
+              "main",
+              4
+            ],
+            [
+              "main",
+              6
+            ]
+          ],
+          "release": {
+            "kind": "STATIC_MEMBER_VALUE_DAY",
+            "position": 2,
+            "branch": "寅"
+          }
+        }
+      ]
+    },
+    {
+      "id": "BOOK-P083-R2",
+      "context": {
+        "focal_kin": "妻财"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 5,
+        "printed_page": 83
+      },
+      "checks": [
+        {
+          "kind": "triple",
+          "branches": "亥卯未",
+          "members": [
+            [
+              "changed",
+              3
+            ],
+            [
+              "main",
+              3
+            ],
+            [
+              "main",
+              1
+            ]
+          ],
+          "release": {
+            "kind": "VOID_RELEASE",
+            "position": 1,
+            "layer": "main",
+            "branch": "未"
+          }
+        }
+      ]
+    },
+    {
+      "id": "BOOK-P084-L2",
+      "context": {
+        "focal_kin": "子孙",
+        "purpose": "timing"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 6,
+        "printed_page": 84
+      },
+      "source_issue": "本页伏财位置有冲突；本检查点只核本变三合成员及月破，不认证完整原盘。",
+      "checks": [
+        {
+          "kind": "triple",
+          "branches": "巳酉丑",
+          "members": [
+            [
+              "main",
+              1
+            ],
+            [
+              "changed",
+              3
+            ],
+            [
+              "main",
+              3
+            ]
+          ],
+          "release": {
+            "kind": "BREAK_RESCUE_OR_MONTH_CHANGE",
+            "position": 3,
+            "layer": "main",
+            "branch": "丑"
+          }
+        }
+      ]
+    },
+    {
+      "id": "BOOK-P086-R2",
+      "context": {
+        "focal_kin": "世"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 8,
+        "printed_page": 86
+      },
+      "checks": [
+        {
+          "kind": "structure",
+          "match": {
+            "kind": "TRIGRAM_FANYIN",
+            "scope": "outer",
+            "main_trigram": "巽",
+            "changed_trigram": "乾"
+          }
+        },
+        {
+          "kind": "absent_structure",
+          "match": {
+            "kind": "LINE_FANYIN"
+          }
+        }
+      ]
+    },
+    {
+      "id": "BOOK-P087-R1",
+      "context": {
+        "focal_kin": "父母"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 9,
+        "printed_page": 87
+      },
+      "checks": [
+        {
+          "kind": "structure",
+          "match": {
+            "kind": "TRIGRAM_FUYIN",
+            "scope": "outer",
+            "positions": [
+              4,
+              5,
+              6
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "BOOK-P105-R2",
+      "context": {
+        "focal_kin": "世"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 27,
+        "printed_page": 105
+      },
+      "checks": [
+        {
+          "kind": "punishment",
+          "branches": "子卯",
+          "support": [
+            "day"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "BOOK-P083-L2",
+      "context": {
+        "focal_kin": "官鬼"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 5,
+        "printed_page": 83
+      },
+      "checks": [
+        {
+          "kind": "activation",
+          "position": 6,
+          "expected": "DARK_MOVEMENT_LOCAL",
+          "source_basis": "原断以戌爻暗发参与寅午戌局；程序尚须补足休囚静爻受日冲且有动爻生扶的完整裁决，不能用仅月令旺相条件代替。"
+        }
+      ]
+    },
+    {
+      "id": "BOOK-P082-L1",
+      "context": {
+        "focal_kin": "官鬼"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 4,
+        "printed_page": 82
+      },
+      "checks": [
+        {
+          "kind": "activation",
+          "position": 6,
+          "expected": "DARK_MOVEMENT_LOCAL"
+        }
+      ]
+    },
+    {
+      "id": "BOOK-P099-L1",
+      "context": {
+        "focal_kin": "妻财"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 21,
+        "printed_page": 99
+      },
+      "checks": [
+        {
+          "kind": "primary_position",
+          "expected": 4
+        },
+        {
+          "kind": "line_condition",
+          "position": 6,
+          "condition": "CHANGED_TOMB_OR_EXTINCTION"
+        },
+        {
+          "kind": "line_field",
+          "position": 4,
+          "expected": {
+            "activation": "STATIC"
+          }
+        }
+      ],
+      "judgement_note": "巳兄化戌墓不能直接克静酉财；次日卯冲财是原例条件，不输出现代日期。"
+    },
+    {
+      "id": "BOOK-P099-R1",
+      "context": {
+        "focal_kin": "妻财"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 21,
+        "printed_page": 99
+      },
+      "checks": [
+        {
+          "kind": "primary_position",
+          "expected": 3
+        },
+        {
+          "kind": "line_field",
+          "position": 3,
+          "expected": {
+            "branch": "辰",
+            "activation": "MOVING"
+          }
+        },
+        {
+          "kind": "line_condition",
+          "position": 6,
+          "condition": "DAY_COMBINATION_EFFECT"
+        }
+      ],
+      "judgement_note": "原文取发动辰财，不把土死卯的长生表一律套死；世戌日合另待冲。"
+    },
+    {
+      "id": "BOOK-P099-R2",
+      "context": {
+        "focal_kin": "子孙"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 21,
+        "printed_page": 99
+      },
+      "checks": [
+        {
+          "kind": "primary_position",
+          "expected": 3
+        },
+        {
+          "kind": "line_finding",
+          "position": 3,
+          "code": "CHANGED_TOMB_DAY_CLASH_WITH_PARENT_SUPPORT"
+        },
+        {
+          "kind": "line_finding",
+          "position": 1,
+          "code": "EARTH_CHANGED_SI_WITH_RETURNING_SUPPORT"
+        }
+      ],
+      "judgement_note": "申化丑墓，未日冲并有土扶；检查结构条件，不认证疾病结果。"
+    },
+    {
+      "id": "BOOK-P100-L1",
+      "context": {
+        "focal_kin": "父母"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 22,
+        "printed_page": 100
+      },
+      "checks": [
+        {
+          "kind": "primary_position",
+          "expected": 4
+        },
+        {
+          "kind": "line_field",
+          "position": 5,
+          "expected": {
+            "branch": "戌",
+            "month_break": true
+          }
+        },
+        {
+          "kind": "line_finding",
+          "position": 4,
+          "code": "RETURNING_CONTROL"
+        }
+      ],
+      "judgement_note": "戌原月破，不得凭原化申长生就认有救；申父化午回头克。"
+    },
+    {
+      "id": "BOOK-P100-R1",
+      "context": {
+        "focal_kin": "兄弟"
+      },
+      "source": {
+        "part": 3,
+        "pdf_page": 22,
+        "printed_page": 100
+      },
+      "checks": [
+        {
+          "kind": "primary_position",
+          "expected": 6
+        },
+        {
+          "kind": "line_field",
+          "position": 6,
+          "expected": {
+            "branch": "子",
+            "void": true
+          }
+        },
+        {
+          "kind": "line_condition",
+          "position": 6,
+          "condition": "DAY_GROWTH_墓"
+        },
+        {
+          "kind": "line_finding",
+          "position": 4,
+          "code": "RETURNING_CONTROL"
+        }
+      ],
+      "judgement_note": "原文舍实从空取子兄；出空与冲午使原无伤是并列条件，不等同已经解除。"
+    }
+  ]
+}

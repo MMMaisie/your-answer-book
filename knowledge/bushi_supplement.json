@@ -1,0 +1,77 @@
+{
+  "version": "classical-supplement-20261010",
+  "rules": [
+    {
+      "id": "SUP-12",
+      "chapter": "十八论·伏吟卦定例第十二",
+      "source_location": "伏吟卦定例第十二",
+      "source_type": "classical_text_supplement",
+      "source_url": "https://www.shidianguji.com/book/HY0057/chapter/1lpdfpdr8oqhb",
+      "part": null,
+      "pdf_page": null,
+      "summary": "伏吟有内、外、内外之分，本文以乾震及相关内外卦互变列定例。任一爻同支变化只是爻级线索，不能据此断整卦伏吟；还需核对用神生克，不能只以伏吟断失败。",
+      "exceptions": [
+        "条目调入不表示条件成立；古典定例不等于现代结果保证。"
+      ],
+      "provenance": "上传版本漏第12–15条，另用古籍数字化补充，非PDF出处。"
+    },
+    {
+      "id": "SUP-13",
+      "chapter": "十八论·旺相休囚论第十三",
+      "source_location": "旺相休囚论第十三",
+      "source_type": "classical_text_supplement",
+      "source_url": "https://www.shidianguji.com/book/HY0057/chapter/1lpdfpdr8oqhb",
+      "part": null,
+      "pdf_page": null,
+      "summary": "得令旺相仍须检查日辰和动爻克制，当前可用不等于长期无伤。休囚得有效日辰或动爻生扶，需辨待时条件，不能当作永远无用。",
+      "exceptions": [
+        "条目调入不表示条件成立；古典定例不等于现代结果保证。"
+      ],
+      "provenance": "上传版本漏第12–15条，另用古籍数字化补充，非PDF出处。"
+    },
+    {
+      "id": "SUP-14",
+      "chapter": "十八论·合中带克论第十四",
+      "source_location": "合中带克论第十四",
+      "source_type": "classical_text_supplement",
+      "source_url": "https://www.shidianguji.com/book/HY0057/chapter/1lpdfpdr8oqhb",
+      "part": null,
+      "pdf_page": null,
+      "summary": "子化丑、戌化卯兼有合克，结合本爻旺衰及日月动爻扶克辨主次。本文将申化巳另作化合化长生，并提示寅月日冲申及三刑的条件；不得推广为所有火克金均无克。",
+      "exceptions": [
+        "条目调入不表示条件成立；古典定例不等于现代结果保证。"
+      ],
+      "provenance": "上传版本漏第12–15条，另用古籍数字化补充，非PDF出处。"
+    },
+    {
+      "id": "SUP-15",
+      "chapter": "十八论·合处逢冲冲中逢合论第十五",
+      "source_location": "合处逢冲冲中逢合论第十五",
+      "source_type": "classical_text_supplement",
+      "source_url": "https://www.shidianguji.com/book/HY0057/chapter/1lpdfpdr8oqhb",
+      "part": null,
+      "pdf_page": null,
+      "summary": "区分六合六冲卦互变、日月冲合爻、动爻变冲合三个层级。聚散变化须结合问事目标、用神和动变条件；不能套成必成必散或编造具体日期。",
+      "exceptions": [
+        "条目调入不表示条件成立；古典定例不等于现代结果保证。"
+      ],
+      "provenance": "上传版本漏第12–15条，另用古籍数字化补充，非PDF出处。"
+    },
+    {
+      "id": "SUP-16",
+      "chapter": "黄金策·求财：财来就我与动静条件",
+      "source_location": "卷九·黄金策求财：财来就我与动静条件",
+      "source_type": "classical_text_supplement",
+      "source_url": "https://www.shidianguji.com/book/HY0057/chapter/1m5xvl0mjdmve",
+      "part": null,
+      "pdf_page": null,
+      "summary": "求财正文把财爻生合世爻、持世或克世归入财来就我的讨论，不能套用用神克世一概凶论而排除财爻。仍须核对财福旺衰、生扶与受制、世应以及动静。原文论兄弟生子孙助财时兼有子孙发动条件，不能将静兄得日生直接说成必然劫财，也不能一概把兄弟看坏。",
+      "exceptions": [
+        "只适用于求财的相应角色关系，不推广为所有占事的用克世结论。",
+        "古断中的必然易得是原典表述，网站解读不将其转为现实获利保证；财克世本身不是充分条件。",
+        "不得为了与免费方向一致而删除有利反证，也不得仅因兄弟得生就断现实发生偷钱、合伙损失。"
+      ],
+      "provenance": "2026-10-10核对识典古籍《卜筮正宗》卷九求财正文；是古籍补充出处，不冒充上传PDF页码。"
+    }
+  ]
+}
