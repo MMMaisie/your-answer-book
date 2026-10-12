@@ -146,6 +146,17 @@ def failure_category(error):
   if token in message:return kind
  return type(error).__name__
 
+SAFE_VALIDATION_MESSAGES = frozenset(['English language leakage', 'absolute outcome', 'branch clash/combine contradiction', 'branch element contradicts theory', 'calendar clash contradicts chart', 'calendar combination must not replace elemental affinity', 'combined void/broken claim adds unsupported month-broken status', 'duplicate references', 'explicit elemental contradiction', 'explicit elemental contradiction (branch endpoints)', 'explicit elemental contradiction (compact calendar relation)', 'explicit elemental contradiction (named calendar endpoints)', 'focal contradicts explicit child question', 'free and paid contradict the shared direction', 'incomplete prose repair', 'incomplete reading', 'incomplete translation', 'invalid analysis', 'invalid fact slot', 'invalid prose', 'invalid reading bundle', 'invalid reference', 'matching period branch must not replace elemental affinity', 'matching period branches must not replace elemental affinity', 'month-broken claim contradicts calendar', 'month-building identity contradicts calendar; same element is not same branch', 'moving claim contradicts static chart', 'named calendar branch contradicts chart', 'one to three sources required', 'returning relation contradicts changed-to-original elemental direction', 'source application translation changed', 'specific timing is disabled; use qualitative pace only', 'unconditional void disables line', 'void claim contradicts calendar or missing status'])
+
+def safe_failure_details(error):
+ import traceback
+ message=str(error)
+ reason=message if message in SAFE_VALIDATION_MESSAGES else "unclassified"
+ frames=traceback.extract_tb(error.__traceback__)
+ allowed={"simple_reading.py","reading_guard.py","theory_facts.py","coarse_timing.py","app.py"}
+ locations=[f"{os.path.basename(f.filename)}:{f.lineno}:{f.name}" for f in frames if os.path.basename(f.filename) in allowed]
+ return reason," > ".join(locations[-6:]) or "no_application_frame"
+
 def call_ai(question,cast,lang,tier,free=''):
  if not AI_KEY:raise ReadingError('解读服务暂未开启。卦盘仍可浏览，请稍后再试。')
  key=bundle_key(question,cast)
@@ -164,8 +175,8 @@ def call_ai(question,cast,lang,tier,free=''):
  except ReadingError:raise
  except Exception as error:
   app.logger.warning('Simple reading failed: category=%s status=%s',failure_category(error),getattr(error,'status_code',None))
-  safe_errors={'invalid free fields','invalid paid fields','invalid prose','invalid reading bundle','invalid analysis','one to three sources required','invalid reference','duplicate references','incomplete prose repair','incomplete reading','invalid prose repair fields'}
-  if str(error) in safe_errors:app.logger.warning('Reading validation detail: %s',str(error))
+  reason,location=safe_failure_details(error)
+  app.logger.warning('Reading diagnostic: reason=%s location=%s',reason,location)
   length_detail=re.search(r'(free|paid) length (\d+); allowed (\d+)-(\d+)',str(error))
   if length_detail:app.logger.warning('Reading length rejected: tier=%s count=%s min=%s max=%s',*length_detail.groups())
   raise ReadingError('本次解读未能完成，请稍后重试。') from None
