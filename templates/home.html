@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if form.get('quota_exhausted') %}<section class="reading-section"><p>{{ '今日免费初判已用完。已有卦仍可解锁完整解读；解锁不包含新增起卦次数。' if lang=='zh' else 'Your daily free readings are used. You can still unlock a full reading for an existing cast; this does not purchase another cast.' }}</p><a class="button primary" href="{{ url_for('history') }}">{{ '查看已有卦 · 解锁完整解读' if lang=='zh' else 'View existing casts and unlock a full reading' }}</a></section>{% endif %}
 <div class="casting-layout">
 <section class="casting-intro"><p class="eyebrow">{{t('六十四卦 · 六爻成象')}}</p><h1>{{ '把心中的事，\n交给这一卦。' if lang=='zh' else 'One question.\nSix lines.\nA new perspective.' }}</h1><p class="intro-copy">{{ '掷六次，爻自下而上成卦。\n画中读象，盘中看变。' if lang=='zh' else 'Cast three coins six times. Read the image, then examine the changing lines.' }}</p>
 <div class="sample-frame"><div class="painting atlas-0 cell-0" role="img" aria-label="乾为天：金龙穿云"></div><div><span>{{t('01 · 乾为天')}}</span><small>{{t('刚健 · 创造')}}</small></div></div>
