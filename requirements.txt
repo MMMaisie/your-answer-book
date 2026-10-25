@@ -3,3 +3,4 @@ openai==3.24.0
 stripe==16.0.0
 lunar_python==1.4.8
 gunicorn==26.2.0
+tzdata>=2026.1,<2027

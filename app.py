@@ -10,9 +10,12 @@ import stripe
 from reading_guard import validate_chart_claims
 from hexagrams import HEXAGRAMS,build_cast
 from i18n import t,hx
-from simple_reading import VERSION as SIMPLE_VERSION, generate as simple_generate, render as simple_render, reference_label as simple_reference_label, REFERENCES as SIMPLE_REFERENCES
+from simple_reading import VERSION as SIMPLE_VERSION, generate as simple_generate, generate_paid as simple_generate_paid, render as simple_render, reference_label as simple_reference_label, REFERENCES as SIMPLE_REFERENCES
 from external_references import search as web_search
 from coarse_timing import validate_coarse_timing
+from security_controls import private_access,bounded_client,CallLimitError
+from membership import Membership,AccessError
+from storage_checks import mounted_database
 
 TIMEZONE_LABELS={'Asia/Shanghai':('中国 · 北京','China · Beijing'),'Asia/Hong_Kong':('中国 · 香港','China · Hong Kong'),'Asia/Singapore':('新加坡','Singapore'),'Australia/Adelaide':('澳大利亚 · 阿德莱德','Australia · Adelaide'),'Australia/Sydney':('澳大利亚 · 悉尼','Australia · Sydney'),'Australia/Brisbane':('澳大利亚 · 布里斯班','Australia · Brisbane'),'Australia/Perth':('澳大利亚 · 珀斯','Australia · Perth'),'America/Los_Angeles':('美国 · 洛杉矶','United States · Los Angeles'),'America/New_York':('美国 · 纽约','United States · New York'),'Europe/London':('英国 · 伦敦','United Kingdom · London'),'UTC':('协调世界时 · UTC','Coordinated Universal Time · UTC')}
 ROOT=Path(__file__).resolve().parent
@@ -42,13 +45,13 @@ PRICE_ID=os.getenv(STRIPE_ENV_PREFIX+'PRICE_ID','')
 PAYMENT_STATUS='test_paid' if STRIPE_TEST_MODE else 'paid'
 def checkout_ready():
  return bool(stripe_client and PRICE_ID and PUBLIC_URL and SUPPORT_EMAIL and
-             os.getenv(STRIPE_ENV_PREFIX+'WEBHOOK_SECRET') and (STORAGE_DURABLE or STRIPE_TEST_MODE))
+             os.getenv(STRIPE_ENV_PREFIX+'WEBHOOK_SECRET') and ((STORAGE_DURABLE and mounted_database(app.config['DB_PATH'])) or STRIPE_TEST_MODE))
 PUBLIC_URL=(os.getenv('PUBLIC_BASE_URL') or os.getenv('RENDER_EXTERNAL_URL','')).rstrip('/')
 AI_KEY=os.getenv('DEEPSEEK_API_KEY','')
 AI_MODEL=os.getenv('DEEPSEEK_MODEL','deepseek-v4-pro').strip().lower()
 NARRATOR_MODEL=os.getenv('DEEPSEEK_NARRATOR_MODEL','deepseek-flash').strip().lower()
 PAID_MODEL=os.getenv('DEEPSEEK_PAID_MODEL',AI_MODEL).strip().lower()
-PROMPT_VERSION=SIMPLE_VERSION+'-'+hashlib.sha256(Path(__file__).read_bytes()).hexdigest()[:10]
+PROMPT_VERSION=SIMPLE_VERSION+'-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('membership.py','security_controls.py','storage_checks.py','external_references.py'))).hexdigest()[:10]
 AI_TIMEOUT=90
 GENERATION_LOCK_TTL=max(600,AI_TIMEOUT*6+60)
 
@@ -107,9 +110,12 @@ init_db()
 
 @app.before_request
 def prepare():
+ blocked=private_access()
+ if blocked is not None:return blocked
  session.permanent=True
  if 'owner' not in session:session['owner']=secrets.token_urlsafe(24)
  if 'csrf' not in session:session['csrf']=secrets.token_urlsafe(24)
+ g.account=members.user()
  g.lang=request.args.get('lang') or session.get('lang','zh')
  if g.lang not in ('zh','en'):g.lang='zh'
  session['lang']=g.lang
@@ -121,7 +127,7 @@ def prepare():
 def headers(r):
  r.headers['X-Content-Type-Options']='nosniff';r.headers['X-Frame-Options']='DENY'
  r.headers['Referrer-Policy']='no-referrer'
- r.headers['Content-Security-Policy']="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; form-action 'self' https://checkout.stripe.com; frame-ancestors 'none'; base-uri 'self'"
+ r.headers['Content-Security-Policy']="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com; form-action 'self' https://checkout.stripe.com; frame-ancestors 'none'; base-uri 'self'"
  if request.path.startswith(('/r/','/reading/','/payment','/history')):
   r.headers['Cache-Control']='private, no-store';r.headers['X-Robots-Tag']='noindex, nofollow'
  return r
@@ -150,7 +156,9 @@ SAFE_VALIDATION_MESSAGES = frozenset(['English language leakage', 'absolute outc
 
 def safe_failure_details(error):
  import traceback
- message=str(error)
+ underlying=error
+ while underlying.__cause__ is not None and isinstance(underlying.__cause__,(ValueError,TypeError,KeyError)):underlying=underlying.__cause__
+ message=str(underlying)
  reason=message if message in SAFE_VALIDATION_MESSAGES else "unclassified"
  frames=traceback.extract_tb(error.__traceback__)
  allowed={"simple_reading.py","reading_guard.py","theory_facts.py","coarse_timing.py","app.py"}
@@ -158,56 +166,40 @@ def safe_failure_details(error):
  return reason," > ".join(locations[-6:]) or "no_application_frame"
 
 def call_ai(question,cast,lang,tier,free=''):
- if not AI_KEY:raise ReadingError('解读服务暂未开启。卦盘仍可浏览，请稍后再试。')
+ if not AI_KEY:raise ReadingError('AI服务尚未配置。 / AI service is not configured.')
+ if os.getenv('AI_ENABLED','1')!='1':raise ReadingError('AI服务暂时暂停。 / AI generation is paused.')
  key=bundle_key(question,cast)
  try:
   with connect() as c:row=c.execute('SELECT bundle_json FROM simple_reading_bundles WHERE cache_key=?',(key,)).fetchone()
-  if row:stored=json.loads(row['bundle_json'])
-  else:
-   if tier=='paid':raise ReadingError('请先生成本卦初判，再查看完整解读。')
+  stored=json.loads(row['bundle_json']) if row else None
+  if tier=='paid':
+   # Payment/credit authorisation is checked again at the actual provider boundary.
+   with connect() as c:r=c.execute('SELECT * FROM readings WHERE cache_key IS NOT NULL AND question=? AND words=? ORDER BY created_at DESC',(question,','.join(map(str,cast['words'])))).fetchall()
+   authorized=any(bundle_key(question,cast_from_row(x))==key and (paid(x['seed_key']) or members.held(x['seed_key'])) for x in r)
+   if not authorized:raise ReadingError('请先付款或使用一次余额。 / Payment or a reading credit is required.')
+   if not stored:raise ReadingError('请先生成初判。 / Generate the initial reading first.')
+   if 'paid' not in stored['bundle']:
+    with OpenAI(api_key=AI_KEY,base_url='https://api.deepseek.com',timeout=AI_TIMEOUT,max_retries=0) as client:
+     parts=simple_generate_paid(bounded_client(client,connect),question,cast,AI_MODEL,stored['bundle'],lambda topics:web_search(topics,connect=connect),stored.get('external_reference'))
+    stored['bundle']['paid']=parts
+    with connect() as c:c.execute('UPDATE simple_reading_bundles SET bundle_json=? WHERE cache_key=?',(canonical(stored),key))
+  elif not stored:
    with OpenAI(api_key=AI_KEY,base_url='https://api.deepseek.com',timeout=AI_TIMEOUT,max_retries=0) as client:
-    stored=simple_generate(client,question,cast,AI_MODEL,web_search)
+    stored=simple_generate(bounded_client(client,connect),question,cast,AI_MODEL,lambda topics:web_search(topics,connect=connect))
    with connect() as c:c.execute('INSERT OR IGNORE INTO simple_reading_bundles VALUES(?,?)',(key,canonical(stored)))
-  bundle=stored['bundle'];text=simple_render(bundle,tier)
-  if tier=='paid' and stored.get('external_references'):text+='\n网络补充（检索摘要，不是书中卦例）：\n'+'\n'.join(r['url'] for r in stored['external_references'])
-  if lang=='en':return call_translation(text,'en',tier,cast,question)
-  return text
+  text=simple_render(stored['bundle'],tier)
+  return call_translation(text,'en',tier,cast,question) if lang=='en' else text
  except ReadingError:raise
  except Exception as error:
-  app.logger.warning('Simple reading failed: category=%s status=%s',failure_category(error),getattr(error,'status_code',None))
   reason,location=safe_failure_details(error)
-  app.logger.warning('Reading diagnostic: reason=%s location=%s',reason,location)
-  length_detail=re.search(r'(free|paid) length (\d+); allowed (\d+)-(\d+)',str(error))
-  if length_detail:app.logger.warning('Reading length rejected: tier=%s count=%s min=%s max=%s',*length_detail.groups())
-  raise ReadingError('本次解读未能完成，请稍后重试。') from None
+  app.logger.warning('Reading diagnostic: category=%s reason=%s location=%s status=%s',failure_category(error),reason,location,getattr(error,'status_code',None))
+  if isinstance(error,CallLimitError):raise ReadingError('服务调用额度已达上限，请稍后再试。 / Service usage limit reached.') from None
+  if getattr(error,'status_code',None)==402:raise ReadingError('AI服务余额不足，请联系网站管理员。 / AI service balance is insufficient.') from None
+  raise ReadingError('本次解读未能完成，未扣取解读次数。 / Generation failed; no reading credit was charged.') from None
 
 def paid(seed):
+ if members.entitled(seed):return True
  with connect() as c:return c.execute("SELECT 1 FROM payments WHERE seed_key=? AND status=?",(seed,PAYMENT_STATUS)).fetchone() is not None
-
-def consume_quota(kind='free'):
- day=datetime.now(ZoneInfo('Asia/Shanghai')).strftime('%Y-%m-%d')
- # Only trust the direct peer. With a known reverse proxy, set TRUST_PROXY=1 and use exactly one trusted hop.
- ip=request.remote_addr or 'unknown'
- digest=hmac.new(app.secret_key.encode(),ip.encode(),hashlib.sha256).hexdigest()
- owner=session['owner']
- if kind=='free':buckets=[('owner-success-v45:'+owner,int(os.getenv('FREE_DAILY_LIMIT','3'))),('ip:'+digest,int(os.getenv('IP_DAILY_LIMIT','12'))),('global',int(os.getenv('GLOBAL_DAILY_LIMIT','100')))]
- elif kind=='free-operation':buckets=[('ip:'+digest,int(os.getenv('IP_DAILY_LIMIT','12'))),('global',int(os.getenv('GLOBAL_DAILY_LIMIT','100')))]
- else:buckets=[('paid-retry:'+owner,5),('paid-global',int(os.getenv('PAID_DAILY_LIMIT','100')))]
- with connect() as c:
-  c.execute('BEGIN IMMEDIATE')
-  for bucket,limit in buckets:
-   r=c.execute('SELECT count FROM usage WHERE bucket=? AND day=?',(bucket,day)).fetchone()
-   if r and r['count']>=limit:
-    if bucket.startswith('owner-success-'):raise ReadingError('今日解读次数已用完。可以查看已有卦，解锁完整解读；新的免费初判请明天再来。')
-    raise ReadingError('服务今日请求额度已达上限，请稍后或明天再试。')
-  for bucket,_ in buckets:c.execute('INSERT INTO usage VALUES(?,?,1) ON CONFLICT(bucket,day) DO UPDATE SET count=count+1',(bucket,day))
-  c.execute('DELETE FROM usage WHERE day<?',((datetime.now()-timedelta(days=7)).strftime('%Y-%m-%d'),))
- return {'bucket':'owner-success-v45:'+owner,'day':day} if kind=='free' else None
-
-def refund_failed_free(reservation):
- if not reservation:return
- with connect() as c:
-  c.execute('UPDATE usage SET count=MAX(0,count-1) WHERE bucket=? AND day=?',(reservation['bucket'],reservation['day']))
 
 def cast_from_row(r):
  try:
@@ -230,25 +222,16 @@ def cached_text(r,tier,lang):
 
 def call_translation(text,lang,tier,cast=None,question=''):
  if lang!='en':return text
- if not AI_KEY:raise ReadingError('英文解读暂未开启。')
+ if not AI_KEY or os.getenv('AI_ENABLED','1')!='1':raise ReadingError('英文解读暂未开启。 / Translation is unavailable.')
  try:
   from simple_reading import HEADINGS,FIELDS,translate
   body=text.split('【规则依据】')[0]
   values=re.split(r'【[^】]+】',body)[1:]
   if len(values)!=len(FIELDS[tier]):raise ValueError('invalid source sections')
   parts=dict(zip(FIELDS[tier],[v.strip() for v in values]))
-  bundle=None;external=[]
-  if tier=='paid':
-   key=bundle_key(question,cast)
-   with connect() as c:row=c.execute('SELECT bundle_json FROM simple_reading_bundles WHERE cache_key=?',(key,)).fetchone()
-   if not row:raise ValueError('canonical source record missing')
-   stored=json.loads(row['bundle_json']);bundle=stored['bundle'];external=stored.get('external_references',[])
   with OpenAI(api_key=AI_KEY,base_url='https://api.deepseek.com',timeout=AI_TIMEOUT,max_retries=0) as client:
-   translated=translate(client,parts,tier,cast or {},NARRATOR_MODEL,bundle['sources'] if bundle else ())
+   translated=translate(bounded_client(client,connect),parts,tier,cast or {},NARRATOR_MODEL)
   result='\n'.join('【'+h+'】'+translated['parts'][f] for h,f in zip(HEADINGS['en'][tier],FIELDS[tier]))
-  if bundle:
-   result+='\n【Source notes】\n'+'\n'.join(simple_reference_label(SIMPLE_REFERENCES[s['id']],'en')+' — '+note for s,note in zip(bundle['sources'],translated['source_applications']))
-   if external:result+='\nWeb supplements (search excerpts; not book cases):\n'+'\n'.join(r['url'] for r in external)
   return result
  except Exception as error:
   app.logger.warning('Simple translation failed: category=%s status=%s',failure_category(error),getattr(error,'status_code',None))
@@ -273,7 +256,6 @@ def generate_text(r,tier,lang):
   r=refreshed
   cached=cached_text(r,tier,lang)
   if cached:return cached
-  consume_quota('paid' if tier=='paid' else 'free-operation')
   original=cached_text(r,tier,'zh') if lang=='en' else ''
   if original:text=call_translation(original,'en',tier,cast_from_row(r),r['question'])
   else:
@@ -306,37 +288,61 @@ def home():
  form={}
  if request.method=='POST':
   form=request.form.to_dict()
-  reservation=None
+  trial=None;hold=None;request_lock=None
   try:
+   members.rate('generation',6,3600)
    question=request.form.get('question','').strip()
-   if not 4<=len(question)<=600:raise ValueError('问题请写4—600个字，并尽量说明目标与时限。')
+   if not 2<=len(question)<=500:raise ValueError('问题请写2—500个字。')
    words=[request.form.get(f'word{i}','') for i in range(1,7)]
    dt=datetime.fromisoformat(request.form.get('cast_time',''))
-   if dt.tzinfo is not None or not 1900<=dt.year<=2100:raise ValueError('请使用1900—2100年之间的有效起卦时间。')
+   if dt.tzinfo is not None or dt.second or dt.microsecond or not 1900<=dt.year<=2100:raise ValueError('请使用1900—2100年之间的有效起卦时间。')
    tz=request.form.get('timezone','Asia/Shanghai');ZoneInfo(tz)
    cast=build_cast(words,dt,tz)
    normalized=' '.join(question.split())
-   cache_key=hashlib.sha256(json.dumps([PROMPT_VERSION,g.lang,normalized,dt.isoformat(),tz,words],ensure_ascii=False).encode()).hexdigest()
+   cache_key=hashlib.sha256(json.dumps([PROMPT_VERSION,normalized,dt.isoformat(),tz,words],ensure_ascii=False).encode()).hexdigest()
    with connect() as c:
     cached=c.execute('SELECT access_key FROM readings WHERE cache_key=? AND owner_id=?',(cache_key,session['owner'])).fetchone()
    if cached:return redirect(url_for('reading_page',access=cached['access_key']))
-   reservation=consume_quota()
+   pending_key='initial:'+hashlib.sha256((session['owner']+cache_key).encode()).hexdigest()
+   with connect() as c:
+    c.execute('DELETE FROM generation_locks WHERE started_at<?',(time.time()-GENERATION_LOCK_TTL,))
+    try:c.execute('INSERT INTO generation_locks VALUES(?,?)',(pending_key,time.time()))
+    except sqlite3.IntegrityError:raise ReadingError('这个问题正在生成，请稍后查看历史记录。 / This reading is already being generated.')
+   request_lock=pending_key
+   members.captcha()
+   try:trial=members.reserve_trial(verified=True)
+   except AccessError:
+    hold=members.reserve_credit(verified=True)
    text=call_ai(question,cast,'zh','free')
-   translated=call_translation(text,'en','free',cast,question) if g.lang=='en' else None
+   translated=None
    key=secrets.token_urlsafe(24);seed=secrets.token_hex(24)
    with connect() as c:
     c.execute('''INSERT INTO readings(seed_key,lang,question,cast_time,words,free_text,paid_text,created_at,
       access_key,owner_id,timezone,prompt_version,cache_key) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)''',
       (seed,'zh',question,dt.strftime('%Y-%m-%d %H:%M'),','.join(words),text,'',datetime.now().isoformat(),key,session['owner'],tz,PROMPT_VERSION,cache_key))
     if translated:c.execute('INSERT INTO reading_translations VALUES(?,?,?,?,?)',(seed,'en','free',translated,PROMPT_VERSION))
-   reservation=None
+   if hold:
+    members.bind_hold(hold,seed)
+    with connect() as c:new_reading=c.execute('SELECT * FROM readings WHERE seed_key=?',(seed,)).fetchone()
+    generate_text(new_reading,'paid','zh')
+    members.finish_credit(hold,True);hold=None
+   members.finish_trial(trial,True);trial=None
+   if g.lang=='en':
+    try:
+     with connect() as c:new_reading=c.execute('SELECT * FROM readings WHERE seed_key=?',(seed,)).fetchone()
+     generate_text(new_reading,'free','en')
+     if paid(seed):generate_text(new_reading,'paid','en')
+    except ReadingError as error:flash(str(error),'error')
    return redirect(url_for('reading_page',access=key))
   except (ValueError,ZoneInfoNotFoundError):flash('请检查问题、六次结果和起卦时间。','error')
-  except ReadingError as e:
+  except (ReadingError,AccessError) as e:
    flash(str(e),'error')
    if '今日解读次数已用完' in str(e):form['quota_exhausted']=True
-  finally:refund_failed_free(reservation)
- return render_template('home.html',form=form,free_limit=os.getenv('FREE_DAILY_LIMIT','3'))
+  finally:
+   members.finish_trial(trial,False);members.finish_credit(hold,False)
+   if request_lock:
+    with connect() as c:c.execute('DELETE FROM generation_locks WHERE seed_key=?',(request_lock,))
+ return render_template('home.html',form=form,free_limit='1')
 
 @app.route('/r/<access>')
 def reading_page(access):
@@ -345,14 +351,20 @@ def reading_page(access):
  # No paid generation on GET: refreshes, previews and crawlers must not trigger model spend.
  full=cached_text(r,'paid',g.lang) if unlocked else ''
  return render_template('reading.html',reading=r,cast=cast_from_row(r),unlocked=unlocked,full=full,free_text=cached_text(r,'free',g.lang),
-   checkout_enabled=checkout_ready(),share=False)
+   checkout_enabled=checkout_ready(),wallet_enabled=members.ready(),share=False)
 
 @app.post('/r/<access>/full')
 def full_reading(access):
- r=fetch_private(access)
- if not paid(r['seed_key']):abort(403)
- try:generate_paid(r)
- except ReadingError as e:flash(str(e),'error')
+ r=fetch_private(access);hold=None
+ try:
+  members.rate('full',6,3600)
+  if not paid(r['seed_key']):
+   hold=members.reserve_credit(r['seed_key'])
+  generate_text(r,'paid','zh')
+  members.finish_credit(hold,True);hold=None
+  if g.lang=='en':generate_text(r,'paid','en')
+ except (ReadingError,AccessError) as e:flash(str(e),'error')
+ finally:members.finish_credit(hold,False)
  return redirect(url_for('reading_page',access=access))
 
 @app.get('/reading/<seed_key>')
@@ -402,14 +414,19 @@ def demo():
 @app.get('/policy')
 def policy():return render_template('policy.html')
 
+@app.context_processor
+def account_context():
+ u=members.user()
+ return {'account_user':({k:u[k] for k in ('id','email','verified')} if u else None),'account_balance':members.balance(u['id']) if u else 0,'turnstile_site_key':os.getenv('TURNSTILE_SITE_KEY','') if not os.getenv('SITE_ACCESS_PASSWORD') else ''}
+
 @app.get('/healthz')
 def health():
  with connect() as c:c.execute('SELECT 1')
- return jsonify(ok=True,version=PROMPT_VERSION,ai_model=AI_MODEL,case_archive=133,case_retrieval=112,reading_pipeline="book_reference_model_reasoning",web_search_enabled=bool(os.getenv("BRAVE_SEARCH_API_KEY")),languages=['zh','en'],payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready())
+ return jsonify(ok=True,private_test_enabled=bool(os.getenv("SITE_ACCESS_PASSWORD")),version=PROMPT_VERSION,ai_model=AI_MODEL,case_archive=133,case_retrieval=112,reading_pipeline="book_reference_model_reasoning",web_search_enabled=bool(AI_KEY) and os.getenv("WEB_SEARCH_ENABLED","1")=="1",languages=['zh','en'],payment_mode=STRIPE_MODE,checkout_enabled=members.ready(),generation_mode='paid_deferred',currency='aud',output_limits={'zh_free':50,'zh_paid':300,'en_free':60,'en_paid':350},mounted_storage=mounted_database(app.config['DB_PATH']))
 
 def fulfill(session_data,expected_seed=None):
  if session_data.get('livemode') is not (not STRIPE_TEST_MODE):return False
- if not STRIPE_TEST_MODE and not STORAGE_DURABLE:return False
+ if not STRIPE_TEST_MODE and not (STORAGE_DURABLE and mounted_database(app.config['DB_PATH'])):return False
  sid=session_data.get('id');seed=(session_data.get('metadata') or {}).get('seed_key')
  if session_data.get('payment_status')!='paid' or not sid or not seed:return False
  if expected_seed and seed!=expected_seed:return False
@@ -423,24 +440,8 @@ def fulfill(session_data,expected_seed=None):
 
 @app.post('/r/<access>/checkout')
 def checkout(access):
- r=fetch_private(access)
- if paid(r['seed_key']):return redirect(url_for('reading_page',access=access))
- if not checkout_ready():flash('付款服务暂未开启。','error');return redirect(url_for('reading_page',access=access))
- try:
-  price=stripe_client.v1.prices.retrieve(PRICE_ID)
-  if price.livemode is not (not STRIPE_TEST_MODE) or not price.active or price.type!='one_time':raise ValueError('Invalid price')
-  params=dict(mode='payment',line_items=[{'price':PRICE_ID,'quantity':1}],
-    integration_identifier='answerbook_'+''.join(secrets.choice('abcdefghijklmnopqrstuvwxyz') for _ in range(8)),
-    metadata={'seed_key':r['seed_key']},
-    success_url=PUBLIC_URL+url_for('payment_success',seed_key=r['seed_key'])+'?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url=PUBLIC_URL+url_for('reading_page',access=access))
-  s=stripe_client.v1.checkout.sessions.create(params)
-  if s.livemode is not (not STRIPE_TEST_MODE):raise ValueError('Invalid session mode')
-  with connect() as c:c.execute('INSERT OR IGNORE INTO orders VALUES(?,?,?,?)',(s.id,r['seed_key'],PRICE_ID,datetime.now().isoformat()))
-  return redirect(s.url,code=303)
- except Exception:
-  app.logger.warning('Checkout creation failed.');flash('付款暂未发起，请稍后再试。','error')
-  return redirect(url_for('reading_page',access=access))
+ fetch_private(access)
+ return redirect(url_for('account.wallet'))
 
 @app.get('/payment/success/<seed_key>')
 def payment_success(seed_key):
@@ -468,7 +469,12 @@ def stripe_webhook():
  except (ValueError,stripe.SignatureVerificationError):return jsonify(error='invalid signature'),400
  if e.get('livemode') is not (not STRIPE_TEST_MODE):return jsonify(error='wrong mode'),400
  if e['type'] in ('checkout.session.completed','checkout.session.async_payment_succeeded'):
-  fulfill(e['data']['object'])
+  obj=e['data']['object']
+  if (obj.get('metadata') or {}).get('wallet_account_id'):
+   if obj.get('payment_status')=='paid' and not members.fulfill(obj):return jsonify(error='order not ready'),503
+  else:fulfill(obj)
+ if e['type']=='charge.refunded':members.reverse_payment(e['data']['object'])
+ if e['type']=='charge.dispute.created':members.reverse_payment(e['data']['object'],True)
  return jsonify(received=True)
 
 @app.errorhandler(400)
@@ -478,6 +484,9 @@ def stripe_webhook():
 @app.errorhandler(500)
 @app.errorhandler(503)
 def error_page(e):return render_template('error.html',status=e.code),e.code
+
+import sys
+members=Membership(sys.modules[__name__])
 
 if os.getenv('TRUST_PROXY','0')=='1':
  from werkzeug.middleware.proxy_fix import ProxyFix

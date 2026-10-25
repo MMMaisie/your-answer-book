@@ -131,3 +131,6 @@ cardDialog?.addEventListener('click',e=>{if(e.target===cardDialog){const r=cardD
 document.addEventListener('click',async e=>{const a=e.target.closest('a[href]');if(!a)return;const match=a.getAttribute('href').match(/^\/deck\/(\d+)(?:\?.*)?$/);if(!match||e.ctrlKey||e.metaKey||e.shiftKey)return;e.preventDefault();if(!deck.length){await deckReady;}const h=deck.find(h=>h.number===Number(match[1]));if(h){openCard(h);}else{location.href=a.href;}});
 
 document.querySelectorAll('[data-plate-toggle]').forEach(b=>b.addEventListener('click',()=>{const plate=b.closest('.unified-plate');const expanded=plate.classList.toggle('show-technical');b.setAttribute('aria-expanded',String(expanded));b.textContent=expanded?(zh?'收起排盘详情':'Hide chart details'):(zh?'展开排盘详情':'Show chart details');}));
+
+// Email tokens arrive in the fragment, so web access logs do not receive them.
+const accountToken=document.getElementById("account-token");if(accountToken){accountToken.value=new URLSearchParams(location.hash.slice(1)).get("token")||"";history.replaceState(null,"",location.pathname+location.search);}
