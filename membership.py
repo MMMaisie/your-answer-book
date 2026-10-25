@@ -137,8 +137,25 @@ class Membership:
     if os.getenv('SMTP_USERNAME'):s.login(os.environ['SMTP_USERNAME'],os.environ.get('SMTP_PASSWORD',''))
     s.send_message(message)
   except Exception:raise AccessError('邮件发送失败，请稍后重新发送。 / Email delivery failed. Try again later.') from None
+ def current_reading(self,seed=None):
+  # Resolve only records owned by this session/account; never trust a return URL.
+  owner=session.get('owner')
+  if not owner:return None
+  candidate=seed or session.get('return_reading')
+  with self.s.connect() as c:
+   if candidate:
+    row=c.execute('SELECT seed_key,access_key,question FROM readings WHERE seed_key=? AND owner_id=?',(candidate,owner)).fetchone()
+    if row:return row
+   if seed:return None
+   return c.execute('SELECT seed_key,access_key,question FROM readings WHERE owner_id=? ORDER BY created_at DESC LIMIT 1',(owner,)).fetchone()
+ def remember_reading(self,row):
+  if row['owner_id']==session.get('owner'):session['return_reading']=row['seed_key']
+ def login_destination(self):
+  row=self.current_reading()
+  return url_for('reading_page',access=row['access_key']) if row else url_for('account.wallet')
  def login(self,u):
-  owner=session.get('owner');csrf=session.get('csrf');lang=session.get('lang','zh');session.clear();session.update(account_id=u['id'],account_version=u['session_version'],owner='acct:'+u['id'],csrf=secrets.token_urlsafe(24),lang=lang)
+  owner=session.get('owner');pending=session.get('return_reading');lang=session.get('lang','zh');session.clear();session.update(account_id=u['id'],account_version=u['session_version'],owner='acct:'+u['id'],csrf=secrets.token_urlsafe(24),lang=lang)
+  if pending:session['return_reading']=pending
   if owner and not owner.startswith('acct:'):
    with self.s.connect() as c:
     c.execute('UPDATE readings SET owner_id=? WHERE owner_id=?',('acct:'+u['id'],owner))
@@ -174,7 +191,7 @@ class Membership:
      with self.s.connect() as c:u=c.execute('SELECT * FROM accounts WHERE email=?',(email,)).fetchone()
      if len(password)>256 or not u or not check_password_hash(u['password_hash'],password):raise AccessError('邮箱或密码不正确。 / Invalid email or password.')
      if not u['verified']:raise AccessError('请先验证邮箱，可使用“重新发送”。 / Verify your email first; use resend if needed.')
-     self.login(u);return redirect(url_for('account.wallet'))
+     self.login(u);return redirect(self.login_destination())
     except AccessError as e:flash(str(e),'error')
    return render_template('account.html',mode='login')
   @bp.post('/account/logout')
@@ -209,11 +226,13 @@ class Membership:
    return render_template('account.html',mode='token',purpose=purpose)
   @bp.get('/account/wallet')
   def wallet():
+   requested=self.current_reading(request.args.get('reading')) if request.args.get('reading') else None
+   if requested:session['return_reading']=requested['seed_key']
    self.recover_holds()
    u=self.user()
    if not u:return redirect(url_for('account.signin'))
    with self.s.connect() as c:history=c.execute('SELECT delta,reason,created FROM credit_ledger WHERE account_id=? ORDER BY created DESC LIMIT 30',(u['id'],)).fetchall()
-   return render_template('wallet.html',balance=self.balance(u['id']),products=PRODUCTS,ledger=history,wallet_ready=self.ready())
+   return render_template('wallet.html',return_reading=self.current_reading(),balance=self.balance(u['id']),products=PRODUCTS,ledger=history,wallet_ready=self.ready())
   @bp.post('/account/buy/<sku>')
   def buy(sku):
    try:
@@ -222,7 +241,8 @@ class Membership:
     if not self.ready():raise AccessError('支付暂未开放。 / Checkout is unavailable.')
     if not self.s.STRIPE_TEST_MODE:self.check_provider_balance()
     amount,credits=PRODUCTS[sku];nonce=secrets.token_hex(16)
-    params={'mode':'payment','line_items':[{'price_data':{'currency':'aud','unit_amount':amount,'product_data':{'name':f'Your Answer Book — {credits} reading credit(s)'}},'quantity':1}], 'metadata':{'wallet_account_id':u['id'],'sku':sku,'order_nonce':nonce},'success_url':self.s.PUBLIC_URL+url_for('account.return_payment')+'?session_id={CHECKOUT_SESSION_ID}','cancel_url':self.s.PUBLIC_URL+url_for('account.wallet'),'integration_identifier':'answerbook_'+''.join(secrets.choice('abcdefghijklmnopqrstuvwxyz') for _ in range(8))}
+    pending=self.current_reading()
+    params={'mode':'payment','line_items':[{'price_data':{'currency':'aud','unit_amount':amount,'product_data':{'name':f'Your Answer Book — {credits} reading credit(s)'}},'quantity':1}], 'metadata':{'wallet_account_id':u['id'],'sku':sku,'order_nonce':nonce,**({'reading_seed':pending['seed_key']} if pending else {})},'success_url':self.s.PUBLIC_URL+url_for('account.return_payment')+'?session_id={CHECKOUT_SESSION_ID}','cancel_url':self.s.PUBLIC_URL+url_for('account.wallet'),'integration_identifier':'answerbook_'+''.join(secrets.choice('abcdefghijklmnopqrstuvwxyz') for _ in range(8))}
     checkout=self.s.stripe_client.v1.checkout.sessions.create(params,options={'idempotency_key':nonce})
     if checkout.livemode is not (not self.s.STRIPE_TEST_MODE):raise AccessError('Payment mode mismatch.')
     with self.s.connect() as c:c.execute('INSERT INTO wallet_orders(session_id,account_id,sku,amount,credits,mode,status) VALUES(?,?,?,?,?,?,?)',(checkout.id,u['id'],sku,amount,credits,self.s.STRIPE_MODE,'pending'))
@@ -241,6 +261,8 @@ class Membership:
     if (d.get('metadata') or {}).get('wallet_account_id')!=u['id']:abort(403)
     if not self.fulfill(d):raise AccessError('付款尚未确认。稍后从余额页核对。 / Payment not confirmed yet. Check your balance later.')
     flash('付款已确认，次数已到账。 / Payment confirmed. Credits added.')
+    pending=self.current_reading((d.get('metadata') or {}).get('reading_seed')) if (d.get('metadata') or {}).get('reading_seed') else None
+    if pending:return redirect(url_for('reading_page',access=pending['access_key']))
    except AccessError as e:flash(str(e),'error')
    except self.s.stripe.StripeError:flash('暂时无法核对付款，请稍后重试。 / Could not check payment yet.','error')
    return redirect(url_for('account.wallet'))

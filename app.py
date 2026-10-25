@@ -347,6 +347,7 @@ def home():
 @app.route('/r/<access>')
 def reading_page(access):
  r=fetch_private(access)
+ members.remember_reading(r)
  unlocked=paid(r['seed_key'])
  # No paid generation on GET: refreshes, previews and crawlers must not trigger model spend.
  full=cached_text(r,'paid',g.lang) if unlocked else ''
@@ -440,7 +441,8 @@ def fulfill(session_data,expected_seed=None):
 
 @app.post('/r/<access>/checkout')
 def checkout(access):
- fetch_private(access)
+ r=fetch_private(access)
+ members.remember_reading(r)
  return redirect(url_for('account.wallet'))
 
 @app.get('/payment/success/<seed_key>')
