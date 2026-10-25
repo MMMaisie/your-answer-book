@@ -11,7 +11,7 @@ RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).rea
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v48-web-reference-no-legacy-caps-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v48.1-reference-repair-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -100,13 +100,20 @@ def options(model,max_tokens=4096):
  else:r['temperature']=0.25
  return r
 
+class ReferenceValidationError(ValueError):
+ def __init__(self,refs):
+  super().__init__('invalid reference')
+  self.allowed_ids=sorted(refs)
+
 def validate_sources(sources,refs):
- if not isinstance(sources,list) or not 1<=len(sources)<=3:raise ValueError('invalid reference')
+ if not isinstance(sources,list) or not sources:raise ReferenceValidationError(refs)
  ids=[]
- for s in sources:
-  if not isinstance(s,dict) or not isinstance(s.get('id'),str) or s['id'] not in refs:raise ValueError('invalid reference')
-  ids.append(s['id'])
- if len(set(ids))!=len(ids):raise ValueError('duplicate references')
+ for source in sources:
+  identifier=source.get('id') if isinstance(source,dict) else source
+  if not isinstance(identifier,str) or identifier.strip() not in refs:raise ReferenceValidationError(refs)
+  identifier=identifier.strip()
+  if identifier not in ids:ids.append(identifier)
+ if len(ids)>3:raise ReferenceValidationError(refs)
  return [{'id':i} for i in ids]
 
 def _request(client,model,messages,validator,max_tokens=4096):
@@ -119,7 +126,10 @@ def _request(client,model,messages,validator,max_tokens=4096):
   except (ValueError,TypeError,KeyError) as error:
    if attempt:raise ValueError('reading validation rejected') from error
    # Never include arbitrary exception text, user secrets, or a new judgement instruction.
-   messages=messages+[{'role':'assistant','content':raw},{'role':'user','content':'仅修正JSON字段、字数和基础事实错误，不改变综合倾向。严格遵守原请求的输出结构和长度上限；不要添加标题，不截断句子。 / Correct the requested JSON and length limits, preserving the same interpretation.'}]
+   correction='仅修正JSON字段、字数和基础事实错误，不改变综合倾向。严格遵守原请求的输出结构和长度上限；不要添加标题，不截断句子。 / Correct the requested JSON and length limits, preserving the same interpretation.'
+   if isinstance(error,ReferenceValidationError):
+    correction+=' 引用校验失败。sources必须为1至3个不同对象，每项形如{"id":"原样复制的有效编号"}。仅引用实际用于判断的输入资料，不捏造页码、编号或引用。允许编号：'+json.dumps(error.allowed_ids,ensure_ascii=False)
+   messages=messages+[{'role':'assistant','content':raw},{'role':'user','content':correction}]
 
 def attach_web(data,refs,external):
  if not isinstance(external,dict):external={'status':'UNAVAILABLE','results':[]}
@@ -146,6 +156,7 @@ def generate(client,question,cast,model,external_search=None):
   parts=check_parts(normalize_parts(v.get('free'),'free'),'free','zh',cast)
   return {'outlook':v['outlook'],'analysis':analysis,'free':parts,'sources':validate_sources(v.get('sources'),refs),'needs_web':v.get('needs_web') is True,'search_topics':[t for t in v.get('search_topics',[]) if isinstance(t,str)][:3] if isinstance(v.get('search_topics',[]),list) else []}
  task={'task':'仅生成免费初判与简短内部判断记录；禁止生成付费全文或paid字段。判断参考案例是否适合：仅有主题相同而关键条件不同也可认为需要联网补充。','schema':{'outlook':'favorable/mixed/difficult/unclear','analysis':'内部依据简记，最多600字，目标200字，不写完整付费解读','free':{'direction':'直接回应问题，仅整体倾向；中文最多50字，目标30至40字'},'sources':[{'id':'仅使用输入中的有效ID，1至3项；网络ID为web-开头，不冒充书籍'}],'needs_web':'若案例范围不足且尚无网络补充则true，否则false','search_topics':'通用类别数组：婚恋/求职/求财/健康/出行/失物/房屋/文书/诉讼/天气/学业/宠物/人际/其他，不写用户姓名或原问题'},'reference':data}
+ task['allowed_source_ids']=sorted(refs)
  messages=[{'role':'system','content':SYSTEM},{'role':'user','content':json.dumps(task,ensure_ascii=False)}]
  value=_request(client,model,messages,check)
  if value['needs_web'] and not searched and external_search:
@@ -153,7 +164,7 @@ def generate(client,question,cast,model,external_search=None):
   attach_web(data,refs,try_search(external_search,topics));searched=True
   if data['external_reference'].get('results'):
    # Not yet delivered: revise the initial reading once from the enriched evidence.
-   messages=messages+[{'role':'assistant','content':json.dumps(value,ensure_ascii=False)},{'role':'user','content':json.dumps({'task':'参考以下检索补充，重新返回同一免费JSON；基础卦盘和五行仍以程序为准，免费最多50字，不生成付费全文。','external_reference':data['external_reference']},ensure_ascii=False)}]
+   messages=messages+[{'role':'assistant','content':json.dumps(value,ensure_ascii=False)},{'role':'user','content':json.dumps({'task':'参考以下检索补充，重新返回同一免费JSON；基础卦盘和五行仍以程序为准，免费最多50字，不生成付费全文。','external_reference':data['external_reference'],'allowed_source_ids':sorted(refs)},ensure_ascii=False)}]
    initial_value=value
    try:value=_request(client,model,messages,check)
    except Exception:
