@@ -3,7 +3,7 @@ import html,json,os,re,time,hashlib,ipaddress
 from types import SimpleNamespace as NS
 from urllib.request import Request,urlopen
 from urllib.parse import urlparse
-from security_controls import bounded_client,CallLimitError
+from protection import bounded_client,BudgetExceeded
 
 ALLOWED_TOPICS={'婚恋','求职','求财','健康','出行','失物','房屋','文书','诉讼','天气','学业','宠物','人际','其他'}
 
@@ -17,20 +17,19 @@ def public_url(value):
   except ValueError:return True
  except (ValueError,TypeError):return False
 
-def search(topics,connect=None,api_key=None):
+def search(topics,store=None,api_key=None):
  if os.getenv('WEB_SEARCH_ENABLED','1')!='1':return {'status':'DISABLED','results':[]}
  key=api_key or os.getenv('DEEPSEEK_API_KEY','')
- if not key or connect is None:return {'status':'NOT_CONFIGURED','results':[]}
+ if not key or store is None:return {'status':'NOT_CONFIGURED','results':[]}
  # Only fixed general topics are sent. No question, person name, date or client IP.
  safe=sorted(set(topics or ()) & ALLOWED_TOPICS)
  query='卜筮正宗 六爻 '+(' '.join(safe[:3]) if safe else '非常见问事')+' 用神 条件 判断 案例'
  cache_id=hashlib.sha256(query.encode()).hexdigest();now=time.time()
- with connect() as c:
-  c.execute('CREATE TABLE IF NOT EXISTS web_reference_cache(id TEXT PRIMARY KEY,payload TEXT NOT NULL,expires REAL NOT NULL,inflight_until REAL NOT NULL)')
-  c.execute('BEGIN IMMEDIATE');old=c.execute('SELECT payload,expires,inflight_until FROM web_reference_cache WHERE id=?',(cache_id,)).fetchone()
-  if old and old[1]>now:return json.loads(old[0])
-  if old and old[2]>now:return {'status':'BUSY','results':[]}
-  c.execute('INSERT INTO web_reference_cache VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET inflight_until=excluded.inflight_until',(cache_id,'{}',0,now+30))
+ with store.connect() as c:
+  old=c.execute('SELECT payload FROM ab49_search WHERE id=? AND expires>?',(cache_id,now)).fetchone()
+  if old:return json.loads(old['payload'])
+ lock=store.acquire('search:'+cache_id,60)
+ if not lock:return {'status':'BUSY','results':[]}
  result={'status':'UNAVAILABLE','results':[]}
  def perform(**_):
   request=Request('https://api.deepseek.com/v1/tools/search',headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'},data=json.dumps({'query':query,'count':3,'need_content':True},ensure_ascii=False).encode(),method='POST')
@@ -41,7 +40,7 @@ def search(topics,connect=None,api_key=None):
   return NS(data=data,usage=None)
  try:
   client=NS(chat=NS(completions=NS(create=perform)))
-  response=bounded_client(client,connect).chat.completions.create(model='deepseek-search',messages=[],max_tokens=1)
+  response=bounded_client(client,store).chat.completions.create(model='deepseek-search',messages=[],max_tokens=1)
   items=[]
   for row in response.data.get('results',[])[:3]:
    if not isinstance(row,dict) or not public_url(row.get('url','')):continue
@@ -53,8 +52,9 @@ def search(topics,connect=None,api_key=None):
    excerpt+='\n'+re.sub('<[^>]+>','',html.unescape(str(content)))[:1200]
    items.append({'id':'web-'+str(len(items)+1),'title':str(row.get('title',''))[:160],'url':row['url'][:2048],'excerpt':excerpt,'authority':'UNVERIFIED_WEB_SUPPLEMENT'})
   result={'status':'SEARCHED' if items else 'NO_RESULTS','results':items}
- except CallLimitError:result={'status':'LIMIT_REACHED','results':[]}
+ except BudgetExceeded:result={'status':'LIMIT_REACHED','results':[]}
  except Exception:pass  # No raw provider errors, keys or query bodies in logs.
  ttl=86400 if result['status'] in ('SEARCHED','NO_RESULTS') else 300
- with connect() as c:c.execute('UPDATE web_reference_cache SET payload=?,expires=?,inflight_until=0 WHERE id=?',(json.dumps(result,ensure_ascii=False),time.time()+ttl,cache_id))
+ with store.connect() as c:c.execute('INSERT INTO ab49_search VALUES(?,?,?) ON CONFLICT(id) DO UPDATE SET payload=excluded.payload,expires=excluded.expires',(cache_id,json.dumps(result,ensure_ascii=False),time.time()+ttl))
+ store.release('search:'+cache_id,lock)
  return result

@@ -10,7 +10,7 @@ QUESTIONS=[q for g in MATRIX.values() for q in g['questions']]
 @pytest.mark.parametrize('question',QUESTIONS)
 def test_questions_reach_reference_context_without_keyword_gate(question):
  data,refs=engine.context(question,CAST)
- assert data['question']==question and len(data['book_rules'])==141
+ assert data['question']==question and 12<=len(data['book_rules'])<=40
  assert not any(k in data for k in ('allowed_primary_positions','forced_direction','selection','focal_kin'))
  assert all(c['id'] in refs for c in data['book_cases'])
 
@@ -61,7 +61,7 @@ def test_english_translation_limits_and_no_new_interpretation():
 def test_optional_search_failure_does_not_block_book_based_initial():
  def forbidden(*args):raise AssertionError('Search must not run')
  r=engine.generate(Model([initial()]),'冷门问题',CAST,'deepseek-v4-pro',forbidden)
- assert r['external_status']=='UNAVAILABLE'
+ assert r['external_status']=='NOT_CONFIGURED'
 
 def test_quarantined_book_cases_are_not_retrieved():
  excluded={c['id'] for c in engine.CASES if not c.get('retrieval_eligible')}
@@ -82,3 +82,33 @@ def test_all_explicit_elemental_edges_match_canonical_theory(source,target):
   if table[source]==target:validate_explicit_relations(text)
   else:
    with pytest.raises(ValueError):validate_explicit_relations(text)
+
+@pytest.mark.parametrize('sources', [['focal'], [{'id':' focal '}], ['focal',{'id':'focal'}]])
+def test_reference_format_normalized_without_another_call(sources):
+ v=initial();v['sources']=sources;m=Model([v])
+ result=engine.generate(m,'求职',CAST,'deepseek-v4-pro')
+ assert result['bundle']['sources']==[{'id':'focal'}]
+ assert len(m.calls)==1
+
+@pytest.mark.parametrize('sources',[[{'id':'invented'}],[{'id':22}],['focal','invented']])
+def test_reference_repair_explains_allowed_ids_and_remains_bounded(sources):
+ v=initial();v['sources']=sources;m=Model([v,initial()])
+ result=engine.generate(m,'求职',CAST,'deepseek-v4-pro')
+ assert result['bundle']['sources']==initial()['sources']
+ assert len(m.calls)==2
+ correction=m.calls[1]['messages'][-1]['content']
+ assert '引用校验失败' in correction and 'focal' in correction
+ assert '不改变综合倾向' in correction
+ task=json.loads(m.calls[0]['messages'][1]['content'])
+ assert set(task['allowed_source_ids'])==set(result['reference_ids'])
+
+
+def test_references_never_guess_aliases_or_drop_unknown_ids():
+ for sources in (['FOCAL'],['focal','invented'],['web-999'],[{'id':'case-not-in-input'}]):
+  with pytest.raises(engine.ReferenceValidationError):engine.validate_sources(sources,{'focal':{}})
+
+
+def test_reference_limit_applies_to_distinct_real_ids():
+ refs={str(i):{} for i in range(4)}
+ assert len(engine.validate_sources(['0','0','1','2'],refs))==3
+ with pytest.raises(engine.ReferenceValidationError):engine.validate_sources(list(refs),refs)

@@ -1,0 +1,36 @@
+# Copy values into Render Environment, never commit real credentials.
+# REQUIRED: keep your existing persistent FLASK_SECRET_KEY; do not rotate it for ordinary deploys.
+FLASK_SECRET_KEY=SET_IN_RENDER_ONLY
+DATABASE_URL=PASTE_NEON_POOLED_POSTGRES_URL_IN_RENDER_ONLY
+PUBLIC_BASE_URL=https://your-answer-book.onrender.com
+SUPPORT_EMAIL=YOUR_SUPPORT_EMAIL
+DEEPSEEK_API_KEY=SET_IN_RENDER_ONLY
+DEEPSEEK_MODEL=deepseek-v4-pro
+DEEPSEEK_NARRATOR_MODEL=deepseek-flash
+TURNSTILE_SITE_KEY=YOUR_PUBLIC_SITE_KEY
+TURNSTILE_SECRET_KEY=SET_IN_RENDER_ONLY
+TRUST_PROXY=1
+# Keep test mode until the signed-webhook and actual delivery check passes.
+STRIPE_MODE=test
+STRIPE_TEST_SECRET_KEY=SET_IN_RENDER_ONLY
+STRIPE_TEST_WEBHOOK_SECRET=SET_IN_RENDER_ONLY
+READING_PRICE_CENTS=199
+# Optional private Basic Auth: username tester. Omit only after public verification is ready.
+SITE_ACCESS_PASSWORD=SET_A_PRIVATE_TEST_PASSWORD
+# Global owner safeguards, not old per-account caps. UTC daily reset.
+AI_ENABLED=1
+AI_DAILY_BUDGET_AUD=2
+AI_DAILY_REQUEST_LIMIT=40
+AI_MAX_CONCURRENT=2
+BUDGET_AUD_PER_USD=2
+# Conservative rate allowances, not quoted DeepSeek prices. Keep above your account's peak rates.
+AI_PRO_INPUT_USD_PER_M=10
+AI_PRO_OUTPUT_USD_PER_M=40
+AI_FLASH_INPUT_USD_PER_M=2
+AI_FLASH_OUTPUT_USD_PER_M=8
+# Free previews NEVER search. Paid fallback only; unavailable search does not block book-based reading.
+WEB_SEARCH_ENABLED=1
+WEB_SEARCH_DAILY_LIMIT=3
+WEB_SEARCH_RESERVE_AUD=0.10
+# When intentionally switching live, use STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET with STRIPE_MODE=live.
+# Price IDs, FLASH_SECRET_KEY, SMTP, STORAGE_DURABLE and old account/trial limits are not used by this version.

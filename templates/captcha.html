@@ -1,1 +1,1 @@
-{% if turnstile_site_key %}<div class="cf-turnstile" data-sitekey="{{turnstile_site_key}}"></div>{% endif %}
+{% if turnstile_site_key %}<div class="cf-turnstile" data-sitekey="{{turnstile_site_key}}" data-action="{{captcha_action|default('cast')}}" data-theme="light"></div>{% else %}<p class="notice">{{ '验证尚未配置，暂不接受生成或付款。' if lang=='zh' else 'Verification is not configured; generation and checkout are unavailable.' }}</p>{% endif %}

@@ -1,45 +1,37 @@
 {
-  "release": "v48-web-reference-no-legacy-caps",
-  "program_tests_passed": 229,
-  "program_tests_failed": 0,
-  "gunicorn_http_smoke": "PASSED_V48",
-  "real_deepseek_calls": 0,
-  "real_model_acceptance": "NOT_RUN_NO_CREDENTIAL",
-  "real_stripe_acceptance": "NOT_RUN",
-  "smtp_live_acceptance": "NOT_RUN",
-  "turnstile_live_acceptance": "NOT_RUN",
-  "windows_execution": "NOT_RUN_ON_WINDOWS_HOST",
-  "foundation_cast_combinations_checked": 4096,
-  "explicit_element_edges_checked": 50,
-  "question_context_checks": 128,
-  "runtime_book_rules": 141,
-  "book_cases_archive": 133,
-  "book_cases_retrievable": 112,
-  "quarantined_cases": 21,
-  "output_limits": {
-    "zh_free_characters": 50,
-    "zh_paid_characters": 300,
-    "en_free_words": 60,
-    "en_paid_words": 350
-  },
-  "paid_generation_deferred": true,
-  "currency": "aud",
-  "prices_minor_units": {
-    "one": 199,
-    "five": 599,
-    "ten": 999
-  },
-  "default_provider_request_cap_per_utc_day": 20,
-  "default_conservative_budget_reservation_aud_per_utc_day": 2,
-  "not_prediction_accuracy_certification": true,
-  "not_a_zero_risk_guarantee": true,
-  "web_search_fallback": "IMPLEMENTED_WITH_MOCKED_API_TESTS",
-  "real_web_search_acceptance": "NOT_RUN_NO_CREDENTIAL",
-  "removed_legacy_caps": [
-    "account_daily_3",
-    "ip_daily_12",
-    "paid_daily_5"
+  "automated_tests_passed": 226,
+  "real_ai_calls": 0,
+  "actual_stripe_payment_executed": false,
+  "neon_user_database_accessed": false,
+  "postgres_compatibility_smoke": "PASS on local PGlite PostgreSQL protocol with psycopg; not a Neon TLS/production concurrency test",
+  "local_http_smoke": "PASS Gunicorn startup and 12 bilingual page responses",
+  "pdf_visual_review": "PASS embedded Chinese font, Chinese/English samples",
+  "browser_visual_test": "NOT_COMPLETED: browser binary download unavailable; JavaScript syntax and templates verified",
+  "context_comparison": [
+    {
+      "question": "找对象",
+      "baseline_context_bytes": 38519,
+      "new_context_bytes": 19976,
+      "new_rule_count": 40
+    },
+    {
+      "question": "我什么时候能拿到offer？",
+      "baseline_context_bytes": 38376,
+      "new_context_bytes": 20306,
+      "new_rule_count": 40
+    },
+    {
+      "question": "我跟他能不能结婚？",
+      "baseline_context_bytes": 38537,
+      "new_context_bytes": 19994,
+      "new_rule_count": 40
+    },
+    {
+      "question": "这笔欠款能收回来吗？",
+      "baseline_context_bytes": 38268,
+      "new_context_bytes": 20117,
+      "new_rule_count": 40
+    }
   ],
-  "search_provider": "DeepSeek Search API",
-  "default_web_search_daily_request_cap": 5
+  "claims": "Checks cover structure, known explicit foundation errors and mocked business flows; not predictive accuracy or live model acceptance."
 }

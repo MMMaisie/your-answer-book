@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-{% if form.get('quota_exhausted') %}<section class="reading-section"><p>{{ '今日免费初判已用完。已有卦仍可解锁完整解读；解锁不包含新增起卦次数。' if lang=='zh' else 'Your daily free readings are used. You can still unlock a full reading for an existing cast; this does not purchase another cast.' }}</p><a class="button primary" href="{{ url_for('history') }}">{{ '查看已有卦 · 解锁完整解读' if lang=='zh' else 'View existing casts and unlock a full reading' }}</a></section>{% endif %}
 <div class="casting-layout">
 <section class="casting-intro"><p class="eyebrow">{{t('六十四卦 · 六爻成象')}}</p><h1>{{ '把心中的事，\n交给这一卦。' if lang=='zh' else 'One question.\nSix lines.\nA new perspective.' }}</h1><p class="intro-copy">{{ '掷六次，爻自下而上成卦。\n画中读象，盘中看变。' if lang=='zh' else 'Cast three coins six times. Read the image, then examine the changing lines.' }}</p>
 <div class="sample-frame"><div class="painting atlas-0 cell-0" role="img" aria-label="乾为天：金龙穿云"></div><div><span>{{t('01 · 乾为天')}}</span><small>{{t('刚健 · 创造')}}</small></div></div>
@@ -19,7 +18,7 @@
 <div class="coin-stage" id="coin-stage" hidden><div class="three-coins" aria-hidden="true"><i>{{t('正')}}</i><i>{{t('背')}}</i><i>{{t('正')}}</i></div><p id="throw-announcement" role="status" aria-live="polite">{{t('轻点一次，摇出一爻。')}}</p><button type="button" id="throw-button" class="secondary">{{t('摇第一爻')}}</button></div>
 <div id="cast-preview" class="cast-preview" aria-live="polite" hidden></div>
 <p class="helper">{{ '六次结果组成一卦；动爻改变后组成变卦，不是抽六张独立卦牌。' if lang=='zh' else 'Six lines form one hexagram. Changing lines form its transformation; these are not six independent cards.' }}</p>
-{% include 'captcha.html' %}<button class="primary" type="submit" id="read-button">{{ '成卦 · 看初判' if lang=='zh' else 'Reveal the reading' }}</button><p class="fineprint">{{ '游客每IP及浏览器一次免费初判；验证账号一次，已领游客体验不重复赠送。之后使用次数余额。' if lang=='zh' else 'One guest trial per IP and browser, or one per verified account. No duplicate signup trial. Further questions use purchased credits.' }}</p>
+{% include 'captcha.html' %}<button class="primary" type="submit" id="read-button">{{ '成卦 · 查看解读' if lang=='zh' else 'Reveal your cast' }}</button><p class="fineprint">{{ '每个浏览器每天1次免费初判，同一IP每天最多2次，以UTC日期计。额度用完仍可起卦并付费解锁，无需注册。' if lang=='zh' else 'One free preview per browser daily, up to two per IP, resetting at UTC midnight. After that, cast and pay to unlock without registering.' }}</p>
 <div id="loading" role="status" hidden><span class="loading-orbit"></span><p>{{t('正在依据这一卦推演，请稍候。')}}<br><small>{{t('若生成失败，会明确提示，不会用模板代替。')}}</small></p></div>
 </form></section></div>
 {% endblock %}
