@@ -1,0 +1,10 @@
+{
+  "simple_reading.py": "b89613e5bb3c0a210a17268497b7dbbe3638e54c2be03da4455208d72b1b8194",
+  "reading_guard.py": "bba08071edb9699d9e8ef149c5606e9f2e0a6d33c8c640963b3725a991fd2b15",
+  "theory_facts.py": "637cc596c8b3d7dc37a247d71bfa3d7d775813ba5cfec61793050ff5202dbf13",
+  "pdf_export.py": "052b68551953915586cd908f49001936abffb4fedf5ea885e0a00f79282de4f5",
+  "templates/reading.html": "52404e988236fe6960797b5259e4a9fe492c6b08c564daaecfd859f935fdfac4",
+  "tests/test_live_regressions.py": "9730fdf77a0e6f85f246e0ef6c251cebcb5e85b2a7c049c0984974d942a83e00",
+  "CONTENT_UPDATE_ZH.md": "4b111289fe5e00e14b25df5641b7229c5f392f757e88b03f0f504e5abff68aed",
+  "TEST_STATUS.json": "6b3979b19799acdfb3650558e402e4f088275fabd65822ef87604f17c3d8ed55"
+}

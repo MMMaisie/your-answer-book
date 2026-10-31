@@ -1,7 +1,7 @@
 {
-  "automated_tests_passed": 226,
+  "automated_tests_passed": 380,
   "real_ai_calls": 0,
-  "actual_stripe_payment_executed": false,
+  "actual_stripe_payment_executed": "User reported/screenshotted successful v49 test flow; not repeated by assistant for this patch",
   "neon_user_database_accessed": false,
   "postgres_compatibility_smoke": "PASS on local PGlite PostgreSQL protocol with psycopg; not a Neon TLS/production concurrency test",
   "local_http_smoke": "PASS Gunicorn startup and 12 bilingual page responses",
@@ -33,5 +33,6 @@
       "new_rule_count": 40
     }
   ],
-  "claims": "Checks cover structure, known explicit foundation errors and mocked business flows; not predictive accuracy or live model acceptance."
+  "claims": "Checks cover structure, known explicit foundation errors and mocked business flows; not predictive accuracy or live model acceptance.",
+  "content_style_live_acceptance": "NOT_RUN; prompt changes require live sampling"
 }

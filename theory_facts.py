@@ -60,6 +60,13 @@ def ledger(cast):
             'element':EN_ELEMENT[ELEMENTS[branch]],'moving':bool(row.get('moving')),
             'void':branch in calendar['xunkong'] if calendar.get('xunkong') else None,
             'month_broken':CLASH[calendar['month'][-1]]==branch if calendar.get('month') and calendar['month'][-1] in CLASH else None})
+    for row in cast.get('rows',[]):
+        changed=row.get('changed')
+        if row.get('moving') and changed:
+            facts.append({'id':str(row['position'])+'.changed','position':row['position'],
+                'original_branch':EN_BRANCH[row['branch']],'changed_branch':EN_BRANCH[changed['branch']],
+                'direction':'changed acts on its own original line only',
+                'element_relation':relation(changed['branch'],row['branch'])})
     return {'generates':[[EN_ELEMENT[a],EN_ELEMENT[b]] for a,b in GENERATES.items()],
         'controls':[[EN_ELEMENT[a],EN_ELEMENT[b]] for a,b in CONTROLS.items()],
         'lines':facts,'policy':'Facts establish relations and state, not success, failure or effective force. A void, supported or static line needs rule conditions before an outcome is inferred.'}
@@ -83,7 +90,7 @@ def fact_phrases(cast,lang):
                 'is_generated_by':te+' generates '+pe+' '+se,'is_controlled_by':te+' controls '+pe+' '+se,
                 'same_element':te+' shares the element of '+pe+' '+se}[rel]
             phrases[fact['id']]=zh if lang=='zh' else en
-        else:
+        elif 'branch' in fact:
             b=ZH_BRANCH[fact['branch'].lower()];zh=b+ELEMENTS[b];en=fact['branch']+' '+fact['element']
             phrases[str(fact['position'])+'.void']=(zh+('的旬空状态待核实' if fact['void'] is None else '旬空' if fact['void'] else '不逢旬空')) if lang=='zh' else (en+(' has unverified void status' if fact['void'] is None else ' is void' if fact['void'] else ' is not void'))
             phrases[str(fact['position'])+'.motion']=(zh+('发动' if fact['moving'] else '为静爻')) if lang=='zh' else (en+(' is moving' if fact['moving'] else ' is static'))
@@ -120,6 +127,12 @@ def validate_theory(text,cast):
         table=CONTROLS if m[3]=='克' else GENERATES
         if table[ELEMENTS[m[2]]]!=ELEMENTS[m[1]]:
             raise ValueError('returning relation contradicts changed-to-original elemental direction')
+    for sentence in re.split(r'[。！？；;\n]',text):
+        for m in re.finditer(r'(['+BRANCHES+r'])[木火土金水][^'+BRANCHES+r'。；\n]{0,24}?[,，]?\s*(?:动)?化(['+BRANCHES+r'])[木火土金水]回头(生|克)',sentence):
+            if re.search(r'若|如果|不是|并非|不属',m[0]):continue
+            table=GENERATES if m[3]=='生' else CONTROLS
+            if table[ELEMENTS[m[2]]]!=ELEMENTS[m[1]]:
+                raise ValueError('abbreviated returning relation contradicts chart')
     names='|'.join(ZH_BRANCH)
     english=r'\b('+names+r')\s+(?:wood|fire|earth|metal|water)\b[^.!?;\n]{0,65}?transforms?\s+(?:in)?to\s+('+names+r')\s+(?:wood|fire|earth|metal|water)\b[^.!?;\n]{0,60}?(?:turns? back to|turning[- ]back|returning)\s*(?:to\s*)?(control|generate)'
     for m in re.finditer(english,text,re.I):

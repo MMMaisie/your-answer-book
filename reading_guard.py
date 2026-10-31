@@ -139,6 +139,16 @@ def validate_chart_claims(text,cast):
   for m in re.finditer(r'([子丑寅卯辰巳午未申酉戌亥])[木火土金水]?(?:财爻|财|爻)?(?:值|临)月建',text):
    if m[1]!=month_value[-1]:raise ValueError('month-building identity contradicts calendar; same element is not same branch')
  rows=cast.get('rows',cast.get('lines',cast.get('yao',[])))
+ digits=dict(zip('一二三四五六',range(1,7)))
+ for clause in re.split(r'[。！？；;\n]',text):
+  if re.search(r'若|如果|假如|并非|不是',clause):continue
+  for m in re.finditer(r'([1-6一二三四五六])爻[^，。；]{0,12}?化([子丑寅卯辰巳午未申酉戌亥])[木火土金水]?',clause):
+   pos=int(m[1]) if m[1].isdigit() else digits[m[1]]
+   row=next((r for r in rows if r.get('position')==pos),None)
+   if row and (not row.get('moving') or not row.get('changed') or row['changed']['branch']!=m[2]):
+    raise ValueError('changed branch belongs to a different line')
+  for m in re.finditer(r'(兄弟|妻财|官鬼|父母|子孙)(?:爻)?安静[，,]\s*化([子丑寅卯辰巳午未申酉戌亥])',clause):
+   if any(r.get('kin')==m[1] for r in rows):raise ValueError('static line cannot transform')
  month=(cast.get('calendar') or {}).get('month','')
  if month and month[-1] in ELEMENTS:
   CLASH=dict(zip('子丑寅卯辰巳午未申酉戌亥','午未申酉戌亥子丑寅卯辰巳'))

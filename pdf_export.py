@@ -1,5 +1,5 @@
 """Export saved text only. No model calls and no remotely loaded resources."""
-import io,json
+import io,json,re
 from xml.sax.saxutils import escape
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
@@ -36,6 +36,7 @@ def reading_pdf(row,lang,paid):
  for tier,heading in [('free','初判' if zh else 'Initial reading'),('paid','完整解读' if zh else 'Full reading')]:
   if tier=='paid' and not paid:continue
   text=row.get(tier+'_'+lang,'')
+  if tier=='free':text=re.sub(r'^【(?:初判|Initial reading)】\s*','',text)
   if text:flow.extend([p(heading,sub),p(text)])
  flow.append(p('请自行保存。线上解读仅临时保存10天；传统文化与反思用途，不保证预测结果。' if zh else 'Keep this file. Online readings are stored temporarily for 10 days. For cultural reflection; predictions are not guaranteed.',small))
  def footer(canvas,document):

@@ -7,7 +7,7 @@
 <p class="notice">{{ '本卦临时保存10天，至 ' ~ expiry ~ '。请及时下载PDF并保存私密链接。清除浏览器数据后，可通过私密链接返回。' if lang=='zh' else 'This cast is stored temporarily for 10 days, until ' ~ expiry ~ '. Download the PDF and save your private link. Use the link if browser data is cleared.' }}</p>
 {{cast_cards(cast)}}{{plate(cast)}}
 <section class="reading-prose"><div class="section-number">{{ '初判' if lang=='zh' else 'Initial reading' }}</div>
-{% if free_text %}<div class="prose" data-format-reading>{{free_text}}</div>
+{% if free_text %}<div class="prose" data-format-reading>{{free_text|replace('【初判】','')|replace('【Initial reading】','')}}</div>
 {% elif reading.free_zh %}<p>{{ '中文初判已保存，可翻译为英文。' if lang=='zh' else 'The Chinese preview is saved. You can translate it into English.' }}</p>
 <form method="post" action="{{url_for('generate_reading',access=reading.access,lang=lang)}}" class="generation-form"><input type="hidden" name="csrf" value="{{csrf}}"><input type="hidden" name="tier" value="free">{% set captcha_action='generate' %}{% include 'captcha.html' %}<button type="submit" class="primary">{{ '查看初判' if lang=='zh' else 'Translate initial reading' }}</button></form>
 {% else %}<p>{{ '今日免费额度已用完，本卦未生成免费初判。你可以直接解锁完整解读，也可以明天再使用免费初判。' if lang=='zh' else 'Your daily free allowance is used. No preview was generated for this cast. Unlock its full reading, or return tomorrow for a free preview.' }}</p>{% endif %}</section>
