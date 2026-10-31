@@ -12,7 +12,7 @@ RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).rea
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v49.1-reader-first-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v49.2-private-test-progressive-rate-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={

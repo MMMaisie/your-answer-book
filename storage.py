@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS ab49_trials (
  PRIMARY KEY(subject,day,reservation)
 );
 CREATE TABLE IF NOT EXISTS ab49_rates(subject TEXT PRIMARY KEY, next_at DOUBLE PRECISION NOT NULL, blocked_until DOUBLE PRECISION NOT NULL, expires DOUBLE PRECISION NOT NULL);
+CREATE TABLE IF NOT EXISTS ab49_rate_strikes(subject TEXT PRIMARY KEY,strikes INTEGER NOT NULL,updated DOUBLE PRECISION NOT NULL,expires DOUBLE PRECISION NOT NULL);
 CREATE TABLE IF NOT EXISTS ab49_tokens(digest TEXT PRIMARY KEY, expires DOUBLE PRECISION NOT NULL);
 CREATE TABLE IF NOT EXISTS ab49_locks(name TEXT PRIMARY KEY, token TEXT NOT NULL, expires DOUBLE PRECISION NOT NULL);
 CREATE TABLE IF NOT EXISTS ab49_calls(id TEXT PRIMARY KEY, day TEXT NOT NULL, model TEXT NOT NULL, status TEXT NOT NULL, reserve DOUBLE PRECISION NOT NULL, prompt_tokens INTEGER NOT NULL DEFAULT 0, completion_tokens INTEGER NOT NULL DEFAULT 0, created DOUBLE PRECISION NOT NULL);
@@ -74,10 +75,12 @@ class Store:
    # Orders keep only payment identifiers, never original questions or prose.
    c.execute('DELETE FROM ab49_readings WHERE expires<?',(now,))
    c.execute('DELETE FROM ab49_trials WHERE created<?',(now-3*86400,))
-   for table in ('ab49_rates','ab49_tokens','ab49_locks','ab49_search'):
+   for table in ('ab49_rates','ab49_rate_strikes','ab49_tokens','ab49_locks','ab49_search'):
     c.execute(f'DELETE FROM {table} WHERE expires<?',(now,))
    c.execute('DELETE FROM ab49_calls WHERE created<?',(now-30*86400,))
    c.execute("INSERT INTO ab49_meta VALUES('cleanup',?) ON CONFLICT(name) DO UPDATE SET value=excluded.value",(now,))
+ def busy(self,name):
+  with self.connect() as c:return bool(c.execute('SELECT 1 FROM ab49_locks WHERE name=? AND expires>?',(name,time.time())).fetchone())
  def acquire(self,name,ttl=900):
   import secrets
   token=secrets.token_hex(16);now=time.time()

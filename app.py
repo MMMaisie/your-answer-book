@@ -11,7 +11,7 @@ from hexagrams import HEXAGRAMS,build_cast
 from i18n import t,hx
 from locations import TIMEZONE_LABELS
 from storage import Store
-from protection import Protection,Limited,QuotaUsed,VerificationFailed,BudgetExceeded,bounded_client,capacity,budget_settings
+from protection import Protection,Limited,InProgress,QuotaUsed,VerificationFailed,BudgetExceeded,bounded_client,capacity,budget_settings
 import simple_reading as engine
 
 ROOT=Path(__file__).resolve().parent
@@ -97,7 +97,7 @@ def headers(response):
 
 @app.context_processor
 def template_context():
- return {'lang':getattr(g,'lang','zh'),'csrf':session.get('csrf'),'hexagrams':HEXAGRAMS,'timezone_labels':TIMEZONE_LABELS,'support_email':SUPPORT_EMAIL,'stripe_test_mode':STRIPE_MODE=='test','turnstile_site_key':os.getenv('TURNSTILE_SITE_KEY',''),'price_aud':f'{AMOUNT/100:.2f}'}
+ return {'lang':getattr(g,'lang','zh'),'csrf':session.get('csrf'),'hexagrams':HEXAGRAMS,'timezone_labels':TIMEZONE_LABELS,'support_email':SUPPORT_EMAIL,'stripe_test_mode':STRIPE_MODE=='test','private_test_unlimited':protect.private_test_unlimited(),'turnstile_site_key':os.getenv('TURNSTILE_SITE_KEY',''),'price_aud':f'{AMOUNT/100:.2f}'}
 
 def fetch_private(access):
  with store.connect() as c:row=c.execute('SELECT * FROM ab49_readings WHERE access=? AND expires>?',(access,time.time())).fetchone()
@@ -114,7 +114,9 @@ def provider():
  return OpenAI(api_key=AI_KEY,base_url='https://api.deepseek.com',timeout=75,max_retries=0)
 
 def notify_failure(error):
- if isinstance(error,(Limited,BudgetExceeded)):
+ if isinstance(error,InProgress):
+  flash(label('正在处理，请稍候。请勿重复提交，可稍后刷新查看结果。','Processing. Please do not submit again; refresh shortly to view the result.'),'info')
+ elif isinstance(error,(Limited,BudgetExceeded)):
   flash(label('操作过于频繁，请稍后再试。','Too many requests. Please try again later.'),'error')
  elif isinstance(error,VerificationFailed):flash(label('请完成人机验证后重试。','Please complete the verification and try again.'),'error')
  else:
@@ -148,9 +150,11 @@ def home():
    request_key=hashlib.sha256(canonical([question,dt.isoformat(),zone,words]).encode()).hexdigest()
    with store.connect() as c:old=c.execute('SELECT access FROM ab49_readings WHERE request_key=? AND owner=? AND expires>?',(request_key,session['owner'],time.time())).fetchone()
    if old:return redirect(url_for('reading_page',access=old['access'],lang=g.lang))
+   name='new:'+protect.digest(session['owner'])
+   if store.busy(name):raise InProgress()
    protect.rate('new');protect.verify('cast')
-   name='new:'+protect.digest(session['owner']);lock=store.acquire(name,GENERATION_TTL)
-   if not lock:raise Limited()
+   lock=store.acquire(name,GENERATION_TTL)
+   if not lock:raise InProgress()
    try:trial=protect.reserve_trial()
    except QuotaUsed:pass
    stored=initial(question,cast) if trial else {}
@@ -173,7 +177,7 @@ def home():
 @app.get('/r/<access>')
 def reading_page(access):
  row=fetch_private(access)
- return render_template('reading.html',reading=row,cast=json.loads(row['cast_json']),free_text=row['free_'+g.lang],full=row['paid_'+g.lang] if unlocked(row) else '',unlocked=unlocked(row),checkout_enabled=checkout_ready(),expiry=datetime.fromtimestamp(row['expires']).strftime('%Y-%m-%d UTC'))
+ return render_template('reading.html',reading=row,cast=json.loads(row['cast_json']),free_text=row['free_'+g.lang],full=row['paid_'+g.lang] if unlocked(row) else '',unlocked=unlocked(row),checkout_enabled=checkout_ready(),generation_busy=store.busy('reading:'+row['id']),expiry=datetime.fromtimestamp(row['expires']).strftime('%Y-%m-%d UTC'))
 
 def generate_text(row,tier,lang,already_locked=False):
  field=tier+'_'+lang
@@ -181,7 +185,7 @@ def generate_text(row,tier,lang,already_locked=False):
  if tier=='paid' and not unlocked(row):abort(403)
  if tier=='free' and not row['free_zh']:return ''  # No quota means no free model call or translation.
  name='reading:'+row['id'];lock=store.acquire(name,GENERATION_TTL)
- if not lock:raise Limited()
+ if not lock:raise InProgress()
  try:
   row=read_id(row['id'])
   if not row:abort(404)
@@ -219,7 +223,9 @@ def generate_reading(access):
  if tier=='paid' and not unlocked(row):abort(403)
  if row[tier+'_'+g.lang]:return redirect(url_for('reading_page',access=access,lang=g.lang))
  try:
-  protect.rate('generate');protect.verify('generate')
+  if store.busy('reading:'+row['id']):raise InProgress()
+  if tier=='free':protect.rate('generate')
+  protect.verify('generate')
   if tier=='paid':generate_text(row,'paid','zh');row=fetch_private(access)
   if g.lang=='en':generate_text(row,tier,'en')
  except Exception as error:notify_failure(error)
@@ -236,6 +242,7 @@ def checkout(access):
  if unlocked(row):return redirect(url_for('reading_page',access=access,lang=g.lang))
  lock=None;name='checkout:'+row['id']
  try:
+  if store.busy(name):raise InProgress()
   protect.rate('checkout');protect.verify('checkout')
   if not checkout_ready() or not delivery_capacity(row,g.lang):raise Limited()
   lock=store.acquire(name,120)
@@ -349,7 +356,7 @@ def policy():return render_template('policy.html')
 @app.get('/healthz')
 def health():
  with store.connect() as c:c.execute('SELECT 1')
- return jsonify(ok=True,version=VERSION,database='postgresql' if store.durable else 'local_sqlite_development_only',storage_durable=store.durable,reading_retention_days=RETENTION_DAYS,accounts_enabled=False,generation_mode='paid_deferred',payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready(),currency='aud',price_cents=AMOUNT,ai_model=AI_MODEL,case_archive=len(engine.CASES),case_retrieval=sum(bool(c.get('retrieval_eligible')) for c in engine.CASES),rules_available=len(engine.RULES),reading_pipeline='facts_relevant_rules_matched_cases',free_browser_daily=1,free_ip_daily=2,quota_timezone='UTC',turnstile_configured=bool(os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY')),private_test_enabled=bool(os.getenv('SITE_ACCESS_PASSWORD')),free_web_search=False,paid_web_search=os.getenv('WEB_SEARCH_ENABLED','1')=='1',output_limits={'zh_free':50,'zh_paid':300,'en_free':60,'en_paid':350})
+ return jsonify(ok=True,version=VERSION,database='postgresql' if store.durable else 'local_sqlite_development_only',storage_durable=store.durable,reading_retention_days=RETENTION_DAYS,accounts_enabled=False,generation_mode='paid_deferred',payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready(),currency='aud',price_cents=AMOUNT,ai_model=AI_MODEL,case_archive=len(engine.CASES),case_retrieval=sum(bool(c.get('retrieval_eligible')) for c in engine.CASES),rules_available=len(engine.RULES),reading_pipeline='facts_relevant_rules_matched_cases',free_browser_daily=1,free_ip_daily=2,quota_timezone='UTC',private_test_unlimited=bool(os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('SITE_ACCESS_PASSWORD') and STRIPE_MODE=='test'),turnstile_configured=bool(os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY')),private_test_enabled=bool(os.getenv('SITE_ACCESS_PASSWORD')),free_web_search=False,paid_web_search=os.getenv('WEB_SEARCH_ENABLED','1')=='1',output_limits={'zh_free':50,'zh_paid':300,'en_free':60,'en_paid':350})
 
 for status in (400,403,404,413,429,500,503):
  app.register_error_handler(status,lambda e:(render_template('error.html',status=e.code),e.code))

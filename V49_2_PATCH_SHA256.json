@@ -1,0 +1,18 @@
+{
+  "app.py": "7f682aecb3780361777a72e1720b9aa4e242fa79c591679448c4d99ad53d9a29",
+  "protection.py": "631a17c501c73b6322a1c40068e6e4bc1532b7a298499d9f86f1a64093502585",
+  "storage.py": "f62ec3d72ff39ae28b6baff7371f58c7d295910b095f7f4405005cd271f3b95a",
+  "simple_reading.py": "fa33c8df5e7ec703690defbe53a3e91a21c31a8cd15e9f9c3d4448a1e6fa8d78",
+  "reading_guard.py": "bba08071edb9699d9e8ef149c5606e9f2e0a6d33c8c640963b3725a991fd2b15",
+  "theory_facts.py": "637cc596c8b3d7dc37a247d71bfa3d7d775813ba5cfec61793050ff5202dbf13",
+  "pdf_export.py": "052b68551953915586cd908f49001936abffb4fedf5ea885e0a00f79282de4f5",
+  "templates/reading.html": "4e9885e5b33745aacf22b38ef8d985c43c0e3d44ee6db5e71d3e1957ab8a5fe3",
+  "templates/base.html": "26e005290a36b6367be2dc498355c9595def65b4b5e2a61a6022f659e411cc77",
+  "static/site.js": "6911c016a8c282c3f7bfe69c4145d562d3d10d4255699c7beb0fbdfa992d5a37",
+  "environment.example.txt": "d9931b61bd17a5df2d74ad886210124e480aabdd58661e6c9a2cbd38f2e713fa",
+  "tests/test_live_regressions.py": "9730fdf77a0e6f85f246e0ef6c251cebcb5e85b2a7c049c0984974d942a83e00",
+  "tests/test_rate_update.py": "b470f887c8aab1d6848ec321f8c7d335017a10058a9831c7ca245c7356dd3e88",
+  "CONTENT_UPDATE_ZH.md": "4b111289fe5e00e14b25df5641b7229c5f392f757e88b03f0f504e5abff68aed",
+  "RATE_TEST_UPDATE_ZH.md": "ee3b2df899f4e8bb394cc3b7ef4484bb6bf7872cec2d896f948eedfbb571bc33",
+  "TEST_STATUS.json": "1adcbbc359396510766ecc9473847824e9d4df17971cc57b29fad9057715b7a1"
+}

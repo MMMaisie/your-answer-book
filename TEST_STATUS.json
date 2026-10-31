@@ -1,5 +1,5 @@
 {
-  "automated_tests_passed": 380,
+  "automated_tests_passed": 390,
   "real_ai_calls": 0,
   "actual_stripe_payment_executed": "User reported/screenshotted successful v49 test flow; not repeated by assistant for this patch",
   "neon_user_database_accessed": false,
@@ -34,5 +34,6 @@
     }
   ],
   "claims": "Checks cover structure, known explicit foundation errors and mocked business flows; not predictive accuracy or live model acceptance.",
-  "content_style_live_acceptance": "NOT_RUN; prompt changes require live sampling"
+  "content_style_live_acceptance": "NOT_RUN; prompt changes require live sampling",
+  "private_test_and_rate_update": "PASS mocked auth isolation, quotas, rate escalation, busy generation and budget safeguards; no live calls"
 }

@@ -104,7 +104,6 @@ document.querySelectorAll('[data-format-reading]').forEach(el=>{
  for(const line of lines){if(!line.trim())continue;const heading=line.match(/^【(.+?)】(.*)$/);if(heading){const h=document.createElement('h2');h.textContent=heading[1];el.append(h);if(heading[2]){const p=document.createElement('p');p.textContent=heading[2];el.append(p);}}else{const p=document.createElement('p');p.textContent=line;el.append(p);}}
  el.style.whiteSpace='normal';
 });
-document.querySelectorAll('.generation-form').forEach(f=>f.addEventListener('submit',()=>{const b=f.querySelector('button');b.disabled=true;b.textContent=zh?'正在生成，请稍候…':'Generating reading…';}));
 
 function makeChanges(values){
  const wrap=document.createElement('section');wrap.className='change-diagram';
@@ -134,3 +133,20 @@ document.querySelectorAll('[data-plate-toggle]').forEach(b=>b.addEventListener('
 
 // Email tokens arrive in the fragment, so web access logs do not receive them.
 const accountToken=document.getElementById("account-token");if(accountToken){accountToken.value=new URLSearchParams(location.hash.slice(1)).get("token")||"";history.replaceState(null,"",location.pathname+location.search);}
+
+// Guard every POST form (including checkout), without changing form payloads.
+document.querySelectorAll('form[method="post"]').forEach(f=>{
+ f.addEventListener('submit',e=>{
+  if(f.dataset.submitting==='1'){e.preventDefault();return;}
+  if(e.defaultPrevented)return;
+  f.dataset.submitting='1';
+  f.querySelectorAll('button[type="submit"],button:not([type])').forEach(b=>{
+   b.dataset.submitLabel=b.dataset.submitLabel||b.textContent;b.disabled=true;
+   b.textContent=zh?'正在处理，请稍候…':'Processing, please wait…';
+  });
+ });
+});
+window.addEventListener('pageshow',()=>document.querySelectorAll('form[data-submitting]').forEach(f=>{
+ delete f.dataset.submitting;
+ f.querySelectorAll('[data-submit-label]').forEach(b=>{b.disabled=false;b.textContent=b.dataset.submitLabel;});
+}));

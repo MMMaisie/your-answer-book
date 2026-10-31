@@ -34,3 +34,6 @@ WEB_SEARCH_DAILY_LIMIT=3
 WEB_SEARCH_RESERVE_AUD=0.10
 # When intentionally switching live, use STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET with STRIPE_MODE=live.
 # Price IDs, FLASH_SECRET_KEY, SMTP, STORAGE_DURABLE and old account/trial limits are not used by this version.
+
+# Optional authenticated private test bypass; automatically inactive without password or in live mode.
+PRIVATE_TEST_UNLIMITED=0

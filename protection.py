@@ -7,6 +7,7 @@ from urllib.request import Request,urlopen
 from flask import request,session
 
 class Limited(Exception):pass
+class InProgress(Exception):pass
 class QuotaUsed(Exception):pass
 class VerificationFailed(Exception):pass
 
@@ -18,17 +19,27 @@ class Protection:
   try:ip=str(ipaddress.ip_address(ip))
   except ValueError:ip='unknown'
   return ['browser:'+self.digest(session['owner']),'ip:'+self.digest(ip)]
+ def private_test_unlimited(self):
+  # Test Stripe mode alone is NOT authorization to bypass protection.
+  password=os.getenv('SITE_ACCESS_PASSWORD','');a=request.authorization
+  return bool(os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('STRIPE_MODE','test')=='test' and password and a and a.type.lower()=='basic' and hmac.compare_digest((a.username or '').encode(),b'tester') and hmac.compare_digest((a.password or '').encode(),password.encode()))
  def rate(self,operation='new'):
-  now=time.time();keys=[operation+':'+s for s in self.subjects()]
-  blocked=False
+  if self.private_test_unlimited():return
+  now=time.time();keys=[operation+':'+s for s in self.subjects()];blocked=False
   with self.store.connect() as c:
    rows=[c.execute('SELECT * FROM ab49_rates WHERE subject=?',(s,)).fetchone() for s in keys]
-   if any(r and r['blocked_until']>now for r in rows):blocked=True
-   elif any(r and r['next_at']>now for r in rows):
+   strikes=[c.execute('SELECT * FROM ab49_rate_strikes WHERE subject=?',(s,)).fetchone() for s in keys]
+   # Once escalated, blocked requests do not extend the fifteen-minute deadline.
+   if any(r and r['blocked_until']>now and t and t['strikes']>=5 for r,t in zip(rows,strikes)):blocked=True
+   elif any(r and max(r['next_at'],r['blocked_until'])>now for r in rows):
     blocked=True
-    for s in keys:c.execute('INSERT INTO ab49_rates VALUES(?,?,?,?) ON CONFLICT(subject) DO UPDATE SET blocked_until=excluded.blocked_until,expires=excluded.expires',(s,now+60,now+900,now+86400))
+    n=max((t['strikes'] if r and t and t['updated']>now-600 else 0 for r,t in zip(rows,strikes)),default=0)+1
+    until=now+900 if n>=5 else max(max(r['next_at'],r['blocked_until']) for r in rows if r)
+    for key in keys:
+     c.execute('INSERT INTO ab49_rates VALUES(?,?,?,?) ON CONFLICT(subject) DO UPDATE SET blocked_until=excluded.blocked_until,expires=excluded.expires',(key,until,until,now+86400))
+     c.execute('INSERT INTO ab49_rate_strikes VALUES(?,?,?,?) ON CONFLICT(subject) DO UPDATE SET strikes=excluded.strikes,updated=excluded.updated,expires=excluded.expires',(key,n,now,now+86400))
    else:
-    for s in keys:c.execute('INSERT INTO ab49_rates VALUES(?,?,0,?) ON CONFLICT(subject) DO UPDATE SET next_at=excluded.next_at,blocked_until=0,expires=excluded.expires',(s,now+60,now+86400))
+    for key in keys:c.execute('INSERT INTO ab49_rates VALUES(?,?,0,?) ON CONFLICT(subject) DO UPDATE SET next_at=excluded.next_at,blocked_until=0,expires=excluded.expires',(key,now+30,now+86400))
   if blocked:raise Limited()
  def verify(self,action):
   token=request.form.get('cf-turnstile-response','')
@@ -48,6 +59,7 @@ class Protection:
    inserted=c.execute('INSERT INTO ab49_tokens VALUES(?,?) ON CONFLICT(digest) DO NOTHING',(digest,time.time()+600)).rowcount
   if inserted!=1:raise VerificationFailed()
  def reserve_trial(self):
+  if self.private_test_unlimited():return 'private-test-unlimited'
   now=time.time();day=datetime.now(timezone.utc).strftime('%Y-%m-%d');rid=secrets.token_hex(16)
   subjects=self.subjects()
   with self.store.connect() as c:
@@ -58,7 +70,7 @@ class Protection:
    for s in subjects:c.execute('INSERT INTO ab49_trials VALUES(?,?,?,?,?)',(s,day,rid,'held',now))
   return rid
  def finish_trial(self,rid,success):
-  if not rid:return
+  if not rid or rid=='private-test-unlimited':return
   with self.store.connect() as c:
    if success:c.execute("UPDATE ab49_trials SET status='used' WHERE reservation=?",(rid,))
    else:c.execute("DELETE FROM ab49_trials WHERE reservation=? AND status='held'",(rid,))
