@@ -2,13 +2,17 @@
 import re
 from theory_facts import ledger,fact_phrases
 
-class EditorialError(ValueError):pass
+class EditorialError(ValueError):
+ def __init__(self,message,code='unspecified'):
+  self.code=code
+  super().__init__(message)
 class EvidenceError(ValueError):pass
 class ReadingValidationError(ValueError):
- def __init__(self,stage,reason,finish_reason=None):
+ def __init__(self,stage,reason,finish_reason=None,detail=None):
   self.stage=stage if stage in {'initial','review','writer','translation'} else 'unknown'
   self.reason=reason if reason in {'evidence','editorial','reference','format_or_fact','incomplete'} else 'unknown'
   self.finish_reason=finish_reason if isinstance(finish_reason,str) and finish_reason in {'stop','length','content_filter','tool_calls','insufficient_system_resource','aborted'} else 'unknown'
+  self.detail=detail if isinstance(detail,str) and detail in {'preview_jargon','paid_jargon','repetition','personal_inference','review_preview_jargon','review_preview_repetition','review_preview_personal_inference','review_personal_inference'} else 'unspecified'
   super().__init__('reading validation rejected')
 
 REQUIRED={
@@ -40,17 +44,17 @@ def validate_evidence(items,cast):
 JARGON=re.compile(r'用神|原神|忌神|仇神|世爻|应爻|飞神|伏神|出空|出伏|旬空|月破|日克|日泄|月克|月扶|化进|回头生|回头克|泄气|财星|官星|妻财|官鬼|[子丑寅卯辰巳午未申酉戌亥][木火土金水]')
 EN_JARGON=re.compile(r'\b(?:significator|flying spirit|hidden spirit|month[- ]broken|returning (?:generation|control))\b',re.I)
 
-def validate_reader_text(text,tier,lang='zh',question=''):
+def validate_reader_text(text,tier,lang='zh',question='',check_style=True):
  matches=list((JARGON if lang=='zh' else EN_JARGON).finditer(text))
- if tier=='free' and matches:raise EditorialError('preview must contain no technical reasoning')
- if tier=='paid' and len(matches)>4:raise EditorialError('technical notes dominate reader prose')
+ if check_style and tier=='free' and matches:raise EditorialError('preview must contain no technical reasoning','preview_jargon')
+ if check_style and tier=='paid' and len(matches)>4:raise EditorialError('technical notes dominate reader prose','paid_jargon')
  # Do not repeat the same long sentence across the three paragraphs.
  sentences=[s.strip() for s in re.split(r'[。！？.!?\n]',text) if len(s.strip())>=12]
- if len(sentences)!=len(set(sentences)):raise EditorialError('repeated reader sentence')
+ if check_style and len(sentences)!=len(set(sentences)):raise EditorialError('repeated reader sentence','repetition')
  # Explicit harmful inference seen in production, unless the subject was raised by the user.
  if not re.search(r'吸引|魅力|精力|内耗|心理|焦虑',question):
   if re.search(r'(?:直接影响|导致|说明你|证明你)[^。；\n]{0,16}(?:吸引力|魅力|精力不足|内耗)|自身能量回升|恢复精力|减少内耗',text):
-   raise EditorialError('unprovided personal condition')
+   raise EditorialError('unprovided personal condition','personal_inference')
  return text
 
 def fact_notes(cast,checks):

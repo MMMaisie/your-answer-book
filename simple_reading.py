@@ -13,7 +13,7 @@ RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).rea
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v49.4.1-completion-retry-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v49.4.2-review-boundary-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -152,7 +152,7 @@ def _request(client,model,messages,validator,max_tokens=4096,stage='initial'):
   except (ValueError,TypeError,KeyError) as error:
    if attempt:
     reason='evidence' if isinstance(error,EvidenceError) else 'editorial' if isinstance(error,EditorialError) else 'reference' if isinstance(error,ReferenceValidationError) else 'format_or_fact'
-    raise ReadingValidationError(stage,reason) from error
+    raise ReadingValidationError(stage,reason,'stop',getattr(error,'code',None)) from error
    # Never include arbitrary exception text, user secrets, or a new judgement instruction.
    correction='修正JSON字段、字数、基础事实和表达问题。事实以输入卦盘为准，不为维持旧倾向保留错误。严格遵守请求结构；不要添加标题，不截断句子。'
    if isinstance(error,EditorialError):correction+=' 文案复核未通过：'+str(error)+'。免费不出现术语或改变条件；付费用白话解释，通常只留一两处依据，不推断用户吸引力或心理状态，不重复段落。'
@@ -252,8 +252,11 @@ def _check_review(v,cast,refs,question,initial_outlook):
   if not isinstance(ids,list) or not 1<=len(ids)<=4 or any(not isinstance(x,str) or x not in used for x in ids):raise EvidenceError('reason must cite checked facts')
  brief='。'.join([answer]+[x['explanation'] for x in reasons]+[watch,limits])
  # The short brief is for the writer; dense technical work stays in technical_summary.
- validate_chart_claims(brief,cast);validate_explicit_relations(brief);validate_reader_text(brief,'paid','zh',question);validate_coarse_timing(brief)
- preview=check_parts({'direction':v.get('revised_free')},'free','zh',cast,question)['direction']
+ validate_chart_claims(brief,cast);validate_explicit_relations(brief);validate_reader_text(brief,'paid','zh',question,check_style=False);validate_coarse_timing(brief)
+ try:
+  preview=check_parts({'direction':v.get('revised_free')},'free','zh',cast,question)['direction']
+ except EditorialError as error:
+  raise EditorialError(str(error),'review_'+error.code) from error
  correction=v.get('correction_reason','')
  if not isinstance(correction,str) or len(correction)>160:raise ValueError('invalid correction reason')
  if v['outlook']!=initial_outlook and not correction.strip():raise ValueError('changed outlook requires an explanation')
