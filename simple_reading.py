@@ -13,7 +13,7 @@ RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).rea
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v49.4-reviewed-reader-pipeline-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v49.4.1-completion-retry-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -139,7 +139,14 @@ def _request(client,model,messages,validator,max_tokens=4096,stage='initial'):
  # At most two provider calls, including malformed JSON and prose correction.
  for attempt in range(2):
   response=client.chat.completions.create(model=model,messages=messages,**options(model,max_tokens))
-  if response.choices[0].finish_reason!='stop':raise ReadingValidationError(stage,'incomplete')
+  finish_reason=response.choices[0].finish_reason
+  if finish_reason!='stop':
+   if finish_reason=='length' and not attempt:
+    # Discard partial output. Retry the original task, never continue broken JSON.
+    max_tokens=min(8192,max_tokens*2)
+    messages=messages+[{'role':'user','content':'上次输出因长度限制未完成。请重新返回完整且紧凑的JSON；保留所有必需字段和事实核对，只选实际用于判断的事实，不抄录参考资料，不展开内部分析。不要续写上次片段。'}]
+    continue
+   raise ReadingValidationError(stage,'incomplete',finish_reason)
   raw=response.choices[0].message.content or '{}'
   try:return validator(parse_model_json(raw))
   except (ValueError,TypeError,KeyError) as error:
@@ -194,8 +201,9 @@ def generate(client,question,cast,model,external_search=None):
   record=decision_record(v.get('decision_record'),data)
   if not set(record['focal_positions'])<={x['position'] for x in checks} or not set(record['fact_ids'])<={x['fact_id'] for x in checks}:raise EvidenceError('decision references missing checked facts')
   return {'outlook':v['outlook'],'analysis':analysis,'free':parts,'sources':validate_sources(v.get('sources'),refs),'decision_record':record,'fact_checks':checks, 'needs_web':v.get('needs_web') is True,'search_topics':[t for t in v.get('search_topics',[]) if isinstance(t,str)][:3] if isinstance(v.get('search_topics',[]),list) else []}
- task={'task':'仅生成免费初判与简短内部判断记录；禁止生成付费全文或paid字段。判断参考案例是否适合：仅有主题相同而关键条件不同也可认为需要联网补充。','schema':{'outlook':'favorable/mixed/difficult/unclear','analysis':'内部依据简记，最多600字，目标120字，不写完整付费解读','decision_record':{'focal_positions':'实际选用的本卦爻位整数数组；未知则空数组，不猜关系性别','fact_ids':'本次依据的foundation_facts.lines中的真实id数组','uncertainties':'最多3项短语，区分待核实条件与事实'},'free':{'direction':'只给贴合原问题的倾向；问什么时候回应快慢，问能否成回应成事方向。不用通用好坏模板，不写具体障碍或建议。最多50字，目标25至45字'},'sources':[{'id':'仅使用输入中的有效ID，最多3项，可省略；网络ID为web-开头，不冒充书籍'}],'needs_web':'若案例范围不足且尚无网络补充则true，否则false','search_topics':'通用类别数组：婚恋/求职/求财/健康/出行/失物/房屋/文书/诉讼/天气/学业/宠物/人际/其他，不写用户姓名或原问题'},'reference':data}
+ task={'task':'仅生成免费初判与简短内部判断记录；禁止生成付费全文或paid字段。判断参考案例是否适合：仅有主题相同而关键条件不同也可认为需要联网补充。','schema':{'outlook':'favorable/mixed/difficult/unclear','analysis':'内部依据简记，目标60至100字，最多600字；不抄录规则或案例，不写完整付费解读','decision_record':{'focal_positions':'实际选用的本卦爻位整数数组；未知则空数组，不猜关系性别','fact_ids':'本次依据的foundation_facts.lines中的真实id数组','uncertainties':'最多3项短语，区分待核实条件与事实'},'free':{'direction':'只给贴合原问题的倾向；问什么时候回应快慢，问能否成回应成事方向。不用通用好坏模板，不写具体障碍或建议。最多50字，目标25至45字'},'sources':[{'id':'仅使用输入中的有效ID，最多3项，可省略；网络ID为web-开头，不冒充书籍'}],'needs_web':'若案例范围不足且尚无网络补充则true，否则false','search_topics':'通用类别数组：婚恋/求职/求财/健康/出行/失物/房屋/文书/诉讼/天气/学业/宠物/人际/其他，不写用户姓名或原问题'},'reference':data}
  task['schema']['fact_checks']=EVIDENCE_SCHEMA
+ task['task']+=' 初判内部记录保持紧凑：通常选1至3项关键事实核对，确有必要可增至12项；decision_record仅列已核对的关键事实，不遍历全盘。'
  task['allowed_source_ids']=sorted(refs)
  messages=[{'role':'system','content':SYSTEM},{'role':'user','content':json.dumps(task,ensure_ascii=False)}]
  value=_request(client,model,messages,check)

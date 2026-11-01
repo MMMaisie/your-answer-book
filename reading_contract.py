@@ -5,9 +5,10 @@ from theory_facts import ledger,fact_phrases
 class EditorialError(ValueError):pass
 class EvidenceError(ValueError):pass
 class ReadingValidationError(ValueError):
- def __init__(self,stage,reason):
+ def __init__(self,stage,reason,finish_reason=None):
   self.stage=stage if stage in {'initial','review','writer','translation'} else 'unknown'
   self.reason=reason if reason in {'evidence','editorial','reference','format_or_fact','incomplete'} else 'unknown'
+  self.finish_reason=finish_reason if isinstance(finish_reason,str) and finish_reason in {'stop','length','content_filter','tool_calls','insufficient_system_resource','aborted'} else 'unknown'
   super().__init__('reading validation rejected')
 
 REQUIRED={

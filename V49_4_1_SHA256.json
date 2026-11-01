@@ -1,0 +1,6 @@
+{
+  "simple_reading.py": "d8393383aad5448aa0a41b743c34da0a83ba110002eaf41f0de94b241b607c38",
+  "reading_contract.py": "5f141a3d411f90db7a07fd8680c8be8dff867b068d4cae8cea77e4dde0db70bb",
+  "app.py": "4c00a7bd78a5e5d113ea3e946b586084102a5fdfd8a74ee377385bb155569e37",
+  "tests/test_completion_retry.py": "d223f2cb75cdcfc3692c2d070bac205de90419c981f1efd9c8729684ebc7fa73"
+}

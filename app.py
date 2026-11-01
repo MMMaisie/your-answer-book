@@ -126,7 +126,7 @@ def notify_failure(error):
  elif isinstance(error,VerificationFailed):flash(label('请完成人机验证后重试。','Please complete the verification and try again.'),'error')
  else:
   # Never log API response bodies, connection strings, user questions or credentials.
-  if isinstance(error,ReadingValidationError):app.logger.warning('Reading operation failed: category=%s stage=%s reason=%s',type(error).__name__,error.stage,error.reason)
+  if isinstance(error,ReadingValidationError):app.logger.warning('Reading operation failed: category=%s stage=%s reason=%s finish_reason=%s',type(error).__name__,error.stage,error.reason,error.finish_reason)
   else:app.logger.warning('Reading operation failed: category=%s',type(error).__name__)
   flash(label('本次解读未完成，请稍后重试。已确认的付款仍有效。','The reading could not be completed. Please retry later; confirmed payment remains valid.'),'error')
 
