@@ -20,7 +20,22 @@ class Model:
  def __enter__(self):return self
  def __exit__(self,*args):return False
 
-def initial():return {'outlook':'mixed','analysis':'围绕所问比较支持与限制，不把倾向当作已发生的事实。','free':{'direction':'目前有推进的机会，结果仍有变数，尚不能认定稳妥。'},'sources':[{'id':'focal'}],'decision_record':{'focal_positions':[1],'fact_ids':['1.state'],'uncertainties':['问意未说明的关系身份不作猜测']}}
+def _initial():return {'outlook':'mixed','analysis':'围绕所问比较支持与限制，不把倾向当作已发生的事实。','free':{'direction':'目前有推进的机会，结果仍有变数，尚不能认定稳妥。'},'sources':[{'id':'focal'}],'decision_record':{'focal_positions':[1],'fact_ids':['1.state'],'uncertainties':['问意未说明的关系身份不作猜测']}}
+def checks(cast=None):
+ from hexagrams import build_cast
+ from theory_facts import ledger
+ cast=cast or build_cast([2]*6)
+ fact=next(x for x in ledger(cast)['lines'] if x['id']=='1.state')
+ return [{'fact_id':'1.state','position':1,'claim':{k:fact[k] for k in ('branch','kin','moving')}}]
+def initial(cast=None):
+ value=_initial();value['fact_checks']=checks(cast);return value
+def review(outlook='mixed',cast=None):
+ return {'outlook':outlook,'technical_summary':'比较本卦所问的支持与限制，不把变化当成结果已经落实。','fact_checks':checks(cast),
+ 'answer':'当前可以尝试推进，但暂不能认定结果稳妥。',
+ 'reasons':[{'explanation':'眼前的支持需要后续落实，不能只凭一次顺利就确定结果。','fact_ids':['1.state']}],
+ 'watch':'核对后续是否有明确落实的步骤，再决定投入。','limits':'不能据此保证成功。',
+ 'revised_free':'目前仍有推进空间，结果尚未落实。','correction_reason':'重新核对后修正此前依据。' if outlook!='mixed' else '',
+ 'technical_anchor_ids':[],'sources':[{'id':'focal'}]}
 def full(outlook='mixed'):return {'outlook':outlook,'paid':{'priorities':'这件事有推进空间，仍需区分眼前支持和已经落实的结果。','conditions':'若支持持续、限制减轻，机会才更有实际意义；不能只凭一时顺利认定结局。','actions':'先核对已经确认的进展，再决定投入多少精力，同时保留其他选择。'}}
 def csrf(c):
  c.get('/')
@@ -37,4 +52,4 @@ def client(tmp_path,monkeypatch):
  return site.app.test_client()
 @pytest.fixture
 def model(monkeypatch):
- m=Model([initial(),full()]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m);return m
+ m=Model([initial(),review(),full()]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m);return m

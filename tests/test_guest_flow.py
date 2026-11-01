@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from types import SimpleNamespace as NS
 import pytest
 import app as site
-from conftest import Model,initial,full,submit,csrf
+from conftest import Model,initial,full,review,submit,csrf
 from protection import Protection,Limited,QuotaUsed,BudgetExceeded,bounded_client
 from storage import Store
 
@@ -60,32 +60,32 @@ def test_unpaid_cannot_generate_paid_or_access_via_guess(client,model):
 def test_paid_delivery_cached_after_version_change(client,model,monkeypatch):
  submit(client);r=row(client);paid(r)
  assert post_generate(client,r).status_code==302
- r=row(client);assert r['paid_zh'] and len(model.calls)==2
+ r=row(client);assert r['paid_zh'] and len(model.calls)==3
  monkeypatch.setattr(site,'VERSION','a-future-version')
- assert post_generate(client,r).status_code==302 and len(model.calls)==2
+ assert post_generate(client,r).status_code==302 and len(model.calls)==3
  assert r['paid_zh'] in client.get('/r/'+r['access']).text
  assert client.get('/r/'+r['access']+'/download.pdf').data.startswith(b'%PDF')
 
 def test_paid_english_failure_preserves_chinese(client,monkeypatch):
- m=Model([initial(),full(),RuntimeError('translation failed')]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m)
+ m=Model([initial(),review(),full(),RuntimeError('translation failed')]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m)
  submit(client);r=row(client);paid(r)
  post_generate(client,r,'en');r=row(client)
- assert r['paid_zh'] and not r['paid_en'] and len(m.calls)==3
+ assert r['paid_zh'] and not r['paid_en'] and len(m.calls)==4
  reset_rates();m.replies.append({'priorities':'There is room for progress, though the result is not yet settled.','conditions':'The opportunity depends on support continuing and obstacles easing.','actions':'Check confirmed progress and keep other options open.'})
- post_generate(client,r,'en');assert row(client)['paid_en'] and len(m.calls)==4
+ post_generate(client,r,'en');assert row(client)['paid_en'] and len(m.calls)==5
  task=json.loads(m.calls[-1]['messages'][1]['content']);assert task['parts']==full()['paid']
 
 def test_paid_no_free_quota_only_generates_after_payment(client,monkeypatch):
- m=Model([initial(),initial(),full()]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m)
+ m=Model([initial(),initial(),review(),full()]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m)
  submit(client);reset_rates();submit(client,'找对象');r=row(client)
  assert len(m.calls)==1 and not r['free_zh'];paid(r);reset_rates();post_generate(client,r)
- assert row(client)['paid_zh'] and len(m.calls)==3 and row(client)['free_zh']==''
+ assert row(client)['paid_zh'] and len(m.calls)==4 and row(client)['free_zh']==''
 
 def test_paid_failure_keeps_entitlement_and_unlock_does_not_recharge(client,monkeypatch):
  m=Model([initial(),RuntimeError('provider')]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m)
  submit(client);r=row(client);paid(r);post_generate(client,r)
  assert site.unlocked(row(client)) and not row(client)['paid_zh']
- reset_rates();m.replies.append(full());post_generate(client,r)
+ reset_rates();m.replies.extend([review(),full()]);post_generate(client,r)
  assert row(client)['paid_zh']
 
 def test_ten_day_expiry_and_cleanup_keep_order_only(client,model):

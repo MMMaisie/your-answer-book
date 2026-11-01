@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 import simple_reading as engine
 from hexagrams import build_cast
-from conftest import Model,initial,full
+from conftest import Model,initial,full,review
 CAST=build_cast([2]*6)
 MATRIX=json.loads(Path(__file__).with_name('colloquial_cases.json').read_text())
 QUESTIONS=[q for g in MATRIX.values() for q in g['questions']]
@@ -20,11 +20,12 @@ def test_initial_does_not_generate_or_store_paid_content():
  assert 'paid' not in r['bundle'] and len(m.calls)==1
  assert '禁止生成付费全文' in m.calls[0]['messages'][1]['content']
 
-def test_paid_is_another_provider_call_using_frozen_initial():
- m=Model([initial(),full()]);core=engine.generate(m,'找工作',CAST,'deepseek-v4-pro')['bundle']
+def test_paid_reviews_then_writes_without_sending_raw_chart_to_writer():
+ m=Model([initial(),review(),full()]);core=engine.generate(m,'找工作',CAST,'deepseek-v4-pro')['bundle']
  result=engine.generate_paid(m,'找工作',CAST,'deepseek-v4-pro',core)
- assert len(m.calls)==2 and result==full()['paid']
- assert json.loads(m.calls[1]['messages'][1]['content'])['canonical']==core
+ assert len(m.calls)==3 and result==full()['paid']
+ assert json.loads(m.calls[1]['messages'][1]['content'])['previous_initial']==core
+ assert 'reference' not in json.loads(m.calls[2]['messages'][1]['content'])
 
 @pytest.mark.parametrize('tier,lang,maximum',[('free','zh',50),('paid','zh',300),('free','en',60),('paid','en',350)])
 def test_exact_maximum_accepted_and_one_over_rejected(tier,lang,maximum):
@@ -47,7 +48,7 @@ def test_repair_is_bounded_and_never_truncates_text():
  with pytest.raises(ValueError):engine.generate(Model([bad,bad]),'求职',CAST,'deepseek-v4-pro')
 
 def test_paid_opposite_outlook_rejected():
- with pytest.raises(ValueError):engine.generate_paid(Model([full('difficult'),full('difficult')]),'求职',CAST,'deepseek-v4-pro',initial())
+ with pytest.raises(ValueError):engine.generate_paid(Model([full('difficult'),full('difficult')]),'求职',CAST,'deepseek-v4-pro',initial(),reviewed_plan=review())
 
 def test_unknown_sources_rejected():
  v=initial();v['sources']=[{'id':'invented'}]
@@ -98,7 +99,7 @@ def test_reference_repair_explains_allowed_ids_and_remains_bounded(sources):
  assert len(m.calls)==2
  correction=m.calls[1]['messages'][-1]['content']
  assert '引用校验失败' in correction and 'focal' in correction
- assert '不改变综合倾向' in correction
+ assert '不为维持旧倾向保留错误' in correction
  task=json.loads(m.calls[0]['messages'][1]['content'])
  assert set(task['allowed_source_ids'])==set(result['reference_ids'])
 

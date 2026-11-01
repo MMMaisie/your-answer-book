@@ -13,6 +13,7 @@ from locations import TIMEZONE_LABELS
 from storage import Store
 from protection import Protection,Limited,InProgress,QuotaUsed,VerificationFailed,BudgetExceeded,bounded_client,capacity,budget_settings
 import simple_reading as engine
+from reading_contract import ReadingValidationError
 
 ROOT=Path(__file__).resolve().parent
 app=Flask(__name__)
@@ -44,6 +45,7 @@ SUPPORT_EMAIL=os.getenv('SUPPORT_EMAIL','')
 AI_KEY=os.getenv('DEEPSEEK_API_KEY','')
 AI_MODEL=os.getenv('DEEPSEEK_MODEL','deepseek-v4-pro').lower().strip()
 TRANSLATION_MODEL=os.getenv('DEEPSEEK_NARRATOR_MODEL','deepseek-flash').lower().strip()
+WRITER_MODEL=os.getenv('DEEPSEEK_WRITER_MODEL',AI_MODEL).lower().strip()
 VERSION=engine.VERSION+'-'+hashlib.sha256(b''.join((ROOT/n).read_bytes() for n in ('app.py','storage.py','protection.py','external_references.py','pdf_export.py'))).hexdigest()[:8]
 RETENTION_DAYS=10
 GENERATION_TTL=1200
@@ -63,6 +65,9 @@ def delivery_capacity(row,lang):
  size=len(canonical(data).encode())+6000
  cost=(size*ir+4096*ou)/1000000*factor
  if not row['bundle_json'] or row['bundle_json']=='{}':cost*=2
+ # Paid reasoning and short reader-facing editing are separate calls.
+ wi,wo,wf,_=budget_settings(WRITER_MODEL)
+ cost+=((8000+2048)*wi+2048*wo)/1000000*wf
  if lang=='en':
   ti,to,tf,_=budget_settings(TRANSLATION_MODEL)
   cost+=(6000*ti+2048*to)/1000000*tf
@@ -121,7 +126,8 @@ def notify_failure(error):
  elif isinstance(error,VerificationFailed):flash(label('请完成人机验证后重试。','Please complete the verification and try again.'),'error')
  else:
   # Never log API response bodies, connection strings, user questions or credentials.
-  app.logger.warning('Reading operation failed: category=%s',type(error).__name__)
+  if isinstance(error,ReadingValidationError):app.logger.warning('Reading operation failed: category=%s stage=%s reason=%s',type(error).__name__,error.stage,error.reason)
+  else:app.logger.warning('Reading operation failed: category=%s',type(error).__name__)
   flash(label('本次解读未完成，请稍后重试。已确认的付款仍有效。','The reading could not be completed. Please retry later; confirmed payment remains valid.'),'error')
 
 def initial(question,cast):
@@ -177,7 +183,7 @@ def home():
 @app.get('/r/<access>')
 def reading_page(access):
  row=fetch_private(access)
- return render_template('reading.html',reading=row,cast=json.loads(row['cast_json']),free_text=row['free_'+g.lang],full=row['paid_'+g.lang] if unlocked(row) else '',unlocked=unlocked(row),checkout_enabled=checkout_ready(),generation_busy=store.busy('reading:'+row['id']),expiry=datetime.fromtimestamp(row['expires']).strftime('%Y-%m-%d UTC'))
+ return render_template('reading.html',reading=row,cast=json.loads(row['cast_json']),free_text=row['free_'+g.lang],full=row['paid_'+g.lang] if unlocked(row) else '',unlocked=unlocked(row),checkout_enabled=checkout_ready(),generation_busy=store.busy('reading:'+row['id']),correction_notice=json.loads(row['bundle_json']).get('correction_notice',False),expiry=datetime.fromtimestamp(row['expires']).strftime('%Y-%m-%d UTC'))
 
 def generate_text(row,tier,lang,already_locked=False):
  field=tier+'_'+lang
@@ -206,8 +212,24 @@ def generate_text(row,tier,lang,already_locked=False):
     stored=initial(row['question'],cast)
     with store.connect() as c:c.execute('UPDATE ab49_readings SET bundle_json=? WHERE id=?',(canonical(stored),row['id']))
    from external_references import search
+   if not stored.get('paid_review'):
+    with provider() as client:
+     review=engine.review_paid(bounded_client(client,store),row['question'],cast,AI_MODEL,stored['bundle'],lambda topics:search(topics,store=store),stored.get('external_reference'),stored.get('reference_snapshot'))
+    stored['paid_review']=review
+    changed=review['outlook']!=stored['bundle']['outlook']
+    if changed:
+     stored['previous_initial']=dict(stored['bundle']);stored['correction_notice']=True
+     stored['bundle']['outlook']=review['outlook']
+     if row['free_zh']:stored['bundle']['free']={'direction':review['revised_free']}
+    # Persist the checked summary before editing: writer retries must not repeat paid reasoning.
+    with store.connect() as c:
+     current=c.execute('SELECT paid_mode FROM ab49_readings WHERE id=? AND expires>?',(row['id'],time.time())).fetchone()
+     if not current or current['paid_mode']!=STRIPE_MODE:raise ValueError('Paid access no longer available')
+     if changed and row['free_zh']:
+      c.execute("UPDATE ab49_readings SET bundle_json=?,free_zh=?,free_en='' WHERE id=?",(canonical(stored),review['revised_free'],row['id']))
+     else:c.execute('UPDATE ab49_readings SET bundle_json=? WHERE id=?',(canonical(stored),row['id']))
    with provider() as client:
-    parts=engine.generate_paid(bounded_client(client,store),row['question'],cast,AI_MODEL,stored['bundle'],lambda topics:search(topics,store=store),stored.get('external_reference'),stored.get('reference_snapshot'))
+    parts=engine.generate_paid(bounded_client(client,store),row['question'],cast,AI_MODEL,stored['bundle'],external_reference=stored.get('external_reference'),reference_snapshot=stored.get('reference_snapshot'),reviewed_plan=stored['paid_review'],writer_model=WRITER_MODEL)
    stored['bundle']['paid']=parts;text=engine.render(stored['bundle'],'paid')
   # Stored output remains valid across future deployments; no UI-file cache invalidation.
   with store.connect() as c:
@@ -356,7 +378,7 @@ def policy():return render_template('policy.html')
 @app.get('/healthz')
 def health():
  with store.connect() as c:c.execute('SELECT 1')
- return jsonify(ok=True,version=VERSION,database='postgresql' if store.durable else 'local_sqlite_development_only',storage_durable=store.durable,reading_retention_days=RETENTION_DAYS,accounts_enabled=False,generation_mode='paid_deferred',payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready(),currency='aud',price_cents=AMOUNT,ai_model=AI_MODEL,case_archive=len(engine.CASES),case_retrieval=sum(bool(c.get('retrieval_eligible')) for c in engine.CASES),rules_available=len(engine.RULES),reading_pipeline='facts_relevant_rules_matched_cases',free_browser_daily=1,free_ip_daily=2,quota_timezone='UTC',private_test_unlimited=bool(os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('SITE_ACCESS_PASSWORD') and STRIPE_MODE=='test'),turnstile_configured=bool(os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY')),private_test_enabled=bool(os.getenv('SITE_ACCESS_PASSWORD')),free_web_search=False,paid_web_search=os.getenv('WEB_SEARCH_ENABLED','1')=='1',output_limits={'zh_free':50,'zh_paid':300,'en_free':60,'en_paid':350})
+ return jsonify(ok=True,version=VERSION,database='postgresql' if store.durable else 'local_sqlite_development_only',storage_durable=store.durable,reading_retention_days=RETENTION_DAYS,accounts_enabled=False,generation_mode='paid_deferred',payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready(),currency='aud',price_cents=AMOUNT,ai_model=AI_MODEL,writer_model=WRITER_MODEL,paid_generation_stages=2,case_archive=len(engine.CASES),case_retrieval=sum(bool(c.get('retrieval_eligible')) for c in engine.CASES),rules_available=len(engine.RULES),reading_pipeline='facts_relevant_rules_matched_cases',free_browser_daily=1,free_ip_daily=2,quota_timezone='UTC',private_test_unlimited=bool(os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('SITE_ACCESS_PASSWORD') and STRIPE_MODE=='test'),turnstile_configured=bool(os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY')),private_test_enabled=bool(os.getenv('SITE_ACCESS_PASSWORD')),free_web_search=False,paid_web_search=os.getenv('WEB_SEARCH_ENABLED','1')=='1',output_limits={'zh_free':50,'zh_paid':300,'en_free':60,'en_paid':350})
 
 for status in (400,403,404,413,429,500,503):
  app.register_error_handler(status,lambda e:(render_template('error.html',status=e.code),e.code))

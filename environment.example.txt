@@ -37,3 +37,6 @@ WEB_SEARCH_RESERVE_AUD=0.10
 
 # Optional authenticated private test bypass; automatically inactive without password or in live mode.
 PRIVATE_TEST_UNLIMITED=0
+
+# Optional paid prose writer; defaults to DEEPSEEK_MODEL. Keep unset unless tested.
+# DEEPSEEK_WRITER_MODEL=deepseek-v4-pro

@@ -4,7 +4,7 @@ from hexagrams import build_cast
 from reading_guard import validate_chart_claims,validate_kin_claims
 from theory_facts import ledger
 from simple_reading import generate_paid
-from conftest import Model,initial,full
+from conftest import Model,initial,full,review
 
 CAST=build_cast([3,1,1,2,3,1],datetime(2026,10,31,18,49))
 
@@ -47,7 +47,7 @@ def test_all_palace_kin_pairs_and_other_roles(palace,element):
 def test_paid_bad_kin_is_repaired_before_delivery():
  bad=full();bad['paid']['priorities']='妻财未土动化子孙水泄气。'
  good=full();good['paid']['priorities']='初爻妻财未土化父母子水，不能据此认定关系很快落实。'
- model=Model([bad,good]);result=generate_paid(model,'我什么时候能找到对象？',CAST,'deepseek-v4-pro',initial())
+ model=Model([bad,good]);result=generate_paid(model,'我什么时候能找到对象？',CAST,'deepseek-v4-pro',initial(CAST),reviewed_plan=review(cast=CAST))
  assert len(model.calls)==2 and result==good['paid']
 
 def test_ledger_carries_original_and_changed_kin_separately():

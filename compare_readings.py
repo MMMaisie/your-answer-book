@@ -28,14 +28,14 @@ def main():
  model=os.getenv('DEEPSEEK_MODEL','deepseek-v4-pro');report={'model':model,'budget_aud':args.budget_aud,'executed':True,'results':[],'accuracy_certified':False}
  for i,question in enumerate(QUESTIONS[:args.max_cases]):
   words=[str((i+j)%4) for j in range(6)];cast=build_cast(words,datetime(2026,10,31,12,i),'Australia/Adelaide')
-  for name,module in [('v48.2',baseline),('v49',current)]:
+  for name,module in [('v48.2',baseline),('v49.4',current)]:
    started=time.monotonic();result={'question':question,'variant':name,'words':words}
    try:
     with OpenAI(api_key=os.environ['DEEPSEEK_API_KEY'],base_url='https://api.deepseek.com',timeout=75,max_retries=0) as client:
      wrapped=bounded_client(client,st);stored=module.generate(wrapped,question,cast,model)
      result['free']=stored['bundle']['free'];result['outlook']=stored['bundle']['outlook'];result['references']=stored['reference_ids']
      if args.tier=='both':
-      extra={'reference_snapshot':stored.get('reference_snapshot')} if name=='v49' else {}
+      extra={'reference_snapshot':stored.get('reference_snapshot')} if module is current else {}
       result['paid']=module.generate_paid(wrapped,question,cast,model,stored['bundle'],**extra)
     result['status']='STRUCTURE_AND_FOUNDATION_CHECKS_PASSED'
    except Exception as error:result['status']=type(error).__name__

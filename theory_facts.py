@@ -61,6 +61,12 @@ def ledger(cast):
             'void':branch in calendar['xunkong'] if calendar.get('xunkong') else None,
             'month_broken':CLASH[calendar['month'][-1]]==branch if calendar.get('month') and calendar['month'][-1] in CLASH else None})
     for row in cast.get('rows',[]):
+        hidden=row.get('hidden')
+        if hidden:
+            facts.append({'id':str(row['position'])+'.hidden','position':row['position'],
+                'branch':EN_BRANCH[hidden['branch']],'kin':hidden['kin'],
+                'element':EN_ELEMENT[ELEMENTS[hidden['branch']]],'under_position':row['position']})
+    for row in cast.get('rows',[]):
         changed=row.get('changed')
         if row.get('moving') and changed:
             facts.append({'id':str(row['position'])+'.changed','position':row['position'],
@@ -91,7 +97,7 @@ def fact_phrases(cast,lang):
                 'is_generated_by':te+' generates '+pe+' '+se,'is_controlled_by':te+' controls '+pe+' '+se,
                 'same_element':te+' shares the element of '+pe+' '+se}[rel]
             phrases[fact['id']]=zh if lang=='zh' else en
-        elif 'branch' in fact:
+        elif 'branch' in fact and fact['id'].endswith('.state'):
             b=ZH_BRANCH[fact['branch'].lower()];zh=b+ELEMENTS[b];en=fact['branch']+' '+fact['element']
             phrases[str(fact['position'])+'.void']=(zh+('的旬空状态待核实' if fact['void'] is None else '旬空' if fact['void'] else '不逢旬空')) if lang=='zh' else (en+(' has unverified void status' if fact['void'] is None else ' is void' if fact['void'] else ' is not void'))
             phrases[str(fact['position'])+'.motion']=(zh+('发动' if fact['moving'] else '为静爻')) if lang=='zh' else (en+(' is moving' if fact['moving'] else ' is static'))

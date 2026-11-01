@@ -82,12 +82,12 @@ def test_rule_context_keeps_core_and_excludes_irrelevant_topics(client):
 
 def test_paid_uses_saved_reference_snapshot_across_rule_updates(client,monkeypatch):
  import simple_reading as e
- from conftest import full
- cast=site.build_cast(['2']*6);m=Model([initial(),full()]);stored=e.generate(m,'找对象',cast,'deepseek-v4-pro')
+ from conftest import full,review
+ cast=site.build_cast(['2']*6);m=Model([initial(),review(),full()]);stored=e.generate(m,'找对象',cast,'deepseek-v4-pro')
  snapshot=stored['reference_snapshot']
  monkeypatch.setattr(e,'RULES',[])
  e.generate_paid(m,'找对象',cast,'deepseek-v4-pro',stored['bundle'],reference_snapshot=snapshot)
- task=json.loads(m.calls[-1]['messages'][1]['content'])
+ task=json.loads(m.calls[-2]['messages'][1]['content'])
  assert task['reference']['book_rules']==snapshot['book_rules']
 
 def test_free_search_never_executes_even_when_requested(client):
