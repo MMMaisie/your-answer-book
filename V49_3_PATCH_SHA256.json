@@ -1,0 +1,9 @@
+{
+  "simple_reading.py": "8ca142cd336648306869639b41fa2460335b4967cfd8d8683658f6197e8e18c3",
+  "reading_guard.py": "ea923997f18d261a7a82331cc3028a63b4b7a655424edd1ffcb87ff501a5aaa7",
+  "theory_facts.py": "e73f3ce4479772227d88724495b6052b9fd80a0437fabcdf18342b5094ffcd4d",
+  "tests/test_kin_regressions.py": "cf14fead1c6d7b6064e3f50f19456e191e647c02b327a828b1003820aa6e34a3",
+  "VOICE_TRIAL_ZH.md": "a02cb9a6b1742d59db8277ebf178510bdc1837f0d7113e0a8d58015dfec371ab",
+  "DEEPSEEK_SYSTEM_PROMPT.txt": "8c741594a28c2b7a3418fe588a4dec3b0d5594112c46d196070c802db0a67ac1",
+  "VOICE_TRIAL_TEST_STATUS.json": "88a66182b2d8a8883da6e1bfddfaa1563e058eb182450cddcbca8c8f4f913ebd"
+}

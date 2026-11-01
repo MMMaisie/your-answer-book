@@ -57,7 +57,7 @@ def ledger(cast):
                 'element_relation':relation(source,branch),'clash':CLASH[source]==branch,
                 'combine':COMBINE[source]==branch})
         facts.append({'id':f'{pos}.state','position':pos,'branch':EN_BRANCH[branch],
-            'element':EN_ELEMENT[ELEMENTS[branch]],'moving':bool(row.get('moving')),
+            'element':EN_ELEMENT[ELEMENTS[branch]],'kin':row.get('kin'),'role':row.get('label',''),'moving':bool(row.get('moving')),
             'void':branch in calendar['xunkong'] if calendar.get('xunkong') else None,
             'month_broken':CLASH[calendar['month'][-1]]==branch if calendar.get('month') and calendar['month'][-1] in CLASH else None})
     for row in cast.get('rows',[]):
@@ -65,6 +65,7 @@ def ledger(cast):
         if row.get('moving') and changed:
             facts.append({'id':str(row['position'])+'.changed','position':row['position'],
                 'original_branch':EN_BRANCH[row['branch']],'changed_branch':EN_BRANCH[changed['branch']],
+                'original_kin':row.get('kin'),'changed_kin':changed.get('kin'),
                 'direction':'changed acts on its own original line only',
                 'element_relation':relation(changed['branch'],row['branch'])})
     return {'generates':[[EN_ELEMENT[a],EN_ELEMENT[b]] for a,b in GENERATES.items()],

@@ -1,6 +1,6 @@
 """Reject explicit elemental contradictions. This is not a complete semantic judge."""
 import re
-from hexagrams import ELEMENTS,CONTROLS,GENERATES
+from hexagrams import ELEMENTS,CONTROLS,GENERATES,kin
 ELEMENT_EN={'wood':'木','fire':'火','earth':'土','metal':'金','water':'水'}
 BRANCH_EN=dict(zip(('zi','chou','yin','mao','chen','si','wu','wei','shen','you','xu','hai'),'子丑寅卯辰巳午未申酉戌亥'))
 
@@ -101,6 +101,23 @@ def validate_symbolic_targets(text,cast):
    verify(ELEMENT_EN[m[2].lower()],relation[1].lower(),relation[2].lower())
  return text
 
+def validate_kin_claims(text,cast):
+ palace_element=(cast.get('palace') or {}).get('element')
+ if palace_element not in GENERATES:return text
+ # Every branch/element has the same kin relative to the original palace, including changed lines.
+ # Only explicit compact declarations are checked; this does not validate all natural language.
+ roles='兄弟|妻财|官鬼|父母|子孙'
+ for m in re.finditer(r'('+roles+r')(?:爻)?(?:[甲乙丙丁戊己庚辛壬癸])?([子丑寅卯辰巳午未申酉戌亥])([木火土金水])?',text):
+  prefix=text[max(0,m.start()-5):m.start()]
+  if re.search(r'并非|不是|误写为|不能写成|不应写成',prefix):continue
+  if kin(ELEMENTS[m[2]],palace_element)!=m[1]:raise ValueError('named kin contradicts original palace element')
+ for m in re.finditer(r'('+roles+r')(?:爻)?([木火土金水])',text):
+  prefix=text[max(0,m.start()-5):m.start()]
+  if re.search(r'并非|不是|误写为|不能写成|不应写成',prefix):continue
+  if kin(m[2],palace_element)!=m[1]:raise ValueError('kin element contradicts original palace element')
+ return text
+
+
 def validate_chart_claims(text,cast):
  """Reject unambiguous named-branch calendar claims and static/moving contradictions.
  Unmatched prose still requires independent review; no comprehensive semantic guarantee.
@@ -108,6 +125,7 @@ def validate_chart_claims(text,cast):
  from theory_facts import validate_theory
  validate_theory(text,cast)
  validate_symbolic_targets(text,cast)
+ validate_kin_claims(text,cast)
  branches='子丑寅卯辰巳午未申酉戌亥'
  for sentence in re.split(r'[。！？\n.!?]',text):
   for m in re.finditer(r'(['+branches+r'])(?:[木火土金水]|财|爻)[^'+branches+r'，。；\n]{0,15}?(?:受|被)(日|月)(?:建|辰)?(克|生)',sentence):

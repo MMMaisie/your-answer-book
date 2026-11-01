@@ -1,0 +1,7 @@
+{
+  "version": "v49.3-client-language-trial",
+  "automated_tests_passed": 426,
+  "real_ai_calls": 0,
+  "live_model_acceptance": "NOT_RUN",
+  "scope": "Reader-facing prompt and explicit kin fact validation. No budget reconciliation or full judgement audit implemented."
+}
