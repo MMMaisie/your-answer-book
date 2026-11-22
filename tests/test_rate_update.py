@@ -8,19 +8,15 @@ from conftest import Model,initial,submit,csrf
 def auth(password='private-unit-password'):
  return {'Authorization':'Basic '+base64.b64encode(('tester:'+password).encode()).decode()}
 
-def test_first_fast_repeat_is_short_and_five_violations_escalate(client,monkeypatch):
+def test_repeated_clicks_do_not_extend_five_second_cooldown(client,monkeypatch):
  clock=[1000.];monkeypatch.setattr(protection.time,'time',lambda:clock[0])
- p=site.protect
  with site.app.test_request_context('/'):
-  site.session['owner']='rate-browser';p.rate()
-  for n in range(1,6):
-   with pytest.raises(Limited):p.rate()
+  site.session['owner']='rate-browser';site.protect.rate()
+  for n in range(20):
+   with pytest.raises(Limited):site.protect.rate()
    with site.store.connect() as c:row=c.execute('SELECT * FROM ab49_rates LIMIT 1').fetchone()
-   assert row['blocked_until']==(1900 if n==5 else 1030)
-  clock[0]=1100
-  with pytest.raises(Limited):p.rate()
-  with site.store.connect() as c:assert c.execute('SELECT * FROM ab49_rates LIMIT 1').fetchone()['blocked_until']==1900
-  clock[0]=1901;p.rate()
+   assert row['next_at']==1005 and row['blocked_until']==0
+  clock[0]=1005;site.protect.rate()
 
 def test_one_misclick_does_not_block_after_thirty_seconds(client,monkeypatch):
  clock=[1000.];monkeypatch.setattr(protection.time,'time',lambda:clock[0])
@@ -73,5 +69,9 @@ def test_busy_paid_generation_redirects_without_verification_or_spend(client,mod
  response=client.post('/r/'+r['access']+'/generate',data={'csrf':csrf(client)})
  assert response.status_code==302 and len(model.calls)==1
  page=client.get(response.location)
- assert '正在生成，请稍候' in page.text and '刷新查看结果' in page.text
+ assert '已加入生成队列' in page.text and '刷新查看结果' in page.text
  site.store.release('reading:'+r['id'],token)
+
+@pytest.fixture(autouse=True)
+def explicit_legacy_development_mode(monkeypatch):
+ monkeypatch.setenv("SAFETY_LIMITS_ENFORCED","0")

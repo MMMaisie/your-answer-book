@@ -1,34 +1,65 @@
-# v49.7 完整更新包
+# v49.8.1 完整队列版：部署前请读
 
-本次修复：模型仅选择 fact_ids，程序从同一卦盘事实表生成带类型的事实快照，避免模型抄写字段造成 evidence 失败。未知编号仍拒绝，旧快照若与盘面矛盾仍拒绝；正文事实、格式与文案检查继续有效。日志将具体区分 evidence_reference、evidence_value 等。
+本版本新增数据库任务队列，初判和付费解读都由独立后台Worker执行。不是仅覆盖网页代码就能工作。未切换Stripe正式模式、未删除测试密码、未修改你的线上账户。
 
-保留：首页九分类三行三列、无边框、点分隔、统一字体；免费判断加一个关键点，付费白话说明；已付费生成失败可重试，无需重复付款。复核输出上限 16384，截断时最多一次提升至 32768，各阶段最多两次模型请求。
+## 本次行为
 
-## 更新部署
+- 起卦、结账、付款检查等同类操作：固定5秒冷却；重复点击不延长，不再升级15分钟封锁。首次升级清除旧频率封锁记录，不清空免费次数、费用或付款记录。
+- 默认全站模型请求300次/UTC日，最多同时5次模型请求；搜索20次/UTC日。Render已配置的环境变量优先，需要按下方更新。
+- 初判/付费任务保存到现有数据库，同卦同语言同层级重复提交复用任务，不重复付款。队列按创建顺序领取（重试、同卦锁和依赖可能改变完成顺序）。
+- 队列最多100个等待或运行任务；等待15分钟未领取则失败，可手动重试。免费初判在执行失败或等待过期后退回尚未使用的免费名额；已成功中文、英文失败时不退成功中文的免费名额。
+- 模型并发满额自动回到等待队列；预算/日调用额度用完不无限重试，页面允许稍后手动重试，保留付款权益。
+- 页面每5秒自动刷新等待结果。后台中断的租约20分钟后可重新领取，最多自动恢复2次；已保存初判、复核和正文会复用。网络成功但尚未保存时进程被杀，不能承诺API绝不重复消耗。
+- Worker无心跳或队列满时暂停新付款入口，避免收款后无人处理；已付款任务权益仍保留。
+- 免费浏览器每天1次、同IP每天2次，CSRF、Turnstile、支付校验、内容校验、AI关闭开关仍保留。
 
-1. 备份现有项目，将本压缩包内容覆盖到项目根目录。保留原 .git、真实环境配置、数据库及稳定的 FLASK_SECRET_KEY，不要创建新数据库。
-2. 用 GitHub Desktop 提交并推送，等待现有 Render 服务部署完成。启动命令继续使用 gunicorn guaxiang:app。
-3. 访问 /healthz，version 应以 v49.7-contract-audit- 开头，确认收到新版。
-4. 用新的起卦提交验证免费初判，再用 Stripe 测试支付验证完整解读与 PDF。已保存的旧文案不会自动重写；已付费但生成失败的同一卦可直接重试。
+## 部署步骤（先测试，不切正式支付）
 
-## 验证范围
+1. 覆盖项目文件并提交至原仓库，保留.git、真实环境配置、稳定的FLASK_SECRET_KEY和Neon数据库。不要新建空数据库。
+2. 原Web Service继续使用：
+   Build Command: pip install -r requirements.txt
+   Start Command: gunicorn guaxiang:app
+3. 在Render新增一个Background Worker，连接同一个仓库、分支、根目录、Python版本。Worker需独立运行，平台费用以创建页显示为准。本包不需要新增Redis。
+   Build Command: pip install -r requirements.txt
+   Start Command: python queue_worker.py
+4. Web和Worker共享相同Neon DATABASE_URL、FLASK_SECRET_KEY、PUBLIC_BASE_URL、SUPPORT_EMAIL、DEEPSEEK_API_KEY及模型设置、预算参数、Stripe模式及该模式密钥、Turnstile配置。复制现有环境值，不要生成另一套secret，不要把密钥提交Git。
+5. 两个服务都设置：
 
-本地自动测试和本地 HTTP 检查使用模拟模型、模拟支付，不等于真实 DeepSeek 或线上支付验收。本次环境没有可用 DeepSeek 凭据，未调用真实模型，未访问你的 Render、Stripe 或 Neon 账户。暂不能承诺线上零失败。
+   GENERATION_QUEUE_ENABLED=1
+   SAFETY_LIMITS_ENFORCED=1
+   PRIVATE_TEST_UNLIMITED=0
+   AI_ENABLED=1
+   AI_DAILY_REQUEST_LIMIT=300
+   AI_MAX_CONCURRENT=5
+   WEB_SEARCH_DAILY_LIMIT=20
+   AI_DAILY_BUDGET_AUD=2
+   STRIPE_MODE=test
 
-私密测试仍需 PRIVATE_TEST_UNLIMITED=1、STRIPE_MODE=test、配置并通过站点密码认证；仅设环境开关而未通过认证不会取消公开限制。正式收费前应关闭私密无限测试开关，并完成真实模型与生产支付验收。
+   预算仍保留A$2，采用保守预留，可能比次数上限更早触发；300次是次数上限，不表示A$2一定够300次。Web和Worker预算设置必须一致。
+6. 等两个服务部署完成后，访问Web的/healthz：
+   version以v49.8.1-live-acceptance-开头
+   generation_queue_enabled=true
+   queue_worker_recent=true
+   safety_limits_enforced=true
+   private_test_unlimited=false
 
-本次新增：文案整理、翻译关闭 thinking；writer 首次4096，截断或文案修复重试8192；最多两次请求，不展示截断正文。初判与复核保留思考模式。针对具体对象是否适合结婚，提示词要求不得改答泛泛婚运；此项尚未真实模型验收。已有成功复核会保留，重试同一付费卦可复用。
+   queue_worker_recent=false时先检查Worker是否启动、是否连到同一数据库。不要继续收费测试。健康状态仅说明心跳，不代表真实模型已验收。
+7. 新起一卦，页面应先显示初判排队，再自动出现结果；用Stripe测试支付后点生成，全文应从队列自动出现。再检查英文和PDF。重复点击不能新增同一任务，刷新不会重新扣费。
 
-本次：writer 不再生成和重复核对 outlook 标签。最终倾向由已保存的 paid_review 确定；旧模型多返回的标签不覆盖复核结果。正文仍校验，标签处理不代表正文语义已经得到证明。
+保留旧部署版本和环境配置。若Worker未配置完成，可在Web临时设GENERATION_QUEUE_ENABLED=0恢复原同步生成，不会删除已排队任务；恢复队列后仍需处理它们。不要同时把所有已付费卦重新创建。
 
-本次：新版ID引用合并顶层、原因及技术提示的显式编号后，统一核对程序事实表。原因引用遗漏、数量超限、不存在分别报细分代码并给针对性重试提示；不为缺失原因自动补依据。旧事实快照仍严格核对。真实模型输出未取得，本次日志不足以区分旧 evidence_reason 的具体子原因，未进行真实模型验收。
+## 正式上线
 
-本次全流程代码复查：初判白话修复关闭思考；允许内部笔记原样引用本盘日月干支，不放行未来日期预测；复核后的初判即使倾向标签不变也更新，并清空旧英文；修正新付款前writer成本估算至4096输出token；明确复核revised_free修改时仍返回完整复核JSON。未访问线上账户，未调用真实DeepSeek；文案语义、真实请求延迟及生产服务仍待验收。
+本包不会自动切换正式支付。最后测试通过后，再在两个服务一致切换STRIPE_MODE=live，配置真实Stripe密钥及正式Webhook签名secret，并在正式Stripe配置本站/stripe/webhook事件。测试付款不能自动视为正式付款。公开站点前再移除SITE_ACCESS_PASSWORD；保留安全限制。正式订单、回调、生成、英文和PDF仍需验收。
 
-## 本次扩大验收范围
+## 本地验收与尚未验收
 
-新增24种问法×8种盘面，共192组模拟模型协议流程，逐组运行初判、复核、文案和英文翻译。另有24种问法逐组通过HTTP提交、模拟支付授权、保存中英文正文、下载两种PDF、重复生成缓存检查。事实表测试覆盖64卦×7种动爻数量（共448组），每条事实按ID生成快照后再校验。
+本地953项测试通过，包括5个模型请求并发入场、第6个等待、跨进程读取任务、真实Worker入口启动/优雅退出、队列重复提交、超限、过期、有限恢复、初判/付费/英文/PDF、失败后保留付款与复核、旧版回归。另检查Gunicorn启动及12个中英文页面。
 
-这些流程使用脚本模拟模型返回，不评价模型有没有正确取用、综合旺衰、回答原问题。模拟支付授权不等于真实Stripe支付。现有静态书例清单和覆盖表不代表全书篇目完成核验。本次未取得可用真实DeepSeek凭据，没有实际调用模型或测试生产环境。
+模型与支付使用模拟数据；队列自动测试使用SQLite，另补跑本地PGlite的PostgreSQL协议检查，验证初始化、领取、去重及初判/付费保存；未验证线上Neon的TLS实际连接或真实DeepSeek输出。没有访问你的Render或Stripe账户，没有实际部署或扣费，不能把本地通过称为线上验收通过。书中参考覆盖及文案语义也不由这些流程测试证明。
 
-修正：复核字段错误收到针对该字段的修复指令；内部技术事实错误也带chart_claim、element_relation、theory_claim或specific_timing分类，不再仅给笼统格式错误。删除复核任务要求复制事实属性与ID引用方案的矛盾描述。保留旧版事实校验、付款权益及保存内容，不自动生成未验证的替代解读。
+Render文档：https://render.com/docs/background-workers
+
+## 新增真实API验收工具
+
+见LIVE_ACCEPTANCE_ZH.md。仅新增工具、说明及版本标记，不改变v49.8队列与支付逻辑。默认dry-run，明确--execute和--budget-aud才会产生费用。本次没有实际执行付费测试。

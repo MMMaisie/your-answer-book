@@ -54,6 +54,9 @@ def canonical(value):return json.dumps(value,ensure_ascii=False,sort_keys=True,s
 def label(zh,en):return zh if getattr(g,'lang','zh')=='zh' else en
 
 def checkout_ready():
+ if os.getenv('GENERATION_QUEUE_ENABLED','1')=='1':
+  from generation_queue import accepting_payments
+  if not accepting_payments(store):return False
  return bool(store.durable and stripe_client and PUBLIC_URL and SUPPORT_EMAIL and AI_KEY and os.getenv(PREFIX+'WEBHOOK_SECRET') and os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY') and capacity(store))
 
 def delivery_capacity(row,lang):
@@ -168,12 +171,20 @@ def home():
    if not lock:raise InProgress()
    try:trial=protect.reserve_trial()
    except QuotaUsed:pass
-   stored=initial(question,cast) if trial else {}
-   free=engine.render(stored['bundle'],'free') if trial else ''
+   queued=bool(trial and os.getenv('GENERATION_QUEUE_ENABLED','1')=='1')
+   stored=initial(question,cast) if trial and not queued else {}
+   free=engine.render(stored['bundle'],'free') if stored else ''
    rid=secrets.token_hex(24);access=secrets.token_urlsafe(32);now=time.time()
    with store.connect() as c:c.execute('''INSERT INTO ab49_readings(id,access,owner,request_key,question,cast_json,bundle_json,free_zh,version,created,expires)
      VALUES(?,?,?,?,?,?,?,?,?,?,?)''',(rid,access,session['owner'],request_key,question,canonical(cast),canonical(stored),free,VERSION,now,now+RETENTION_DAYS*86400))
-   protect.finish_trial(trial,True);trial=None
+   if queued:
+    from generation_queue import enqueue
+    try:enqueue(store,rid,g.lang,'free',trial)
+    except Exception:
+     with store.connect() as c:c.execute('DELETE FROM ab49_readings WHERE id=?',(rid,))
+     raise
+   else:protect.finish_trial(trial,True)
+   trial=None
    if g.lang=='en' and free:
     try:generate_text(fetch_private(access),'free','en',already_locked=False)
     except Exception as error:notify_failure(error)
@@ -188,7 +199,7 @@ def home():
 @app.get('/r/<access>')
 def reading_page(access):
  row=fetch_private(access)
- return render_template('reading.html',reading=row,cast=json.loads(row['cast_json']),free_text=row['free_'+g.lang],full=row['paid_'+g.lang] if unlocked(row) else '',unlocked=unlocked(row),checkout_enabled=checkout_ready(),generation_busy=store.busy('reading:'+row['id']),correction_notice=json.loads(row['bundle_json']).get('correction_notice',False),expiry=datetime.fromtimestamp(row['expires']).strftime('%Y-%m-%d UTC'))
+ return render_template('reading.html',reading=row,cast=json.loads(row['cast_json']),free_text=row['free_'+g.lang],full=row['paid_'+g.lang] if unlocked(row) else '',unlocked=unlocked(row),checkout_enabled=checkout_ready(),generation_busy=store.busy('reading:'+row['id']) or job_pending(row['id'],g.lang),queue_failed=job_failed(row['id'],g.lang),free_job_pending=job_pending(row['id'],g.lang,'free'),free_job_failed=job_failed(row['id'],g.lang,'free'),correction_notice=json.loads(row['bundle_json']).get('correction_notice',False),expiry=datetime.fromtimestamp(row['expires']).strftime('%Y-%m-%d UTC'))
 
 def generate_text(row,tier,lang,already_locked=False):
  field=tier+'_'+lang
@@ -244,15 +255,49 @@ def generate_text(row,tier,lang,already_locked=False):
   return text
  finally:store.release(name,lock)
 
+def generate_preview_job(row,trial):
+ lock=store.acquire('reading:'+row['id'],GENERATION_TTL)
+ if not lock:raise InProgress()
+ try:
+  row=read_id(row['id'])
+  if not row:raise ValueError('reading expired')
+  if not row['free_zh']:
+   saved=json.loads(row['bundle_json'])
+   if not saved:saved=initial(row['question'],json.loads(row['cast_json']))
+   text=engine.render(saved['bundle'],'free')
+   with store.connect() as c:c.execute('UPDATE ab49_readings SET free_zh=?,bundle_json=? WHERE id=?',(text,canonical(saved),row['id']))
+  protect.finish_trial(trial,True)
+ finally:store.release('reading:'+row['id'],lock)
+
+def job_failed(reading_id,lang,tier='paid'):
+ from generation_queue import status
+ return status(store,reading_id,lang,tier).get('status')=='failed'
+
+def job_pending(reading_id,lang,tier='paid'):
+ from generation_queue import pending
+ return pending(store,reading_id,lang,tier)
+
 @app.post('/r/<access>/generate')
 def generate_reading(access):
  row=fetch_private(access);tier='free' if request.form.get('tier')=='free' else 'paid'
  if tier=='paid' and not unlocked(row):abort(403)
  if row[tier+'_'+g.lang]:return redirect(url_for('reading_page',access=access,lang=g.lang))
  try:
+  if os.getenv('GENERATION_QUEUE_ENABLED','1')=='1' and job_pending(row['id'],g.lang,tier):return redirect(url_for('reading_page',access=access,lang=g.lang))
   if store.busy('reading:'+row['id']):raise InProgress()
   if tier=='free':protect.rate('generate')
   protect.verify('generate')
+  if os.getenv('GENERATION_QUEUE_ENABLED','1')=='1':
+   from generation_queue import enqueue,QueueFull
+   trial=''
+   if tier=='free' and not row['free_zh']:
+    if not job_failed(row['id'],g.lang,'free'):abort(403)
+    trial=protect.reserve_trial()
+   try:enqueue(store,row['id'],g.lang,tier,trial)
+   except QueueFull:
+    protect.finish_trial(trial,False)
+    flash(label('等待任务较多，请稍后重试。付款仍有效，无需再次付款。','The queue is full. Please retry later; your payment remains valid.'),'info')
+   return redirect(url_for('reading_page',access=access,lang=g.lang))
   if tier=='paid':generate_text(row,'paid','zh');row=fetch_private(access)
   if g.lang=='en':generate_text(row,tier,'en')
  except Exception as error:notify_failure(error,paid=unlocked(row))
@@ -383,7 +428,7 @@ def policy():return render_template('policy.html')
 @app.get('/healthz')
 def health():
  with store.connect() as c:c.execute('SELECT 1')
- return jsonify(ok=True,version=VERSION,database='postgresql' if store.durable else 'local_sqlite_development_only',storage_durable=store.durable,reading_retention_days=RETENTION_DAYS,accounts_enabled=False,generation_mode='paid_deferred',payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready(),currency='aud',price_cents=AMOUNT,ai_model=AI_MODEL,writer_model=WRITER_MODEL,paid_generation_stages=2,case_archive=len(engine.CASES),case_retrieval=sum(bool(c.get('retrieval_eligible')) for c in engine.CASES),rules_available=len(engine.RULES),reading_pipeline='facts_relevant_rules_matched_cases',free_browser_daily=1,free_ip_daily=2,quota_timezone='UTC',private_test_unlimited=bool(os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('SITE_ACCESS_PASSWORD') and STRIPE_MODE=='test'),turnstile_configured=bool(os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY')),private_test_enabled=bool(os.getenv('SITE_ACCESS_PASSWORD')),free_web_search=False,paid_web_search=os.getenv('WEB_SEARCH_ENABLED','1')=='1',output_limits={'zh_free':50,'zh_paid':300,'en_free':60,'en_paid':350})
+ return jsonify(ok=True,version=VERSION,database='postgresql' if store.durable else 'local_sqlite_development_only',storage_durable=store.durable,reading_retention_days=RETENTION_DAYS,accounts_enabled=False,generation_mode='paid_deferred',payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready(),currency='aud',price_cents=AMOUNT,ai_model=AI_MODEL,writer_model=WRITER_MODEL,paid_generation_stages=2,generation_queue_enabled=os.getenv('GENERATION_QUEUE_ENABLED','1')=='1',queue_worker_recent=__import__('generation_queue').worker_recent(store),case_archive=len(engine.CASES),case_retrieval=sum(bool(c.get('retrieval_eligible')) for c in engine.CASES),rules_available=len(engine.RULES),reading_pipeline='facts_relevant_rules_matched_cases',free_browser_daily=1,free_ip_daily=2,quota_timezone='UTC',safety_limits_enforced=os.getenv('SAFETY_LIMITS_ENFORCED','1')!='0',private_test_unlimited=bool(os.getenv('SAFETY_LIMITS_ENFORCED','1')=='0' and os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('SITE_ACCESS_PASSWORD') and STRIPE_MODE=='test'),turnstile_configured=bool(os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY')),private_test_enabled=bool(os.getenv('SITE_ACCESS_PASSWORD')),free_web_search=False,paid_web_search=os.getenv('WEB_SEARCH_ENABLED','1')=='1',output_limits={'zh_free':50,'zh_paid':300,'en_free':60,'en_paid':350})
 
 for status in (400,403,404,413,429,500,503):
  app.register_error_handler(status,lambda e:(render_template('error.html',status=e.code),e.code))

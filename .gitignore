@@ -10,3 +10,6 @@ __pycache__/
 .pytest_cache/
 .venv/
 comparison-result*.json
+
+# Real-provider acceptance outputs: never publish charts, responses or reports.
+acceptance-reports/

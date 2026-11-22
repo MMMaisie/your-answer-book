@@ -20,8 +20,8 @@ SITE_ACCESS_PASSWORD=SET_A_PRIVATE_TEST_PASSWORD
 # Global owner safeguards, not old per-account caps. UTC daily reset.
 AI_ENABLED=1
 AI_DAILY_BUDGET_AUD=2
-AI_DAILY_REQUEST_LIMIT=40
-AI_MAX_CONCURRENT=2
+AI_DAILY_REQUEST_LIMIT=300
+AI_MAX_CONCURRENT=5
 BUDGET_AUD_PER_USD=2
 # Conservative rate allowances, not quoted DeepSeek prices. Keep above your account's peak rates.
 AI_PRO_INPUT_USD_PER_M=10
@@ -30,7 +30,7 @@ AI_FLASH_INPUT_USD_PER_M=2
 AI_FLASH_OUTPUT_USD_PER_M=8
 # Free previews NEVER search. Paid fallback only; unavailable search does not block book-based reading.
 WEB_SEARCH_ENABLED=1
-WEB_SEARCH_DAILY_LIMIT=3
+WEB_SEARCH_DAILY_LIMIT=20
 WEB_SEARCH_RESERVE_AUD=0.10
 # When intentionally switching live, use STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET with STRIPE_MODE=live.
 # Price IDs, FLASH_SECRET_KEY, SMTP, STORAGE_DURABLE and old account/trial limits are not used by this version.
@@ -40,3 +40,9 @@ PRIVATE_TEST_UNLIMITED=0
 
 # Optional paid prose writer; defaults to DEEPSEEK_MODEL. Keep unset unless tested.
 # DEEPSEEK_WRITER_MODEL=deepseek-v4-pro
+
+# Enforce quota/rate/budget/concurrency even if an old private-test flag remains set.
+SAFETY_LIMITS_ENFORCED=1
+
+# Requires a separate background worker using the SAME database and configuration.
+GENERATION_QUEUE_ENABLED=1

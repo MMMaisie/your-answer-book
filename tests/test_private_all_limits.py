@@ -38,3 +38,7 @@ def test_public_live_wrong_password_and_disabled_flag_keep_limits(client,monkeyp
 def test_no_request_context_never_bypasses(client,monkeypatch):
  monkeypatch.setenv('PRIVATE_TEST_UNLIMITED','1');monkeypatch.setenv('SITE_ACCESS_PASSWORD','private-unit-password');monkeypatch.setenv('AI_DAILY_REQUEST_LIMIT','0')
  assert not capacity(site.store)
+
+@pytest.fixture(autouse=True)
+def explicit_legacy_development_mode(monkeypatch):
+ monkeypatch.setenv("SAFETY_LIMITS_ENFORCED","0")

@@ -179,7 +179,7 @@ def test_global_concurrency_and_reservations_survive_store_reopen(client,monkeyp
  now=time.time();day=time.strftime('%Y-%m-%d',time.gmtime())
  with site.store.connect() as db:db.execute('INSERT INTO ab49_calls(id,day,model,status,reserve,created) VALUES(?,?,?,?,?,?)',('active',day,'deepseek-v4-pro','reserved',0.1,now))
  m=Model([initial()])
- with pytest.raises(BudgetExceeded):bounded_client(m,Store(path=site.store.path)).chat.completions.create(model='deepseek-v4-pro',messages=[],max_tokens=10)
+ with pytest.raises(__import__('protection').InProgress):bounded_client(m,Store(path=site.store.path)).chat.completions.create(model='deepseek-v4-pro',messages=[],max_tokens=10)
  assert not m.calls
 
 def test_lock_release_requires_owner_token(client):

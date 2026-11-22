@@ -44,6 +44,7 @@ def submit(c,question='我什么时候能拿到offer？',time_value='2026-10-31T
  return c.post('/',data={'csrf':csrf(c),'question':question,'cast_time':time_value,'timezone':'Australia/Adelaide','cf-turnstile-response':'test-token',**{f'word{i}':'2' for i in range(1,7)}},environ_overrides={'REMOTE_ADDR':ip})
 @pytest.fixture
 def client(tmp_path,monkeypatch):
+ monkeypatch.setenv('GENERATION_QUEUE_ENABLED','0')
  st=Store(path=str(tmp_path/'test.db'));st.init();monkeypatch.setattr(site,'store',st);monkeypatch.setattr(site,'protect',Protection(st,'test-secret','https://example.test'))
  site.app.config.update(TESTING=True,SESSION_COOKIE_SECURE=False)
  monkeypatch.setattr(site,'AI_KEY','not-a-real-key');monkeypatch.setattr(site,'PUBLIC_URL','https://example.test');monkeypatch.setattr(site,'STRIPE_MODE','test')

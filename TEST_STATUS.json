@@ -1,9 +1,10 @@
 {
-  "version": "v49.7",
-  "local_tests": 935,
+  "version": "v49.8.1",
+  "local_tests": 961,
   "http_pages": 12,
   "real_model_calls": 0,
   "live_payment_tests": 0,
   "browser_visual_test": false,
+  "local_postgresql_protocol_queue_check": "inherited v49.8; queue code unchanged",
   "notes": "Mock models and local HTTP only. Real provider and production acceptance outstanding."
 }

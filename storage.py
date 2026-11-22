@@ -4,6 +4,9 @@ from contextlib import contextmanager
 from pathlib import Path
 
 SCHEMA='''
+CREATE TABLE IF NOT EXISTS ab49_jobs (id TEXT PRIMARY KEY, reading_id TEXT NOT NULL, lang TEXT NOT NULL, tier TEXT NOT NULL, trial TEXT NOT NULL DEFAULT '', recoveries INTEGER NOT NULL DEFAULT 0, status TEXT NOT NULL, created DOUBLE PRECISION NOT NULL, updated DOUBLE PRECISION NOT NULL, lease DOUBLE PRECISION NOT NULL DEFAULT 0, token TEXT NOT NULL DEFAULT '', error TEXT NOT NULL DEFAULT '');
+CREATE INDEX IF NOT EXISTS ab49_jobs_pending ON ab49_jobs(status,created);
+
 CREATE TABLE IF NOT EXISTS ab49_readings (
  id TEXT PRIMARY KEY, access TEXT UNIQUE NOT NULL, owner TEXT NOT NULL,
  request_key TEXT NOT NULL, question TEXT NOT NULL, cast_json TEXT NOT NULL,
@@ -67,6 +70,10 @@ class Store:
   with self.connect() as c:
    for sql in SCHEMA.split(';'):
     if sql.strip():c.execute(sql)
+   marker=c.execute("SELECT 1 FROM ab49_meta WHERE name='cooldown-five-seconds'").fetchone()
+   if not marker:
+    c.execute('DELETE FROM ab49_rates');c.execute('DELETE FROM ab49_rate_strikes')
+    c.execute("INSERT INTO ab49_meta(name,value) VALUES('cooldown-five-seconds',?)",(time.time(),))
  def cleanup(self,force=False):
   now=time.time()
   with self.connect() as c:
@@ -77,6 +84,7 @@ class Store:
    c.execute('DELETE FROM ab49_trials WHERE created<?',(now-3*86400,))
    for table in ('ab49_rates','ab49_rate_strikes','ab49_tokens','ab49_locks','ab49_search'):
     c.execute(f'DELETE FROM {table} WHERE expires<?',(now,))
+   c.execute('DELETE FROM ab49_jobs WHERE reading_id NOT IN (SELECT id FROM ab49_readings)')
    c.execute('DELETE FROM ab49_calls WHERE created<?',(now-30*86400,))
    c.execute("INSERT INTO ab49_meta VALUES('cleanup',?) ON CONFLICT(name) DO UPDATE SET value=excluded.value",(now,))
  def busy(self,name):

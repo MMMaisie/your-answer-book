@@ -150,3 +150,5 @@ window.addEventListener('pageshow',()=>document.querySelectorAll('form[data-subm
  delete f.dataset.submitting;
  f.querySelectorAll('[data-submit-label]').forEach(b=>{b.disabled=false;b.textContent=b.dataset.submitLabel;});
 }));
+
+if(document.querySelector('[data-job-pending]'))setTimeout(()=>location.reload(),5000);

@@ -12,6 +12,8 @@ class QuotaUsed(Exception):pass
 class VerificationFailed(Exception):pass
 
 def private_test_unlimited():
+ # Restored limits take precedence over an old test-bypass flag.
+ if os.getenv('SAFETY_LIMITS_ENFORCED','1')!='0':return False
  # Never enable this bypass from a flag or Stripe test mode alone.
  if not has_request_context():return False
  password=os.getenv('SITE_ACCESS_PASSWORD','');a=request.authorization
@@ -28,22 +30,12 @@ class Protection:
  def private_test_unlimited(self):return private_test_unlimited()
  def rate(self,operation='new'):
   if self.private_test_unlimited():return
-  now=time.time();keys=[operation+':'+s for s in self.subjects()];blocked=False
+  now=time.time();keys=[operation+':'+s for s in self.subjects()]
   with self.store.connect() as c:
    rows=[c.execute('SELECT * FROM ab49_rates WHERE subject=?',(s,)).fetchone() for s in keys]
-   strikes=[c.execute('SELECT * FROM ab49_rate_strikes WHERE subject=?',(s,)).fetchone() for s in keys]
-   # Once escalated, blocked requests do not extend the fifteen-minute deadline.
-   if any(r and r['blocked_until']>now and t and t['strikes']>=5 for r,t in zip(rows,strikes)):blocked=True
-   elif any(r and max(r['next_at'],r['blocked_until'])>now for r in rows):
-    blocked=True
-    n=max((t['strikes'] if r and t and t['updated']>now-600 else 0 for r,t in zip(rows,strikes)),default=0)+1
-    until=now+900 if n>=5 else max(max(r['next_at'],r['blocked_until']) for r in rows if r)
-    for key in keys:
-     c.execute('INSERT INTO ab49_rates VALUES(?,?,?,?) ON CONFLICT(subject) DO UPDATE SET blocked_until=excluded.blocked_until,expires=excluded.expires',(key,until,until,now+86400))
-     c.execute('INSERT INTO ab49_rate_strikes VALUES(?,?,?,?) ON CONFLICT(subject) DO UPDATE SET strikes=excluded.strikes,updated=excluded.updated,expires=excluded.expires',(key,n,now,now+86400))
-   else:
-    for key in keys:c.execute('INSERT INTO ab49_rates VALUES(?,?,0,?) ON CONFLICT(subject) DO UPDATE SET next_at=excluded.next_at,blocked_until=0,expires=excluded.expires',(key,now+30,now+86400))
-  if blocked:raise Limited()
+   if any(r and r['next_at']>now for r in rows):raise Limited()
+   for key in keys:
+    c.execute('INSERT INTO ab49_rates VALUES(?,?,0,?) ON CONFLICT(subject) DO UPDATE SET next_at=excluded.next_at,blocked_until=0,expires=excluded.expires',(key,now+5,now+86400))
  def verify(self,action):
   token=request.form.get('cf-turnstile-response','')
   secret=os.getenv('TURNSTILE_SECRET_KEY','')
@@ -97,7 +89,7 @@ def capacity(store,reserve_needed=0):
   if private_test_unlimited():return True
   *_,budget=budget_settings('deepseek-v4-pro');day=datetime.now(timezone.utc).strftime('%Y-%m-%d')
   with store.connect() as c:r=c.execute('SELECT COUNT(*) AS n, COALESCE(SUM(reserve),0) AS cost FROM ab49_calls WHERE day=?',(day,)).fetchone()
-  return r['n']<int(os.getenv('AI_DAILY_REQUEST_LIMIT','40')) and r['cost']+reserve_needed<budget
+  return r['n']<int(os.getenv('AI_DAILY_REQUEST_LIMIT','300')) and r['cost']+reserve_needed<budget
  except (ValueError,BudgetExceeded):return False
 
 def bounded_client(client,store,max_output_tokens=8192):
@@ -117,9 +109,10 @@ def bounded_client(client,store,max_output_tokens=8192):
    row=c.execute('SELECT COUNT(*) AS n,COALESCE(SUM(reserve),0) AS cost FROM ab49_calls WHERE day=?',(day,)).fetchone()
    if not unlimited and kwargs['model']=='deepseek-search':
     searches=c.execute("SELECT COUNT(*) AS n FROM ab49_calls WHERE day=? AND model='deepseek-search'",(day,)).fetchone()['n']
-    if searches>=int(os.getenv('WEB_SEARCH_DAILY_LIMIT','3')):raise BudgetExceeded()
+    if searches>=int(os.getenv('WEB_SEARCH_DAILY_LIMIT','20')):raise BudgetExceeded()
    active=c.execute("SELECT COUNT(*) AS n FROM ab49_calls WHERE status='reserved' AND created>?",(now-900,)).fetchone()['n']
-   if not unlimited and (row['n']>=int(os.getenv('AI_DAILY_REQUEST_LIMIT','40')) or row['cost']+reserve>budget or active>=int(os.getenv('AI_MAX_CONCURRENT','2'))):raise BudgetExceeded()
+   if not unlimited and active>=int(os.getenv('AI_MAX_CONCURRENT','5')):raise InProgress()
+   if not unlimited and (row['n']>=int(os.getenv('AI_DAILY_REQUEST_LIMIT','300')) or row['cost']+reserve>budget):raise BudgetExceeded()
    c.execute('INSERT INTO ab49_calls(id,day,model,status,reserve,created) VALUES(?,?,?,?,?,?)',(cid,day,kwargs['model'],'reserved',reserve,now))
   try:response=client.chat.completions.create(**kwargs)
   except Exception:
