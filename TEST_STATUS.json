@@ -1,6 +1,7 @@
 {
-  "version": "v49.8.2",
-  "local_tests": 968,
+  "version": "v49.8.3",
+  "full_regression_tests_passed": 975,
+  "additional_sync_recovery_tests_passed": 8,
   "http_pages": 12,
   "assistant_real_model_calls": 0,
   "user_real_report_reviewed": "one initial call passed; paid stage budget-stopped under old AUD policy",
@@ -8,5 +9,5 @@
   "live_payment_tests": 0,
   "browser_visual_test": false,
   "local_postgresql_protocol_queue_check": "passed schema migration/idempotent init and free-to-paid queue with mocked provider",
-  "notes": "968 automated tests use scripted providers. Twelve HTTP pages and local PostgreSQL protocol passed. New live paid acceptance, production payments and browser acceptance outstanding."
+  "notes": "975 full-regression tests plus an additional checkout-readiness test use scripted providers. Twelve HTTP pages passed; local PostgreSQL protocol checked queue-to-sync retry using a QA-only handshake retry shim; production TLS/Neon untested. New live paid acceptance, production payments and browser acceptance outstanding."
 }

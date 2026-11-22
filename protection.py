@@ -54,6 +54,9 @@ class Protection:
    inserted=c.execute('INSERT INTO ab49_tokens VALUES(?,?) ON CONFLICT(digest) DO NOTHING',(digest,time.time()+600)).rowcount
   if inserted!=1:raise VerificationFailed()
  def reserve_trial(self):
+  if os.getenv('GENERATION_QUEUE_ENABLED','0')!='1':
+   from generation_queue import suspend_unclaimed
+   suspend_unclaimed(self.store)
   if self.private_test_unlimited():return 'private-test-unlimited'
   now=time.time();day=datetime.now(timezone.utc).strftime('%Y-%m-%d');rid=secrets.token_hex(16)
   subjects=self.subjects()
@@ -83,14 +86,26 @@ def budget_settings(model):
  if any(not math.isfinite(x) or x<=0 for x in values) or values[2]<1:raise BudgetExceeded()
  return values
 
-def capacity(store,reserve_needed=0):
+def spend_sql():
+ # Completed calls with reliable usage use a conservative CNY token estimate.
+ # Unknown/failed calls keep their original full reservation; never assume a timeout was free.
+ pi,po,*_=budget_settings('deepseek-v4-pro');fi,fo,*_=budget_settings('deepseek-flash')
+ return ("COALESCE(SUM(CASE WHEN status='completed' AND prompt_tokens>0 AND completion_tokens>0 AND model='deepseek-v4-pro' THEN (prompt_tokens*%s+completion_tokens*%s)/1000000.0 "
+         "WHEN status='completed' AND prompt_tokens>0 AND completion_tokens>0 AND model='deepseek-flash' THEN (prompt_tokens*%s+completion_tokens*%s)/1000000.0 "
+         "WHEN currency='CNY' THEN reserve ELSE reserve*5 END),0)" % (pi,po,fi,fo))
+
+def capacity_reason(store,reserve_needed=0):
  try:
-  if os.getenv('AI_ENABLED','1')!='1':return False
-  if private_test_unlimited():return True
+  if os.getenv('AI_ENABLED','1')!='1':return 'ai_disabled'
+  if private_test_unlimited():return None
   *_,budget=budget_settings('deepseek-v4-pro');day=datetime.now(timezone.utc).strftime('%Y-%m-%d')
-  with store.connect() as c:r=c.execute("SELECT COUNT(*) AS n, COALESCE(SUM(CASE WHEN currency='CNY' THEN reserve ELSE reserve*5 END),0) AS cost FROM ab49_calls WHERE day=?",(day,)).fetchone()
-  return r['n']<int(os.getenv('AI_DAILY_REQUEST_LIMIT','300')) and r['cost']+reserve_needed<budget
- except (ValueError,BudgetExceeded):return False
+  with store.connect() as c:r=c.execute('SELECT COUNT(*) AS n, '+spend_sql()+' AS cost FROM ab49_calls WHERE day=?',(day,)).fetchone()
+  if r['n']>=int(os.getenv('AI_DAILY_REQUEST_LIMIT','300')):return 'ai_daily_request_limit_reached'
+  if r['cost']+reserve_needed>=budget:return 'ai_daily_budget_unavailable'
+  return None
+ except (ValueError,BudgetExceeded):return 'ai_budget_configuration_invalid'
+
+def capacity(store,reserve_needed=0):return capacity_reason(store,reserve_needed) is None
 
 def bounded_client(client,store,max_output_tokens=8192):
  def create(**kwargs):
@@ -106,7 +121,7 @@ def bounded_client(client,store,max_output_tokens=8192):
   elif not math.isfinite(reserve) or reserve<=0:raise BudgetExceeded()
   day=datetime.now(timezone.utc).strftime('%Y-%m-%d');now=time.time();cid=secrets.token_hex(16)
   with store.connect() as c:
-   row=c.execute("SELECT COUNT(*) AS n,COALESCE(SUM(CASE WHEN currency='CNY' THEN reserve ELSE reserve*5 END),0) AS cost FROM ab49_calls WHERE day=?",(day,)).fetchone()
+   row=c.execute('SELECT COUNT(*) AS n, '+spend_sql()+' AS cost FROM ab49_calls WHERE day=?',(day,)).fetchone()
    if not unlimited and kwargs['model']=='deepseek-search':
     searches=c.execute("SELECT COUNT(*) AS n FROM ab49_calls WHERE day=? AND model='deepseek-search'",(day,)).fetchone()['n']
     if searches>=int(os.getenv('WEB_SEARCH_DAILY_LIMIT','20')):raise BudgetExceeded()
@@ -120,6 +135,6 @@ def bounded_client(client,store,max_output_tokens=8192):
    raise
   usage=getattr(response,'usage',None)
   with store.connect() as c:c.execute("UPDATE ab49_calls SET status='completed',prompt_tokens=?,completion_tokens=? WHERE id=?",(getattr(usage,'prompt_tokens',0) or 0,getattr(usage,'completion_tokens',0) or 0,cid))
-  # Keep the reservation even when cache discounts apply or usage is missing.
+  # Preserve original reservation for audit. Daily accounting uses known tokens at upper rates; missing usage keeps the full reservation.
   return response
  return SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))

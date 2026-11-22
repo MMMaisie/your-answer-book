@@ -98,3 +98,15 @@ def run_one(site):
   site.protect.finish_trial(job['trial'],False)
   finish(site.store,job,'failed','generation_failed')
  return True
+
+
+def suspend_unclaimed(store):
+ """Release unused free holds when switching to synchronous mode; never cancel a live lease."""
+ now=time.time()
+ with store.connect() as c:
+  jobs=c.execute("SELECT id,trial FROM ab49_jobs WHERE status='queued' OR (status='running' AND lease<=?)",(now,)).fetchall()
+  for job in jobs:
+   if job['trial']:
+    c.execute("DELETE FROM ab49_trials WHERE reservation=? AND status='held'",(job['trial'],))
+   c.execute("UPDATE ab49_jobs SET status='failed',error='queue_disabled',updated=?,lease=0,token='' WHERE id=?",(now,job['id']))
+ return len(jobs)

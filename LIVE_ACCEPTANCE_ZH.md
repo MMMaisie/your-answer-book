@@ -1,4 +1,4 @@
-# DeepSeek 真实模型验收 v49.8.2
+# DeepSeek 真实模型验收 v49.8.3
 
 默认预览不调用API。实际执行需要密钥环境变量及 --execute --budget-cny；人民币直接计价，无汇率换算。不自动读取.env。Windows推荐始终加 -X utf8，代码读取知识文件也已明确UTF-8编码。
 

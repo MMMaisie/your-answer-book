@@ -11,7 +11,7 @@ from hexagrams import HEXAGRAMS,build_cast
 from i18n import t,hx
 from locations import TIMEZONE_LABELS
 from storage import Store
-from protection import Protection,Limited,InProgress,QuotaUsed,VerificationFailed,BudgetExceeded,bounded_client,capacity,budget_settings,private_test_unlimited
+from protection import Protection,Limited,InProgress,QuotaUsed,VerificationFailed,BudgetExceeded,bounded_client,capacity,capacity_reason,budget_settings,private_test_unlimited
 import simple_reading as engine
 from reading_contract import ReadingValidationError
 
@@ -53,8 +53,19 @@ GENERATION_TTL=1200
 def canonical(value):return json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':'))
 def label(zh,en):return zh if getattr(g,'lang','zh')=='zh' else en
 
+def checkout_blockers():
+ blockers=[]
+ required={'database':store.durable,'stripe_key':bool(stripe_client),'public_url':bool(PUBLIC_URL),'support_email':bool(SUPPORT_EMAIL),'ai_key':bool(AI_KEY),'stripe_webhook':bool(os.getenv(PREFIX+'WEBHOOK_SECRET')),'turnstile_site_key':bool(os.getenv('TURNSTILE_SITE_KEY')),'turnstile_secret_key':bool(os.getenv('TURNSTILE_SECRET_KEY'))}
+ blockers.extend('missing_'+name for name,ok in required.items() if not ok)
+ reason=capacity_reason(store)
+ if reason:blockers.append(reason)
+ if os.getenv('GENERATION_QUEUE_ENABLED','0')=='1':
+  from generation_queue import accepting_payments
+  if not accepting_payments(store):blockers.append('queue_worker_unavailable_or_queue_full')
+ return blockers
+
 def checkout_ready():
- if os.getenv('GENERATION_QUEUE_ENABLED','1')=='1':
+ if os.getenv('GENERATION_QUEUE_ENABLED','0')=='1':
   from generation_queue import accepting_payments
   if not accepting_payments(store):return False
  return bool(store.durable and stripe_client and PUBLIC_URL and SUPPORT_EMAIL and AI_KEY and os.getenv(PREFIX+'WEBHOOK_SECRET') and os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY') and capacity(store))
@@ -171,7 +182,7 @@ def home():
    if not lock:raise InProgress()
    try:trial=protect.reserve_trial()
    except QuotaUsed:pass
-   queued=bool(trial and os.getenv('GENERATION_QUEUE_ENABLED','1')=='1')
+   queued=bool(trial and os.getenv('GENERATION_QUEUE_ENABLED','0')=='1')
    stored=initial(question,cast) if trial and not queued else {}
    free=engine.render(stored['bundle'],'free') if stored else ''
    rid=secrets.token_hex(24);access=secrets.token_urlsafe(32);now=time.time()
@@ -270,10 +281,16 @@ def generate_preview_job(row,trial):
  finally:store.release('reading:'+row['id'],lock)
 
 def job_failed(reading_id,lang,tier='paid'):
+ if os.getenv('GENERATION_QUEUE_ENABLED','0')!='1':
+  from generation_queue import suspend_unclaimed
+  suspend_unclaimed(store)
  from generation_queue import status
  return status(store,reading_id,lang,tier).get('status')=='failed'
 
 def job_pending(reading_id,lang,tier='paid'):
+ if os.getenv('GENERATION_QUEUE_ENABLED','0')!='1':
+  from generation_queue import suspend_unclaimed
+  suspend_unclaimed(store)
  from generation_queue import pending
  return pending(store,reading_id,lang,tier)
 
@@ -283,11 +300,11 @@ def generate_reading(access):
  if tier=='paid' and not unlocked(row):abort(403)
  if row[tier+'_'+g.lang]:return redirect(url_for('reading_page',access=access,lang=g.lang))
  try:
-  if os.getenv('GENERATION_QUEUE_ENABLED','1')=='1' and job_pending(row['id'],g.lang,tier):return redirect(url_for('reading_page',access=access,lang=g.lang))
+  if os.getenv('GENERATION_QUEUE_ENABLED','0')=='1' and job_pending(row['id'],g.lang,tier):return redirect(url_for('reading_page',access=access,lang=g.lang))
   if store.busy('reading:'+row['id']):raise InProgress()
   if tier=='free':protect.rate('generate')
   protect.verify('generate')
-  if os.getenv('GENERATION_QUEUE_ENABLED','1')=='1':
+  if os.getenv('GENERATION_QUEUE_ENABLED','0')=='1':
    from generation_queue import enqueue,QueueFull
    trial=''
    if tier=='free' and not row['free_zh']:
@@ -298,6 +315,15 @@ def generate_reading(access):
     protect.finish_trial(trial,False)
     flash(label('等待任务较多，请稍后重试。付款仍有效，无需再次付款。','The queue is full. Please retry later; your payment remains valid.'),'info')
    return redirect(url_for('reading_page',access=access,lang=g.lang))
+  if tier=='free' and not row['free_zh']:
+   # Retry only a failed free job; a quota-exhausted cast is not a free retry token.
+   if not job_failed(row['id'],g.lang,'free'):abort(403)
+   trial=protect.reserve_trial()
+   try:generate_preview_job(row,trial)
+   except Exception:
+    protect.finish_trial(trial,False);raise
+   with store.connect() as c:c.execute("UPDATE ab49_jobs SET status='done',error='',updated=?,lease=0,token='' WHERE reading_id=? AND tier='free' AND status='failed'",(time.time(),row['id']))
+   row=fetch_private(access)
   if tier=='paid':generate_text(row,'paid','zh');row=fetch_private(access)
   if g.lang=='en':generate_text(row,tier,'en')
  except Exception as error:notify_failure(error,paid=unlocked(row))
@@ -428,7 +454,7 @@ def policy():return render_template('policy.html')
 @app.get('/healthz')
 def health():
  with store.connect() as c:c.execute('SELECT 1')
- return jsonify(ok=True,version=VERSION,database='postgresql' if store.durable else 'local_sqlite_development_only',storage_durable=store.durable,reading_retention_days=RETENTION_DAYS,accounts_enabled=False,generation_mode='paid_deferred',payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready(),currency='aud',price_cents=AMOUNT,ai_model=AI_MODEL,writer_model=WRITER_MODEL,paid_generation_stages=2,generation_queue_enabled=os.getenv('GENERATION_QUEUE_ENABLED','1')=='1',queue_worker_recent=__import__('generation_queue').worker_recent(store),case_archive=len(engine.CASES),case_retrieval=sum(bool(c.get('retrieval_eligible')) for c in engine.CASES),rules_available=len(engine.RULES),reading_pipeline='facts_relevant_rules_matched_cases',free_browser_daily=1,free_ip_daily=2,quota_timezone='UTC',safety_limits_enforced=os.getenv('SAFETY_LIMITS_ENFORCED','1')!='0',private_test_unlimited=bool(os.getenv('SAFETY_LIMITS_ENFORCED','1')=='0' and os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('SITE_ACCESS_PASSWORD') and STRIPE_MODE=='test'),turnstile_configured=bool(os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY')),private_test_enabled=bool(os.getenv('SITE_ACCESS_PASSWORD')),free_web_search=False,paid_web_search=os.getenv('WEB_SEARCH_ENABLED','1')=='1',output_limits={'zh_free':50,'zh_paid':300,'en_free':60,'en_paid':350})
+ return jsonify(ok=True,version=VERSION,database='postgresql' if store.durable else 'local_sqlite_development_only',storage_durable=store.durable,reading_retention_days=RETENTION_DAYS,accounts_enabled=False,generation_mode='paid_deferred',payment_mode=STRIPE_MODE,checkout_enabled=checkout_ready(),checkout_blockers=checkout_blockers(),ai_budget_currency='CNY',currency='aud',price_cents=AMOUNT,ai_model=AI_MODEL,writer_model=WRITER_MODEL,paid_generation_stages=2,generation_queue_enabled=os.getenv('GENERATION_QUEUE_ENABLED','0')=='1',queue_worker_recent=__import__('generation_queue').worker_recent(store),case_archive=len(engine.CASES),case_retrieval=sum(bool(c.get('retrieval_eligible')) for c in engine.CASES),rules_available=len(engine.RULES),reading_pipeline='facts_relevant_rules_matched_cases',free_browser_daily=1,free_ip_daily=2,quota_timezone='UTC',safety_limits_enforced=os.getenv('SAFETY_LIMITS_ENFORCED','1')!='0',private_test_unlimited=bool(os.getenv('SAFETY_LIMITS_ENFORCED','1')=='0' and os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('SITE_ACCESS_PASSWORD') and STRIPE_MODE=='test'),turnstile_configured=bool(os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY')),private_test_enabled=bool(os.getenv('SITE_ACCESS_PASSWORD')),free_web_search=False,paid_web_search=os.getenv('WEB_SEARCH_ENABLED','1')=='1',output_limits={'zh_free':50,'zh_paid':300,'en_free':60,'en_paid':350})
 
 for status in (400,403,404,413,429,500,503):
  app.register_error_handler(status,lambda e:(render_template('error.html',status=e.code),e.code))

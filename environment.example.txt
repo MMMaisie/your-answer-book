@@ -43,5 +43,5 @@ PRIVATE_TEST_UNLIMITED=0
 # Enforce quota/rate/budget/concurrency even if an old private-test flag remains set.
 SAFETY_LIMITS_ENFORCED=1
 
-# Requires a separate background worker using the SAME database and configuration.
-GENERATION_QUEUE_ENABLED=1
+# Default single Web service, no extra Worker required. Set 1 only with a separately configured Worker.
+GENERATION_QUEUE_ENABLED=0
