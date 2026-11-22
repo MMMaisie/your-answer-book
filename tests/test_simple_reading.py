@@ -24,7 +24,7 @@ def test_paid_reviews_then_writes_without_sending_raw_chart_to_writer():
  m=Model([initial(),review(),full()]);core=engine.generate(m,'找工作',CAST,'deepseek-v4-pro')['bundle']
  result=engine.generate_paid(m,'找工作',CAST,'deepseek-v4-pro',core)
  assert len(m.calls)==3 and result==full()['paid']
- assert json.loads(m.calls[1]['messages'][1]['content'])['previous_initial']==core
+ assert json.loads(m.calls[1]['messages'][1]['content'])['previous_initial']=={k:core[k] for k in ('outlook','free')}
  assert 'reference' not in json.loads(m.calls[2]['messages'][1]['content'])
 
 @pytest.mark.parametrize('tier,lang,maximum',[('free','zh',50),('paid','zh',300),('free','en',60),('paid','en',350)])

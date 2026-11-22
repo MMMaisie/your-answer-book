@@ -39,3 +39,10 @@ body{overflow-wrap:break-word}.table-wrap{max-width:100%}.cast-cards .oracle-car
 /* Topic introduction: compact desktop list, full-width below intro on phones. */
 .topic-guide{margin:22px 0 28px}.topic-guide h2{font-family:var(--serif);font-size:1.05rem;color:var(--gold-bright);margin:0 0 12px;line-height:1.7}.topic-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0 0 13px}.topic-tags li{border:1px solid var(--line);border-radius:4px;padding:5px 9px;font-size:.8rem;color:var(--gold);line-height:1.5}.topic-guide p,.question-examples{color:var(--muted);font-size:.82rem;line-height:1.9}.question-examples{margin:-3px 0 23px}
 @media(max-width:760px){.casting-intro .topic-guide{margin-right:-105px;padding-top:10px;clear:both}.topic-guide h2{font-size:.95rem}.topic-tags{gap:7px}.topic-tags li{font-size:.76rem}.topic-guide p{font-size:.8rem}}
+
+/* Three rows of three labels; separators are decorative and have no border. */
+.topic-tags{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px 18px;list-style:none;padding:0;margin:0 0 14px;font-family:var(--sans);font-size:.86rem;font-weight:400}
+.topic-tags li{position:relative;display:block;text-align:center;border:0;border-radius:0;background:none;padding:0;line-height:1.8;font:inherit;color:var(--gold);min-width:0}
+.topic-tags li:not(:nth-child(3n))::after{content:"·";position:absolute;right:-12px;top:0;font:inherit;color:inherit}
+.topic-guide h2,.topic-guide p{font-family:var(--sans)}
+@media(max-width:760px){.topic-tags{font-size:.82rem;gap:8px 16px}.topic-tags li{font:inherit}.topic-tags li:not(:nth-child(3n))::after{right:-11px}}

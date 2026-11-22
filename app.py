@@ -64,7 +64,7 @@ def delivery_capacity(row,lang):
  if not data:data=engine.context(row['question'],json.loads(row['cast_json']))[0]
  ir,ou,factor,_=budget_settings(AI_MODEL)
  size=len(canonical(data).encode())+6000
- cost=(size*ir+4096*ou)/1000000*factor
+ cost=(size*ir+16384*ou)/1000000*factor
  if not row['bundle_json'] or row['bundle_json']=='{}':cost*=2
  # Paid reasoning and short reader-facing editing are separate calls.
  wi,wo,wf,_=budget_settings(WRITER_MODEL)
@@ -129,7 +129,7 @@ def notify_failure(error,paid=False):
  elif isinstance(error,VerificationFailed):flash(label('请完成人机验证后重试。','Please complete the verification and try again.'),'error')
  else:
   # Never log API response bodies, connection strings, user questions or credentials.
-  if isinstance(error,ReadingValidationError):app.logger.warning('Reading operation failed: category=%s stage=%s reason=%s finish_reason=%s detail=%s',type(error).__name__,error.stage,error.reason,error.finish_reason,error.detail)
+  if isinstance(error,ReadingValidationError):app.logger.warning('Reading operation failed: category=%s stage=%s reason=%s finish_reason=%s detail=%s attempt=%s max_tokens=%s',type(error).__name__,error.stage,error.reason,error.finish_reason,error.detail,error.attempt,error.max_tokens)
   else:app.logger.warning('Reading operation failed: category=%s',type(error).__name__)
   message=label('本次解读未完成，请稍后重试。','The reading could not be completed. Please retry later.')
   if paid:message+=label('已确认的付款仍有效。',' Confirmed payment remains valid.')
@@ -219,7 +219,7 @@ def generate_text(row,tier,lang,already_locked=False):
    from external_references import search
    if not stored.get('paid_review'):
     with provider() as client:
-     review=engine.review_paid(bounded_client(client,store),row['question'],cast,AI_MODEL,stored['bundle'],lambda topics:search(topics,store=store),stored.get('external_reference'),stored.get('reference_snapshot'))
+     review=engine.review_paid(bounded_client(client,store,max_output_tokens=32768),row['question'],cast,AI_MODEL,stored['bundle'],lambda topics:search(topics,store=store),stored.get('external_reference'),stored.get('reference_snapshot'))
     stored['paid_review']=review
     changed=review['outlook']!=stored['bundle']['outlook']
     if changed:

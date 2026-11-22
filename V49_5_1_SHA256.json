@@ -1,0 +1,10 @@
+{
+  "app.py": "183c1d21de1be9bac91e86019b58a669c93d9975477c8b4dc620fa13187d6ae3",
+  "protection.py": "bcd40436b1f679b684bb73ca9e2eb8d33109fab3fc76852a7f8b356a07cd51a9",
+  "simple_reading.py": "526cde8d3caf0286dc3e84df25582a0781dd4ff015eaa22414cd7a95fe7002fe",
+  "reading_contract.py": "434212673b1feb94072563cf13e151bde4757522d1986983ed5fae09f4320d5a",
+  "templates/home.html": "53c79ef98fb8f9344e7aec65d256ee8e6b243564668a6556a3f22979fd41108f",
+  "static/site.css": "296f45b15b86b769d7c310b5324983f6530485f2d98946fc99fdd7dc5d3f4821",
+  "tests/test_simple_reading.py": "1207aa5a0368cd7dbed44cd6352df68c0d09a376078961b1261154ee7b886189",
+  "tests/test_review_length_budget.py": "2ce42650f80fd96fee249be1958fd20bce4f1f64440403bdd305f45aab5b6477"
+}

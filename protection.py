@@ -100,7 +100,7 @@ def capacity(store,reserve_needed=0):
   return r['n']<int(os.getenv('AI_DAILY_REQUEST_LIMIT','40')) and r['cost']+reserve_needed<budget
  except (ValueError,BudgetExceeded):return False
 
-def bounded_client(client,store):
+def bounded_client(client,store,max_output_tokens=8192):
  def create(**kwargs):
   if not capacity(store):raise BudgetExceeded()
   unlimited=private_test_unlimited()
@@ -108,7 +108,7 @@ def bounded_client(client,store):
   else:input_rate,output_rate,factor,budget=budget_settings(kwargs.get('model'))
   size=len(json.dumps(kwargs.get('messages',[]),ensure_ascii=False).encode())
   if not unlimited and size>90000:raise BudgetExceeded()
-  maximum=min(8192,max(1,int(kwargs.get('max_tokens',4096))));kwargs['max_tokens']=maximum
+  maximum=min(min(32768,max(1,int(max_output_tokens))),max(1,int(kwargs.get('max_tokens',4096))));kwargs['max_tokens']=maximum
   reserve=float(os.getenv('WEB_SEARCH_RESERVE_AUD','0.10')) if kwargs['model']=='deepseek-search' else ((size+2048)*input_rate+maximum*output_rate)/1000000*factor
   if unlimited:reserve=0.
   elif not math.isfinite(reserve) or reserve<=0:raise BudgetExceeded()

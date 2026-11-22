@@ -27,11 +27,13 @@ class ContentValidationError(ValueError):
   self.code=code
   super().__init__('content validation rejected: '+(code if code in REPAIR_HINTS else 'unspecified'))
 class ReadingValidationError(ValueError):
- def __init__(self,stage,reason,finish_reason=None,detail=None):
+ def __init__(self,stage,reason,finish_reason=None,detail=None,attempt=None,max_tokens=None):
   self.stage=stage if stage in {'initial','review','writer','translation'} else 'unknown'
   self.reason=reason if reason in {'evidence','editorial','reference','format_or_fact','incomplete'} else 'unknown'
   self.finish_reason=finish_reason if isinstance(finish_reason,str) and finish_reason in {'stop','length','content_filter','tool_calls','insufficient_system_resource','aborted'} else 'unknown'
   self.detail=detail if isinstance(detail,str) and detail in {'preview_jargon','paid_jargon','repetition','personal_inference','review_preview_jargon','review_preview_repetition','review_preview_personal_inference','review_personal_inference'} | set(REPAIR_HINTS) else 'unspecified'
+  self.attempt=attempt if type(attempt) is int and 1<=attempt<=2 else None
+  self.max_tokens=max_tokens if type(max_tokens) is int and 1<=max_tokens<=32768 else None
   super().__init__('reading validation rejected')
 
 REQUIRED={
