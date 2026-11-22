@@ -1,42 +1,9 @@
 {
-  "automated_tests_passed": 445,
-  "real_ai_calls": 0,
-  "actual_stripe_payment_executed": "User reported/screenshotted successful v49 test flow; not repeated by assistant for this patch",
-  "neon_user_database_accessed": false,
-  "postgres_compatibility_smoke": "PASS on local PGlite PostgreSQL protocol with psycopg; not a Neon TLS/production concurrency test",
-  "local_http_smoke": "PASS Gunicorn startup and 12 bilingual responses",
-  "pdf_visual_review": "PASS embedded Chinese font, Chinese/English samples",
-  "browser_visual_test": "NOT_COMPLETED: browser binary download unavailable; JavaScript syntax and templates verified",
-  "context_comparison": [
-    {
-      "question": "找对象",
-      "baseline_context_bytes": 38519,
-      "new_context_bytes": 19976,
-      "new_rule_count": 40
-    },
-    {
-      "question": "我什么时候能拿到offer？",
-      "baseline_context_bytes": 38376,
-      "new_context_bytes": 20306,
-      "new_rule_count": 40
-    },
-    {
-      "question": "我跟他能不能结婚？",
-      "baseline_context_bytes": 38537,
-      "new_context_bytes": 19994,
-      "new_rule_count": 40
-    },
-    {
-      "question": "这笔欠款能收回来吗？",
-      "baseline_context_bytes": 38268,
-      "new_context_bytes": 20117,
-      "new_rule_count": 40
-    }
-  ],
-  "claims": "Checks cover structure, known explicit foundation errors and mocked business flows; not predictive accuracy or live model acceptance.",
-  "content_style_live_acceptance": "NOT_RUN; prompt changes require live sampling",
-  "private_test_and_rate_update": "PASS mocked auth isolation, quotas, rate escalation, busy generation and budget safeguards; no live calls",
-  "version": "v49.4-reviewed-reader-pipeline",
-  "live_model_acceptance": "NOT_RUN",
-  "scope": "Typed cited facts and editorial boundaries are checked; not full semantic verification or prediction accuracy."
+  "version": "v49.6",
+  "local_tests": 622,
+  "http_pages": 12,
+  "real_model_calls": 0,
+  "live_payment_tests": 0,
+  "browser_visual_test": false,
+  "notes": "Mock models and local HTTP only. Real provider and production acceptance outstanding."
 }

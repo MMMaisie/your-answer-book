@@ -6,7 +6,23 @@ class EditorialError(ValueError):
  def __init__(self,message,code='unspecified'):
   self.code=code
   super().__init__(message)
-class EvidenceError(ValueError):pass
+EVIDENCE_CODES={
+ 'fact_checks required':'evidence_missing',
+ 'invalid evidence shape':'evidence_shape',
+ 'unknown or duplicate fact':'evidence_reference',
+ 'fact belongs to another line':'evidence_line',
+ 'missing or unknown fact attributes':'evidence_attributes',
+ 'fact snapshot contradicts chart':'evidence_value',
+ 'decision references missing checked facts':'evidence_decision',
+ 'reason must cite checked facts':'evidence_reason',
+ 'unverified technical anchor':'evidence_anchor',
+ 'conflicting evidence formats':'evidence_conflict',
+}
+class EvidenceError(ValueError):
+ def __init__(self,message):
+  self.code=EVIDENCE_CODES.get(message,'evidence_shape')
+  super().__init__('evidence rejected: '+self.code)
+
 
 REPAIR_HINTS={
  'unverified_realworld':'不能把象意说成已证实的房屋缺陷、产权债务、疾病或第三者事实；删除断言，改为明确的核实事项。保留已复核的倾向，不编造具体原因。',
@@ -31,7 +47,7 @@ class ReadingValidationError(ValueError):
   self.stage=stage if stage in {'initial','review','writer','translation'} else 'unknown'
   self.reason=reason if reason in {'evidence','editorial','reference','format_or_fact','incomplete'} else 'unknown'
   self.finish_reason=finish_reason if isinstance(finish_reason,str) and finish_reason in {'stop','length','content_filter','tool_calls','insufficient_system_resource','aborted'} else 'unknown'
-  self.detail=detail if isinstance(detail,str) and detail in {'preview_jargon','paid_jargon','repetition','personal_inference','review_preview_jargon','review_preview_repetition','review_preview_personal_inference','review_personal_inference'} | set(REPAIR_HINTS) else 'unspecified'
+  self.detail=detail if isinstance(detail,str) and detail in {'preview_jargon','paid_jargon','repetition','personal_inference','review_preview_jargon','review_preview_repetition','review_preview_personal_inference','review_personal_inference'} | set(REPAIR_HINTS) | set(EVIDENCE_CODES.values()) else 'unspecified'
   self.attempt=attempt if type(attempt) is int and 1<=attempt<=2 else None
   self.max_tokens=max_tokens if type(max_tokens) is int and 1<=max_tokens<=32768 else None
   super().__init__('reading validation rejected')
@@ -107,3 +123,25 @@ def validate_grounded_copy(text,question=''):
   if any(re.search(pattern,sentence) for pattern in patterns):
    raise ContentValidationError('unverified_realworld')
  return text
+
+
+def resolve_evidence(value,cast):
+ if 'fact_ids' not in value:return validate_evidence(value.get('fact_checks'),cast)
+ ids=value['fact_ids']
+ if not isinstance(ids,list) or not 1<=len(ids)<=12:raise EvidenceError('fact_checks required')
+ catalog={f['id']:f for f in ledger(cast)['lines']}
+ if any(not isinstance(fid,str) or fid not in catalog for fid in ids):
+  raise EvidenceError('unknown or duplicate fact')
+ result=[]
+ for fid in dict.fromkeys(ids):
+  match=re.fullmatch(r'([1-6])\.(state|changed|hidden|day|month)',fid)
+  if not match:raise EvidenceError('unknown or duplicate fact')
+  fact=catalog[fid]
+  result.append({'fact_id':fid,'position':int(match[1]),
+    'claim':{key:fact[key] for key in sorted(REQUIRED[match[2]])}})
+ result=validate_evidence(result,cast)
+ if 'fact_checks' in value:
+  old=validate_evidence(value['fact_checks'],cast)
+  if {x['fact_id'] for x in old}!={x['fact_id'] for x in result}:
+   raise EvidenceError('conflicting evidence formats')
+ return result

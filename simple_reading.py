@@ -7,14 +7,14 @@ from reading_guard import validate_chart_claims,validate_explicit_relations
 from coarse_timing import validate_coarse_timing
 from intent_reference import intent_hints
 from retrieval import select_rules,case_rank,snapshot_metadata
-from reading_contract import validate_grounded_copy,validate_evidence,validate_reader_text,fact_notes,EditorialError,EvidenceError,ReadingValidationError,ContentValidationError,REPAIR_HINTS
+from reading_contract import validate_grounded_copy,resolve_evidence,validate_evidence,validate_reader_text,fact_notes,EditorialError,EvidenceError,ReadingValidationError,ContentValidationError,REPAIR_HINTS
 ROOT=Path(__file__).parent
 FILES=('bushi_rules.json','bushi_conditions.json','bushi_topic_packets.json','bushi_supplement.json')
 RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).read_text())['rules']]
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v49.5.1-review-length-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v49.6-program-facts-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -194,7 +194,7 @@ def _request(client,model,messages,validator,max_tokens=4096,stage='initial'):
    correction='修正JSON字段、字数、基础事实和表达问题。事实以输入卦盘为准，不为维持旧倾向保留错误。严格遵守请求结构；不要添加标题，不截断句子。'
    if isinstance(error,ContentValidationError):correction+=' 具体修正要求：'+REPAIR_HINTS[error.code]
    if isinstance(error,EditorialError):correction+=' 文案复核未通过：'+str(error)+'。免费不出现术语或改变条件；付费用白话解释，通常只留一两处依据，不推断用户吸引力或心理状态，不重复段落。'
-   if isinstance(error,EvidenceError):correction+=' 事实记录未通过。fact_checks必须逐项复制foundation_facts里的真实属性，并填写对应position；本爻、变爻、伏神不能混用。'
+   if isinstance(error,EvidenceError):correction+=' 事实引用未通过（'+error.code+'）。新版仅返回fact_ids数组，原样选择输入foundation_facts.lines的真实id；不要输出fact_checks、position或claim。本爻、变爻、伏神引用不能混用。'
    if isinstance(error,ReferenceValidationError):
     correction+=' 引用校验失败。sources必须为1至3个不同对象，每项形如{"id":"原样复制的有效编号"}。仅引用实际用于判断的输入资料，不捏造页码、编号或引用。允许编号：'+json.dumps(error.allowed_ids,ensure_ascii=False)
    messages=messages+[{'role':'assistant','content':raw},{'role':'user','content':correction}]
@@ -221,7 +221,6 @@ def decision_record(value,data):
  if not isinstance(uncertainties,list) or len(uncertainties)>3 or any(not isinstance(x,str) or len(x)>80 for x in uncertainties):raise ValueError('invalid uncertainty')
  return {'focal_positions':list(dict.fromkeys(positions)),'fact_ids':list(dict.fromkeys(ids)),'uncertainties':uncertainties}
 
-EVIDENCE_SCHEMA=[{'fact_id':'foundation_facts.lines中实际使用的id，1至12项；不要捏造','position':'与id开头一致的爻位整数1至6','claim':'从该事实复制属性：state至少branch/kin/moving；changed至少original_branch/changed_branch/original_kin/changed_kin/element_relation；hidden至少branch/kin；day或month至少source/target/element_relation。保留英文地支原值和布尔类型，不改写'}]
 
 def generate(client,question,cast,model,external_search=None):
  data,refs=context(question,cast,None)
@@ -234,7 +233,7 @@ def generate(client,question,cast,model,external_search=None):
   analysis=v.get('analysis')
   if not isinstance(analysis,str) or not 1<=len(analysis)<=600:raise ValueError('invalid analysis')
   validate_explicit_relations(analysis);validate_chart_claims(analysis,cast);validate_theory(analysis,cast);validate_coarse_timing(analysis)
-  checks=validate_evidence(v.get('fact_checks'),cast)
+  checks=resolve_evidence(v,cast)
   record=decision_record(v.get('decision_record'),data)
   if not set(record['focal_positions'])<={x['position'] for x in checks} or not set(record['fact_ids'])<={x['fact_id'] for x in checks}:raise EvidenceError('decision references missing checked facts')
   sources=validate_sources(v.get('sources'),refs)
@@ -244,8 +243,9 @@ def generate(client,question,cast,model,external_search=None):
    raise
   return {'outlook':v['outlook'],'analysis':analysis,'free':parts,'sources':sources,'decision_record':record,'fact_checks':checks, 'needs_web':v.get('needs_web') is True,'search_topics':[t for t in v.get('search_topics',[]) if isinstance(t,str)][:3] if isinstance(v.get('search_topics',[]),list) else []}
  task={'task':'仅生成免费初判与简短内部判断记录；禁止生成付费全文或paid字段。判断参考案例是否适合：仅有主题相同而关键条件不同也可认为需要联网补充。','schema':{'outlook':'favorable/mixed/difficult/unclear','analysis':'内部依据简记，目标60至100字，最多600字；不抄录规则或案例，不写完整付费解读','decision_record':{'focal_positions':'实际选用的本卦爻位整数数组；未知则空数组，不猜关系性别','fact_ids':'本次依据的foundation_facts.lines中的真实id数组','uncertainties':'最多3项短语，区分待核实条件与事实'},'free':{'direction':'判断＋一个关键点；问什么时候回应快慢，问能否成回应成事方向。可简述交易条件、关系进展等偏利或偏弱，不展开具体原因、不编造现实缺陷，不列建议。最多50字含标点，目标30至45字'},'sources':[{'id':'仅使用输入中的有效ID，最多3项，可省略；网络ID为web-开头，不冒充书籍'}],'needs_web':'若案例范围不足且尚无网络补充则true，否则false','search_topics':'通用类别数组：婚恋/求职/求财/健康/出行/失物/房屋/文书/诉讼/天气/学业/宠物/人际/其他，不写用户姓名或原问题'},'reference':data}
- task['schema']['fact_checks']=EVIDENCE_SCHEMA
- task['task']+=' 初判内部记录保持紧凑：通常选1至3项关键事实核对，确有必要可增至12项；decision_record仅列已核对的关键事实，不遍历全盘。'
+ task['schema']['fact_ids']=['仅原样选择foundation_facts.lines中的id，1至12项；不复制position或claim，程序自动填入对应爻事实']
+ task['schema'].pop('decision_record',None)
+ task['task']+=' 初判内部记录保持紧凑：通常选1至3项关键事实核对，确有必要可增至12项；只输出fact_ids引用，不复制事实属性，不遍历全盘。'
  task['allowed_source_ids']=sorted(refs)
  messages=[{'role':'system','content':SYSTEM},{'role':'user','content':json.dumps(task,ensure_ascii=False)}]
  value=_request(client,model,messages,check)
@@ -279,7 +279,7 @@ def _paid_context(question,cast,core,external_search=None,external_reference=Non
 
 def _check_review(v,cast,refs,question,initial_outlook):
  if not isinstance(v,dict) or v.get('outlook') not in OUTLOOKS:raise ValueError('invalid reviewed outlook')
- checks=validate_evidence(v.get('fact_checks'),cast);used={x['fact_id'] for x in checks}
+ checks=resolve_evidence(v,cast);used={x['fact_id'] for x in checks}
  summary=v.get('technical_summary')
  if not isinstance(summary,str) or not 1<=len(summary)<=600:raise ValueError('invalid technical summary')
  validate_chart_claims(summary,cast);validate_explicit_relations(summary);validate_coarse_timing(summary)
@@ -316,8 +316,8 @@ def review_paid(client,question,cast,model,core,external_search=None,external_re
  task={'task':'付款已由服务器授权。独立复核同一卦，提交可核对的简短判断摘要，不写付费正文。旧初判不是事实，发现依据错误应纠正，不为一致而沿用错误。不要输出长篇推理过程。仅复制真正用于判断的关键事实，通常3至6项、必要时最多12项；只用最小必需属性。answer、reasons、watch不要重复；无需凑字数。',
   'previous_initial':{k:core[k] for k in ('outlook','free') if k in core},'reference':data,'allowed_source_ids':sorted(refs),
   'schema':{'outlook':'favorable/mixed/difficult/unclear','technical_summary':'内部核对摘要，最多600字，目标60至100字；明确区分基础关系与作用是否有效，简记关键支持、限制及反向因素如何影响结论；不交给客人',
-   'fact_checks':EVIDENCE_SCHEMA,'answer':'直接回答原问题的白话要点，最多140字；涉及时间只说可支持的大概节奏',
-   'reasons':[{'explanation':'用客人能理解的语言解释一个关键原因，最多160字；总共1至2条，不堆术语，不把限制说成吸引力或精神状态有问题','fact_ids':['本次fact_checks中确实核对的id，1至4个']}],
+   'fact_ids':['原样选择foundation_facts.lines中实际用于判断的id，1至12项，不输出fact_checks或复制claim；程序填入事实'],'answer':'直接回答原问题的白话要点，最多140字；涉及时间只说可支持的大概节奏',
+   'reasons':[{'explanation':'用客人能理解的语言解释一个关键原因，最多160字；总共1至2条，不堆术语，不把限制说成吸引力或精神状态有问题','fact_ids':['本次fact_ids中确实使用的id，1至4个']}],
    'watch':'与本次判断有关的观察点或选择；解释为什么，最多180字。无依据可留空，不编造现实经历',
    'limits':'判断不能支持的具体结论，最多120字，可留空，不写通用免责声明',
    'technical_anchor_ids':'正文值得保留的0至2个已核对事实id，不强制用专业名词',
