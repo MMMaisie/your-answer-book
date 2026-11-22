@@ -9,6 +9,7 @@ class EditorialError(ValueError):
 class EvidenceError(ValueError):pass
 
 REPAIR_HINTS={
+ 'unverified_realworld':'不能把象意说成已证实的房屋缺陷、产权债务、疾病或第三者事实；删除断言，改为明确的核实事项。保留已复核的倾向，不编造具体原因。',
  'json_syntax':'返回完整合法JSON对象，不使用JSON之外的文字。',
  'prose_fields':'字段必须符合原请求：free为direction；paid为priorities、conditions、actions，值均为非空字符串。',
  'prose_markup':'只写普通文本，去掉标题括号、代码围栏、HTML和占位符。',
@@ -87,3 +88,20 @@ def fact_notes(cast,checks):
    row=next(r for r in cast['rows'] if r['position']==item['position']);h=row['hidden']
    notes[fid]=f"第{row['position']}爻下伏{h['kin']}{h['branch']}{h['element']}"
  return notes
+
+
+def validate_grounded_copy(text,question=''):
+ # Narrow regression guard, not a general semantic proof of groundedness.
+ # User questions can mention these risks without proving they exist.
+ patterns=[
+  r'(?:显示|说明|证明|确定|可见)[^。；\n]{0,30}(?:存在明显隐患|存在严重隐患|存在隐性债务|存在产权纠纷|有结构性损坏)',
+  r'(?:房屋|房子|交易条件)[^。；\n]{0,14}(?:有明显问题|存在明显问题|存在严重问题)',
+  r'(?:对方|伴侣|他|她)(?:已经|肯定|一定)(?:出轨|有第三者|隐瞒债务)',
+  r'(?:你|患者)(?:已经|肯定|一定)(?:患有|得了)[^。；\n]{1,15}',
+ ]
+ for sentence in re.split(r'[。；\n]',text):
+  # Explicitly bounded or conditional checks are not factual assertions.
+  if re.search(r'不能(?:证明|确定|判断)|无法(?:证明|确定|判断)|不代表|尚未证实|是否|若|如果',sentence):continue
+  if any(re.search(pattern,sentence) for pattern in patterns):
+   raise ContentValidationError('unverified_realworld')
+ return text
