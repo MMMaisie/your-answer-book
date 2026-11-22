@@ -68,7 +68,7 @@ def delivery_capacity(row,lang):
  if not row['bundle_json'] or row['bundle_json']=='{}':cost*=2
  # Paid reasoning and short reader-facing editing are separate calls.
  wi,wo,wf,_=budget_settings(WRITER_MODEL)
- cost+=((8000+2048)*wi+2048*wo)/1000000*wf
+ cost+=((8000+2048)*wi+4096*wo)/1000000*wf
  if lang=='en':
   ti,to,tf,_=budget_settings(TRANSLATION_MODEL)
   cost+=(6000*ti+2048*to)/1000000*tf
@@ -225,12 +225,12 @@ def generate_text(row,tier,lang,already_locked=False):
     if changed:
      stored['previous_initial']=dict(stored['bundle']);stored['correction_notice']=True
      stored['bundle']['outlook']=review['outlook']
-     if row['free_zh']:stored['bundle']['free']={'direction':review['revised_free']}
+    if row['free_zh']:stored['bundle']['free']={'direction':review['revised_free']}
     # Persist the checked summary before editing: writer retries must not repeat paid reasoning.
     with store.connect() as c:
      current=c.execute('SELECT paid_mode FROM ab49_readings WHERE id=? AND expires>?',(row['id'],time.time())).fetchone()
      if not current or current['paid_mode']!=STRIPE_MODE:raise ValueError('Paid access no longer available')
-     if changed and row['free_zh']:
+     if row['free_zh']:
       c.execute("UPDATE ab49_readings SET bundle_json=?,free_zh=?,free_en='' WHERE id=?",(canonical(stored),review['revised_free'],row['id']))
      else:c.execute('UPDATE ab49_readings SET bundle_json=? WHERE id=?',(canonical(stored),row['id']))
    with provider() as client:

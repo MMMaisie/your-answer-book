@@ -15,16 +15,34 @@ EVIDENCE_CODES={
  'fact snapshot contradicts chart':'evidence_value',
  'decision references missing checked facts':'evidence_decision',
  'reason must cite checked facts':'evidence_reason',
+ 'reason references missing':'evidence_reason_missing',
+ 'too many reason references':'evidence_reason_count',
+ 'reason reference unknown':'evidence_reason_unknown',
  'unverified technical anchor':'evidence_anchor',
  'conflicting evidence formats':'evidence_conflict',
 }
 class EvidenceError(ValueError):
  def __init__(self,message):
   self.code=EVIDENCE_CODES.get(message,'evidence_shape')
+  self.repair={
+   'evidence_reason_missing':'每个reasons条目必须有非空fact_ids数组，包含1至4个输入事实表中的真实编号；不得省略或用自然语言代替。',
+   'evidence_reason_count':'每个原因条目只选择1至4个最相关的事实编号，不能把全盘编号抄到一条原因中。',
+   'evidence_reason_unknown':'原因引用必须原样使用输入事实表中的真实编号。',
+   'evidence_reference':'核对顶层、reasons及technical_anchor_ids的全部引用，只用输入事实表存在的编号。',
+  }.get(self.code,'')
   super().__init__('evidence rejected: '+self.code)
 
 
 REPAIR_HINTS={
+ 'initial_outlook':'初判outlook必须是favorable、mixed、difficult、unclear之一。',
+ 'initial_analysis':'analysis必须为非空字符串且不超过600字，简记依据，不写全文。',
+ 'review_outlook':'复核outlook必须是favorable、mixed、difficult、unclear之一。',
+ 'review_summary':'technical_summary必须为1至600字的字符串，简记核对结果。',
+ 'review_brief':'answer、watch、limits必须为字符串，各自最多140、180、120字；不用的limits可为空字符串，不能为null。',
+ 'review_answer':'answer必须直接回应原问题，非空且最多140字。',
+ 'review_reasons':'reasons必须是包含1至2个对象的数组，每项含explanation和fact_ids。',
+ 'review_reason':'每条原因的explanation必须为1至160字的字符串。',
+ 'review_correction':'correction_reason必须为不超过160字的字符串；若复核outlook不同于previous_initial.outlook，必须简述改变判断的依据，不得留空。',
  'unverified_realworld':'不能把象意说成已证实的房屋缺陷、产权债务、疾病或第三者事实；删除断言，改为明确的核实事项。保留已复核的倾向，不编造具体原因。',
  'json_syntax':'返回完整合法JSON对象，不使用JSON之外的文字。',
  'prose_fields':'字段必须符合原请求：free为direction；paid为priorities、conditions、actions，值均为非空字符串。',

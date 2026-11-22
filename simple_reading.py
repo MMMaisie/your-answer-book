@@ -14,7 +14,7 @@ RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).rea
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v49.6.2-canonical-outlook-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v49.7-contract-audit-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -128,6 +128,27 @@ def check_parts(parts,tier,lang,cast,question=''):
  if re.search(r'必定成功|一定成功|必然失败|保证成功|guaranteed (?:success|failure)',body,re.I):raise ContentValidationError('absolute_outcome')
  return parts
 
+def validate_internal_timing(text,cast):
+ # Exact calendar facts are allowed in private notes; forecasts remain restricted.
+ calendar=cast.get('calendar') or {}
+ for key,suffix in (('day','日'),('month','月')):
+  value=calendar.get(key)
+  if isinstance(value,str) and value:text=text.replace(value+suffix,'盘面历法')
+ return validate_coarse_timing(text)
+
+
+def validate_internal_notes(text,cast,check_theory=True):
+ for code,check in (
+  ('chart_claim',lambda:validate_chart_claims(text,cast)),
+  ('element_relation',lambda:validate_explicit_relations(text)),
+  ('theory_claim',lambda:validate_theory(text,cast)),
+  ('specific_timing',lambda:validate_internal_timing(text,cast))):
+  if code=='theory_claim' and not check_theory:continue
+  try:check()
+  except ValueError as error:raise ContentValidationError(code) from error
+ return text
+
+
 def options(model,max_tokens=4096,stage=None):
  r={'response_format':{'type':'json_object'},'max_tokens':max_tokens,'extra_body':{'thinking':{'type':'enabled' if model=='deepseek-v4-pro' else 'disabled'}}}
  if stage in {'writer','translation'}:
@@ -163,7 +184,7 @@ def _request(client,model,messages,validator,max_tokens=4096,stage='initial'):
  # At most two provider calls, including malformed JSON and prose correction.
  preview_base=None
  for attempt in range(2):
-  response=client.chat.completions.create(model=model,messages=messages,**options(model,max_tokens,stage))
+  response=client.chat.completions.create(model=model,messages=messages,**options(model,max_tokens,'writer' if preview_base is not None else stage))
   finish_reason=response.choices[0].finish_reason
   if finish_reason!='stop':
    if finish_reason=='length' and not attempt:
@@ -196,7 +217,8 @@ def _request(client,model,messages,validator,max_tokens=4096,stage='initial'):
    correction='修正JSON字段、字数、基础事实和表达问题。事实以输入卦盘为准，不为维持旧倾向保留错误。严格遵守请求结构；不要添加标题，不截断句子。'
    if isinstance(error,ContentValidationError):correction+=' 具体修正要求：'+REPAIR_HINTS[error.code]
    if isinstance(error,EditorialError):correction+=' 文案复核未通过：'+str(error)+'。免费不出现术语或改变条件；付费用白话解释，通常只留一两处依据，不推断用户吸引力或心理状态，不重复段落。'
-   if isinstance(error,EvidenceError):correction+=' 事实引用未通过（'+error.code+'）。新版仅返回fact_ids数组，原样选择输入foundation_facts.lines的真实id；不要输出fact_checks、position或claim。本爻、变爻、伏神引用不能混用。'
+   if isinstance(error,EditorialError) and error.code.startswith('review_preview_'):correction+=' 仅改写revised_free的内容为50字以内白话，不含术语；返回完整复核JSON，其余复核字段保留，不要返回free或paid字段。'
+   if isinstance(error,EvidenceError):correction+=getattr(error,'repair','')+' '+' 事实引用未通过（'+error.code+'）。新版仅返回fact_ids数组，原样选择输入foundation_facts.lines的真实id；不要输出fact_checks、position或claim。本爻、变爻、伏神引用不能混用。'
    if isinstance(error,ReferenceValidationError):
     correction+=' 引用校验失败。sources必须为1至3个不同对象，每项形如{"id":"原样复制的有效编号"}。仅引用实际用于判断的输入资料，不捏造页码、编号或引用。允许编号：'+json.dumps(error.allowed_ids,ensure_ascii=False)
    if stage in {'writer','translation'}:max_tokens=min(8192,max_tokens*2)
@@ -232,10 +254,10 @@ def generate(client,question,cast,model,external_search=None):
  if not data['book_cases'] and external_search:
   attach_web(data,refs,try_search(external_search,reference_topics(question)));searched=True
  def check(v):
-  if not isinstance(v,dict) or v.get('outlook') not in OUTLOOKS:raise ValueError('invalid outlook')
+  if not isinstance(v,dict) or v.get('outlook') not in OUTLOOKS:raise ContentValidationError('initial_outlook')
   analysis=v.get('analysis')
-  if not isinstance(analysis,str) or not 1<=len(analysis)<=600:raise ValueError('invalid analysis')
-  validate_explicit_relations(analysis);validate_chart_claims(analysis,cast);validate_theory(analysis,cast);validate_coarse_timing(analysis)
+  if not isinstance(analysis,str) or not 1<=len(analysis)<=600:raise ContentValidationError('initial_analysis')
+  validate_internal_notes(analysis,cast)
   checks=resolve_evidence(v,cast)
   record=decision_record(v.get('decision_record'),data)
   if not set(record['focal_positions'])<={x['position'] for x in checks} or not set(record['fact_ids'])<={x['fact_id'] for x in checks}:raise EvidenceError('decision references missing checked facts')
@@ -281,21 +303,34 @@ def _paid_context(question,cast,core,external_search=None,external_reference=Non
  return data,refs
 
 def _check_review(v,cast,refs,question,initial_outlook):
- if not isinstance(v,dict) or v.get('outlook') not in OUTLOOKS:raise ValueError('invalid reviewed outlook')
+ if not isinstance(v,dict) or v.get('outlook') not in OUTLOOKS:raise ContentValidationError('review_outlook')
+ # New responses select IDs once; all explicitly cited reason/anchor IDs are
+ # canonicalized against the program ledger, rather than requiring duplicate lists.
+ if 'fact_ids' in v:
+  v=dict(v);ids=v['fact_ids']
+  if isinstance(ids,list):
+   ids=list(ids)
+   for item in v.get('reasons',[]) if isinstance(v.get('reasons'),list) else []:
+    if isinstance(item,dict) and isinstance(item.get('fact_ids'),list):ids.extend(item['fact_ids'])
+   if isinstance(v.get('technical_anchor_ids'),list):ids.extend(v['technical_anchor_ids'])
+   if all(isinstance(i,str) for i in ids):ids=list(dict.fromkeys(ids))
+   v['fact_ids']=ids
  checks=resolve_evidence(v,cast);used={x['fact_id'] for x in checks}
  summary=v.get('technical_summary')
- if not isinstance(summary,str) or not 1<=len(summary)<=600:raise ValueError('invalid technical summary')
- validate_chart_claims(summary,cast);validate_explicit_relations(summary);validate_coarse_timing(summary)
+ if not isinstance(summary,str) or not 1<=len(summary)<=600:raise ContentValidationError('review_summary')
+ validate_internal_notes(summary,cast,check_theory=False)
  answer=v.get('answer');watch=v.get('watch');limits=v.get('limits','')
  for text,maximum in [(answer,140),(watch,180),(limits,120)]:
-  if not isinstance(text,str) or len(text)>maximum:raise ValueError('invalid reader brief')
- if not answer.strip():raise ValueError('missing answer')
+  if not isinstance(text,str) or len(text)>maximum:raise ContentValidationError('review_brief')
+ if not answer.strip():raise ContentValidationError('review_answer')
  reasons=v.get('reasons')
- if not isinstance(reasons,list) or not 1<=len(reasons)<=2:raise ValueError('one or two relevant reasons required')
+ if not isinstance(reasons,list) or not 1<=len(reasons)<=2:raise ContentValidationError('review_reasons')
  for reason in reasons:
-  if not isinstance(reason,dict) or not isinstance(reason.get('explanation'),str) or not 1<=len(reason['explanation'])<=160:raise ValueError('invalid reason')
+  if not isinstance(reason,dict) or not isinstance(reason.get('explanation'),str) or not 1<=len(reason['explanation'])<=160:raise ContentValidationError('review_reason')
   ids=reason.get('fact_ids')
-  if not isinstance(ids,list) or not 1<=len(ids)<=4 or any(not isinstance(x,str) or x not in used for x in ids):raise EvidenceError('reason must cite checked facts')
+  if not isinstance(ids,list) or not ids:raise EvidenceError('reason references missing')
+  if len(ids)>4:raise EvidenceError('too many reason references')
+  if any(not isinstance(x,str) or x not in used for x in ids):raise EvidenceError('reason reference unknown')
  brief='。'.join([answer]+[x['explanation'] for x in reasons]+[watch,limits])
  # The short brief is for the writer; dense technical work stays in technical_summary.
  validate_chart_claims(brief,cast);validate_explicit_relations(brief);validate_reader_text(brief,'paid','zh',question,check_style=False);validate_coarse_timing(brief);validate_grounded_copy(brief,question)
@@ -304,8 +339,8 @@ def _check_review(v,cast,refs,question,initial_outlook):
  except EditorialError as error:
   raise EditorialError(str(error),'review_'+error.code) from error
  correction=v.get('correction_reason','')
- if not isinstance(correction,str) or len(correction)>160:raise ValueError('invalid correction reason')
- if v['outlook']!=initial_outlook and not correction.strip():raise ValueError('changed outlook requires an explanation')
+ if not isinstance(correction,str) or len(correction)>160:raise ContentValidationError('review_correction')
+ if v['outlook']!=initial_outlook and not correction.strip():raise ContentValidationError('review_correction')
  anchors=v.get('technical_anchor_ids',[])
  if not isinstance(anchors,list) or len(anchors)>2 or any(not isinstance(x,str) or x not in used for x in anchors):raise EvidenceError('unverified technical anchor')
  return {'outlook':v['outlook'],'technical_summary':summary,'fact_checks':checks,'answer':answer,'reasons':reasons,'watch':watch,'limits':limits,'revised_free':preview,'correction_reason':correction,'technical_anchor_ids':list(dict.fromkeys(anchors)),'sources':validate_sources(v.get('sources'),refs)}
@@ -316,7 +351,7 @@ def review_paid(client,question,cast,model,core,external_search=None,external_re
  data['review_focus']={'moving_positions':list(cast['moving']),
   'shi':cast['palace']['shi'],'ying':cast['palace']['ying'],
   'instruction':'逐一评估所列动爻及其变爻，再比较世应、用神及日月；摘要只保留改变判断的因素，明确反向因素是否有效。不输出长篇推理。'}
- task={'task':'付款已由服务器授权。独立复核同一卦，提交可核对的简短判断摘要，不写付费正文。旧初判不是事实，发现依据错误应纠正，不为一致而沿用错误。不要输出长篇推理过程。仅复制真正用于判断的关键事实，通常3至6项、必要时最多12项；只用最小必需属性。answer、reasons、watch不要重复；无需凑字数。',
+ task={'task':'付款已由服务器授权。独立复核同一卦，提交可核对的简短判断摘要，不写付费正文。旧初判不是事实，发现依据错误应纠正，不为一致而沿用错误。不要输出长篇推理过程。仅选择真正用于判断的事实编号，通常3至6项、必要时最多12项；不复制事实属性。answer、reasons、watch不要重复；无需凑字数。',
   'previous_initial':{k:core[k] for k in ('outlook','free') if k in core},'reference':data,'allowed_source_ids':sorted(refs),
   'schema':{'outlook':'favorable/mixed/difficult/unclear','technical_summary':'内部核对摘要，最多600字，目标60至100字；明确区分基础关系与作用是否有效，简记关键支持、限制及反向因素如何影响结论；不交给客人',
    'fact_ids':['原样选择foundation_facts.lines中实际用于判断的id，1至12项，不输出fact_checks或复制claim；程序填入事实'],'answer':'直接回答原问题的白话要点，最多140字；涉及时间只说可支持的大概节奏',
