@@ -70,6 +70,11 @@ class Store:
   with self.connect() as c:
    for sql in SCHEMA.split(';'):
     if sql.strip():c.execute(sql)
+   # Existing rows are historical AUD reservations; never reinterpret them as CNY.
+   if c.pg:
+    c.execute("ALTER TABLE ab49_calls ADD COLUMN IF NOT EXISTS currency TEXT NOT NULL DEFAULT 'AUD'")
+   elif 'currency' not in [row['name'] for row in c.execute('PRAGMA table_info(ab49_calls)').fetchall()]:
+    c.execute("ALTER TABLE ab49_calls ADD COLUMN currency TEXT NOT NULL DEFAULT 'AUD'")
    marker=c.execute("SELECT 1 FROM ab49_meta WHERE name='cooldown-five-seconds'").fetchone()
    if not marker:
     c.execute('DELETE FROM ab49_rates');c.execute('DELETE FROM ab49_rate_strikes')

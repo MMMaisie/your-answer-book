@@ -10,11 +10,11 @@ from retrieval import select_rules,case_rank,snapshot_metadata
 from reading_contract import validate_grounded_copy,resolve_evidence,validate_evidence,validate_reader_text,fact_notes,EditorialError,EvidenceError,ReadingValidationError,ContentValidationError,REPAIR_HINTS
 ROOT=Path(__file__).parent
 FILES=('bushi_rules.json','bushi_conditions.json','bushi_topic_packets.json','bushi_supplement.json')
-RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).read_text())['rules']]
-CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
+RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).read_text(encoding='utf-8'))['rules']]
+CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text(encoding='utf-8'))['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v49.8.1-live-acceptance-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v49.8.2-cny-resume-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -71,6 +71,7 @@ ACCURACY = """【判断范围与措辞准确度】
 先确定原问题问的是能否、快慢、选择、原因还是行动；若问“他/她适合结婚吗”，评估与这个具体对象成婚的适合程度及限制，不改答何时脱单、男女缘强弱或泛泛的婚运。可以不知道提问者性别，但必须使用已经明确的对象信息；不以性别未定作为拒答开头。判断范围必须对应问题。不把认识等同恋爱、恋爱等同结婚、面试等同录用、承诺等同到账、成交等同资产质量。
 内部先逐一审视全部动爻及其变爻、世应和所取用神，再选真正相关的依据。未使用的动爻可以不写给客人，但不能未经评估就忽略。分别比较支持与限制、反向证据、空破是否仍有作用及救应；不按不利条数累加严重程度。没有支持因素时不为平衡而编造吉象；方向不变也要说明反向因素为何不足以改变方向。
 房屋案例校准：父母爻受制可支持谨慎看待所问交易，但不能直接证明结构损坏、产权纠纷或隐性债务；这些最多是独立尽调建议，不是卦象查出的事实。官鬼动化回头克也需纳入判断，但不能自动等同阻碍消失或交易转吉。
+婚恋问对象是否适合结婚，应回答当前婚配判断与关系稳定性；不把世爻受制直接写成“你状态差、条件差”，不把应爻旺直接写成“对方条件优越”，不凭旺衰断言双方现实性格、经济或心理。可写“当前定下婚事的支持偏弱”“关系稳定性仍需观察”，但不要套用这些例句替代本盘推理。
 同样，婚恋不凭卦象断言出轨，求职不编造内定，求财不编造对方无钱，诉讼不保证胜诉，健康不作诊断，失物宠物不保证位置或生死。
 区分不受克、受到生扶、对方态度及裁判立场：不受克不等于主动支持；应爻与官鬼不可含混称作“对方或官方”。世爻偏弱不能自动坐实缺钱、缺证据、缺吸引力或精力不足。可解释为有利条件尚难落实、承接优势的力量有限，但只有规则与全盘支持时才使用。
 免费先给明确但适度的倾向，不提前断言未经证实的原因；付费补充为什么、什么条件会改变判断及相关观察点，不把初判复述三遍。不在面向客人的文案里加入“不能直接断成法院支持你”等校验辩解，只把原判断改成有依据的准确表述。强弱程度应有依据，不为吸引付款升级风险。
@@ -268,7 +269,7 @@ def generate(client,question,cast,model,external_search=None):
    if error.code=='preview_jargon':raise PreviewRewriteNeeded(error,v,question) from error
    raise
   return {'outlook':v['outlook'],'analysis':analysis,'free':parts,'sources':sources,'decision_record':record,'fact_checks':checks, 'needs_web':v.get('needs_web') is True,'search_topics':[t for t in v.get('search_topics',[]) if isinstance(t,str)][:3] if isinstance(v.get('search_topics',[]),list) else []}
- task={'task':'仅生成免费初判与简短内部判断记录；禁止生成付费全文或paid字段。判断参考案例是否适合：仅有主题相同而关键条件不同也可认为需要联网补充。','schema':{'outlook':'favorable/mixed/difficult/unclear','analysis':'内部依据简记，目标60至100字，最多600字；不抄录规则或案例，不写完整付费解读','decision_record':{'focal_positions':'实际选用的本卦爻位整数数组；未知则空数组，不猜关系性别','fact_ids':'本次依据的foundation_facts.lines中的真实id数组','uncertainties':'最多3项短语，区分待核实条件与事实'},'free':{'direction':'判断＋一个关键点；问什么时候回应快慢，问能否成回应成事方向。可简述交易条件、关系进展等偏利或偏弱，不展开具体原因、不编造现实缺陷，不列建议。最多50字含标点，目标30至45字'},'sources':[{'id':'仅使用输入中的有效ID，最多3项，可省略；网络ID为web-开头，不冒充书籍'}],'needs_web':'若案例范围不足且尚无网络补充则true，否则false','search_topics':'通用类别数组：婚恋/求职/求财/健康/出行/失物/房屋/文书/诉讼/天气/学业/宠物/人际/其他，不写用户姓名或原问题'},'reference':data}
+ task={'task':'仅生成免费初判与简短内部判断记录；禁止生成付费全文或paid字段。判断参考案例是否适合：仅有主题相同而关键条件不同也可认为需要联网补充。','schema':{'outlook':'favorable/mixed/difficult/unclear','analysis':'内部依据简记，目标60至100字，最多600字；不抄录规则或案例，不写完整付费解读','decision_record':{'focal_positions':'实际选用的本卦爻位整数数组；未知则空数组，不猜关系性别','fact_ids':'本次依据的foundation_facts.lines中的真实id数组','uncertainties':'最多3项短语，区分待核实条件与事实'},'free':{'direction':'判断＋一个关键点；问什么时候回应快慢，问能否成回应成事方向。可简述交易条件、关系进展等偏利或偏弱，不展开具体原因、不编造现实缺陷，不把爻旺衰写成客人状态差或对方现实条件优越，不列建议。最多50字含标点，目标30至45字'},'sources':[{'id':'仅使用输入中的有效ID，最多3项，可省略；网络ID为web-开头，不冒充书籍'}],'needs_web':'若案例范围不足且尚无网络补充则true，否则false','search_topics':'通用类别数组：婚恋/求职/求财/健康/出行/失物/房屋/文书/诉讼/天气/学业/宠物/人际/其他，不写用户姓名或原问题'},'reference':data}
  task['schema']['fact_ids']=['仅原样选择foundation_facts.lines中的id，1至12项；不复制position或claim，程序自动填入对应爻事实']
  task['schema'].pop('decision_record',None)
  task['task']+=' 初判内部记录保持紧凑：通常选1至3项关键事实核对，确有必要可增至12项；只输出fact_ids引用，不复制事实属性，不遍历全盘。'

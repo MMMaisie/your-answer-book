@@ -1,3 +1,5 @@
+> 当前版本 v49.8.2：每日模型预算为人民币10元；旧AUD变量停止使用。请先看文末更新及 LIVE_ACCEPTANCE_ZH.md 的续测步骤。
+
 # v49.8.1 完整队列版：部署前请读
 
 本版本新增数据库任务队列，初判和付费解读都由独立后台Worker执行。不是仅覆盖网页代码就能工作。未切换Stripe正式模式、未删除测试密码、未修改你的线上账户。
@@ -32,7 +34,7 @@
    AI_DAILY_REQUEST_LIMIT=300
    AI_MAX_CONCURRENT=5
    WEB_SEARCH_DAILY_LIMIT=20
-   AI_DAILY_BUDGET_AUD=2
+   AI_DAILY_BUDGET_CNY=10
    STRIPE_MODE=test
 
    预算仍保留A$2，采用保守预留，可能比次数上限更早触发；300次是次数上限，不表示A$2一定够300次。Web和Worker预算设置必须一致。
@@ -62,4 +64,15 @@ Render文档：https://render.com/docs/background-workers
 
 ## 新增真实API验收工具
 
-见LIVE_ACCEPTANCE_ZH.md。仅新增工具、说明及版本标记，不改变v49.8队列与支付逻辑。默认dry-run，明确--execute和--budget-aud才会产生费用。本次没有实际执行付费测试。
+见LIVE_ACCEPTANCE_ZH.md。仅新增工具、说明及版本标记，不改变v49.8队列与支付逻辑。默认dry-run，明确--execute和--budget-cny才会产生费用。本次没有实际执行付费测试。
+
+
+## v49.8.2 人民币预算与续测
+
+当前交付v49.8.2。Web和Background Worker同时更新；两个服务都设置AI_DAILY_BUDGET_CNY=10。旧AI_DAILY_BUDGET_AUD、BUDGET_AUD_PER_USD、*_USD_PER_M和WEB_SEARCH_RESERVE_AUD不再读取，删除旧变量以免混淆。新的人民币单价变量见environment.example.txt。不要让旧版本Worker继续运行。
+
+默认每日10元，UTC零点重置。新调用写入CNY标记；已有数据库自动增加currency字段，原记录保留为AUD，统计时按旧预留×5保守累计，金额不清零。×5只是旧预留的迁移安全系数，不是市场汇率。并发仍为5，排队、安全验证及支付权益不变。不同部署若共用同一个数据库，则共用网站的额度。
+
+本地真实验收见LIVE_ACCEPTANCE_ZH.md，支持--resume，不再重做已完成初判。本地账本和线上数据库相互独立；并行运行时不能声称整个API账户合计每天最多10元。
+
+本包修复Windows知识JSON默认GBK读取问题；婚恋提示词补充“不把旺衰直接写成人物现实条件优劣”。已有报告或已生成内容不会自动重写。付费真实模型完整验收仍未通过，需继续实测。

@@ -48,7 +48,7 @@ def client(tmp_path,monkeypatch):
  st=Store(path=str(tmp_path/'test.db'));st.init();monkeypatch.setattr(site,'store',st);monkeypatch.setattr(site,'protect',Protection(st,'test-secret','https://example.test'))
  site.app.config.update(TESTING=True,SESSION_COOKIE_SECURE=False)
  monkeypatch.setattr(site,'AI_KEY','not-a-real-key');monkeypatch.setattr(site,'PUBLIC_URL','https://example.test');monkeypatch.setattr(site,'STRIPE_MODE','test')
- monkeypatch.setenv('AI_DAILY_BUDGET_AUD','100');monkeypatch.setenv('AI_DAILY_REQUEST_LIMIT','100');monkeypatch.delenv('SITE_ACCESS_PASSWORD',raising=False)
+ monkeypatch.setenv('AI_DAILY_BUDGET_CNY','100');monkeypatch.setenv('AI_DAILY_REQUEST_LIMIT','100');monkeypatch.delenv('SITE_ACCESS_PASSWORD',raising=False)
  monkeypatch.setattr(site.protect,'verify',lambda action:None)
  return site.app.test_client()
 @pytest.fixture

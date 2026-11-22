@@ -1,10 +1,12 @@
 {
-  "version": "v49.8.1",
-  "local_tests": 961,
+  "version": "v49.8.2",
+  "local_tests": 968,
   "http_pages": 12,
-  "real_model_calls": 0,
+  "assistant_real_model_calls": 0,
+  "user_real_report_reviewed": "one initial call passed; paid stage budget-stopped under old AUD policy",
+  "real_paid_acceptance_passed": false,
   "live_payment_tests": 0,
   "browser_visual_test": false,
-  "local_postgresql_protocol_queue_check": "inherited v49.8; queue code unchanged",
-  "notes": "Mock models and local HTTP only. Real provider and production acceptance outstanding."
+  "local_postgresql_protocol_queue_check": "passed schema migration/idempotent init and free-to-paid queue with mocked provider",
+  "notes": "968 automated tests use scripted providers. Twelve HTTP pages and local PostgreSQL protocol passed. New live paid acceptance, production payments and browser acceptance outstanding."
 }

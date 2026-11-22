@@ -23,7 +23,7 @@ if not secret:
  if production:raise RuntimeError('Configure FLASK_SECRET_KEY in the server environment.')
  local=ROOT/'.local-secret-v49'
  if not local.exists():local.write_text(secrets.token_hex(32));local.chmod(0o600)
- secret=local.read_text().strip()
+ secret=local.read_text(encoding='utf-8').strip()
 app.config.update(SECRET_KEY=secret,MAX_CONTENT_LENGTH=32768,SESSION_COOKIE_HTTPONLY=True,SESSION_COOKIE_SAMESITE='Lax',SESSION_COOKIE_SECURE=production,PERMANENT_SESSION_LIFETIME=timedelta(days=30))
 app.jinja_env.globals.update(t=t,hx=hx)
 PUBLIC_URL=(os.getenv('PUBLIC_BASE_URL') or os.getenv('RENDER_EXTERNAL_URL','')).rstrip('/')

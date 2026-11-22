@@ -10,7 +10,7 @@ def auth(password='private-unit-password'):
 
 @pytest.mark.parametrize('model',['deepseek-v4-pro','deepseek-search'])
 def test_authenticated_test_ignores_every_usage_limit(client,monkeypatch,model):
- for key,value in {'SITE_ACCESS_PASSWORD':'private-unit-password','PRIVATE_TEST_UNLIMITED':'1','AI_DAILY_BUDGET_AUD':'0.000001','AI_DAILY_REQUEST_LIMIT':'0','AI_MAX_CONCURRENT':'0','WEB_SEARCH_DAILY_LIMIT':'0'}.items():monkeypatch.setenv(key,value)
+ for key,value in {'SITE_ACCESS_PASSWORD':'private-unit-password','PRIVATE_TEST_UNLIMITED':'1','AI_DAILY_BUDGET_CNY':'0.000001','AI_DAILY_REQUEST_LIMIT':'0','AI_MAX_CONCURRENT':'0','WEB_SEARCH_DAILY_LIMIT':'0'}.items():monkeypatch.setenv(key,value)
  day=datetime.now(timezone.utc).strftime('%Y-%m-%d')
  with site.store.connect() as c:c.execute('INSERT INTO ab49_calls(id,day,model,status,reserve,created) VALUES(?,?,?,?,?,?)',('active',day,model,'reserved',999,time.time()))
  m=Model([initial(),initial()])

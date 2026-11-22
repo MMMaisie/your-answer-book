@@ -70,16 +70,16 @@ class Protection:
    if success:c.execute("UPDATE ab49_trials SET status='used' WHERE reservation=?",(rid,))
    else:c.execute("DELETE FROM ab49_trials WHERE reservation=? AND status='held'",(rid,))
 
-# Configurable upper-bound rates, USD per million tokens; over-reservation is intentional.
+# Configurable upper-bound CNY rates per million tokens; no currency conversion.
 # These are safety allowances, NOT a vendor price quotation. Raising provider prices requires updating them.
-DEFAULT_RATES={'deepseek-v4-pro':(10.,40.),'deepseek-flash':(2.,8.),'deepseek-search':(1.,1.)}
+DEFAULT_RATES={'deepseek-v4-pro':(10.,30.),'deepseek-flash':(2.5,10.),'deepseek-search':(1.,1.)}
 class BudgetExceeded(Exception):pass
 
 def budget_settings(model):
  rates=DEFAULT_RATES.get(model)
  if rates is None:raise BudgetExceeded()
  prefix='AI_PRO' if model=='deepseek-v4-pro' else 'AI_FLASH'
- values=[float(os.getenv(prefix+'_INPUT_USD_PER_M',str(rates[0]))),float(os.getenv(prefix+'_OUTPUT_USD_PER_M',str(rates[1]))),float(os.getenv('BUDGET_AUD_PER_USD','2')),float(os.getenv('AI_DAILY_BUDGET_AUD','2'))]
+ values=[float(os.getenv(prefix+'_INPUT_CNY_PER_M',str(rates[0]))),float(os.getenv(prefix+'_OUTPUT_CNY_PER_M',str(rates[1]))),1.,float(os.getenv('AI_DAILY_BUDGET_CNY','10'))]
  if any(not math.isfinite(x) or x<=0 for x in values) or values[2]<1:raise BudgetExceeded()
  return values
 
@@ -88,7 +88,7 @@ def capacity(store,reserve_needed=0):
   if os.getenv('AI_ENABLED','1')!='1':return False
   if private_test_unlimited():return True
   *_,budget=budget_settings('deepseek-v4-pro');day=datetime.now(timezone.utc).strftime('%Y-%m-%d')
-  with store.connect() as c:r=c.execute('SELECT COUNT(*) AS n, COALESCE(SUM(reserve),0) AS cost FROM ab49_calls WHERE day=?',(day,)).fetchone()
+  with store.connect() as c:r=c.execute("SELECT COUNT(*) AS n, COALESCE(SUM(CASE WHEN currency='CNY' THEN reserve ELSE reserve*5 END),0) AS cost FROM ab49_calls WHERE day=?",(day,)).fetchone()
   return r['n']<int(os.getenv('AI_DAILY_REQUEST_LIMIT','300')) and r['cost']+reserve_needed<budget
  except (ValueError,BudgetExceeded):return False
 
@@ -101,19 +101,19 @@ def bounded_client(client,store,max_output_tokens=8192):
   size=len(json.dumps(kwargs.get('messages',[]),ensure_ascii=False).encode())
   if not unlimited and size>90000:raise BudgetExceeded()
   maximum=min(min(32768,max(1,int(max_output_tokens))),max(1,int(kwargs.get('max_tokens',4096))));kwargs['max_tokens']=maximum
-  reserve=float(os.getenv('WEB_SEARCH_RESERVE_AUD','0.10')) if kwargs['model']=='deepseek-search' else ((size+2048)*input_rate+maximum*output_rate)/1000000*factor
+  reserve=float(os.getenv('WEB_SEARCH_RESERVE_CNY','0.05')) if kwargs['model']=='deepseek-search' else ((size+2048)*input_rate+maximum*output_rate)/1000000*factor
   if unlimited:reserve=0.
   elif not math.isfinite(reserve) or reserve<=0:raise BudgetExceeded()
   day=datetime.now(timezone.utc).strftime('%Y-%m-%d');now=time.time();cid=secrets.token_hex(16)
   with store.connect() as c:
-   row=c.execute('SELECT COUNT(*) AS n,COALESCE(SUM(reserve),0) AS cost FROM ab49_calls WHERE day=?',(day,)).fetchone()
+   row=c.execute("SELECT COUNT(*) AS n,COALESCE(SUM(CASE WHEN currency='CNY' THEN reserve ELSE reserve*5 END),0) AS cost FROM ab49_calls WHERE day=?",(day,)).fetchone()
    if not unlimited and kwargs['model']=='deepseek-search':
     searches=c.execute("SELECT COUNT(*) AS n FROM ab49_calls WHERE day=? AND model='deepseek-search'",(day,)).fetchone()['n']
     if searches>=int(os.getenv('WEB_SEARCH_DAILY_LIMIT','20')):raise BudgetExceeded()
    active=c.execute("SELECT COUNT(*) AS n FROM ab49_calls WHERE status='reserved' AND created>?",(now-900,)).fetchone()['n']
    if not unlimited and active>=int(os.getenv('AI_MAX_CONCURRENT','5')):raise InProgress()
    if not unlimited and (row['n']>=int(os.getenv('AI_DAILY_REQUEST_LIMIT','300')) or row['cost']+reserve>budget):raise BudgetExceeded()
-   c.execute('INSERT INTO ab49_calls(id,day,model,status,reserve,created) VALUES(?,?,?,?,?,?)',(cid,day,kwargs['model'],'reserved',reserve,now))
+   c.execute('INSERT INTO ab49_calls(id,day,model,status,reserve,created,currency) VALUES(?,?,?,?,?,?,?)',(cid,day,kwargs['model'],'reserved',reserve,now,'CNY'))
   try:response=client.chat.completions.create(**kwargs)
   except Exception:
    with store.connect() as c:c.execute("UPDATE ab49_calls SET status='failed' WHERE id=?",(cid,))

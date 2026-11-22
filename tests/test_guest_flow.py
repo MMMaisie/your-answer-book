@@ -171,7 +171,7 @@ def test_paid_mode_isolated(client,model):
  submit(client);r=row(client);paid(r,'live');assert post_generate(client,r).status_code==403 and len(model.calls)==1
 
 def test_budget_pauses_before_any_provider_call(client,monkeypatch):
- monkeypatch.setenv('AI_DAILY_BUDGET_AUD','0.000001');m=Model([initial()]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m)
+ monkeypatch.setenv('AI_DAILY_BUDGET_CNY','0.000001');m=Model([initial()]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m)
  response=submit(client);assert 'AI 服务暂不可用或已达到服务用量上限' in response.text and len(m.calls)==0
 
 def test_global_concurrency_and_reservations_survive_store_reopen(client,monkeypatch):
@@ -211,7 +211,7 @@ def test_no_raw_ip_no_model_key_in_html(client,model):
 
 def test_checkout_does_not_start_when_remaining_budget_cannot_cover_delivery(client,model,monkeypatch):
  submit(client);r=row(client)
- monkeypatch.setattr(site,'checkout_ready',lambda:True);monkeypatch.setenv('AI_DAILY_BUDGET_AUD','0.01')
+ monkeypatch.setattr(site,'checkout_ready',lambda:True);monkeypatch.setenv('AI_DAILY_BUDGET_CNY','0.01')
  class Sessions:
   def create(self,*a,**kw):raise AssertionError('Must not charge when delivery budget is unavailable')
  monkeypatch.setattr(site,'stripe_client',NS(v1=NS(checkout=NS(sessions=Sessions()))))
