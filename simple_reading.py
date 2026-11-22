@@ -14,7 +14,7 @@ RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).rea
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v49.6-program-facts-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v49.6.1-writer-mode-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -68,7 +68,7 @@ def context(question,cast,external_search=None):
 # Foundation instructions and client-facing writing are separate so style never overrides facts.
 ACCURACY = """【判断范围与措辞准确度】
 盘面事实、传统解释、现实事实必须分开：卦盘能核对的是爻位、六亲、日月动变；象意不能证明现实中已有缺陷、隐瞒、第三者、疾病、债务或对方心理。用户未提供的情况不得补成故事，也不以“可能”包装任意猜测。
-先确定原问题问的是能否、快慢、选择、原因还是行动；判断范围必须对应问题。不把认识等同恋爱、恋爱等同结婚、面试等同录用、承诺等同到账、成交等同资产质量。
+先确定原问题问的是能否、快慢、选择、原因还是行动；若问“他/她适合结婚吗”，评估与这个具体对象成婚的适合程度及限制，不改答何时脱单、男女缘强弱或泛泛的婚运。可以不知道提问者性别，但必须使用已经明确的对象信息；不以性别未定作为拒答开头。判断范围必须对应问题。不把认识等同恋爱、恋爱等同结婚、面试等同录用、承诺等同到账、成交等同资产质量。
 内部先逐一审视全部动爻及其变爻、世应和所取用神，再选真正相关的依据。未使用的动爻可以不写给客人，但不能未经评估就忽略。分别比较支持与限制、反向证据、空破是否仍有作用及救应；不按不利条数累加严重程度。没有支持因素时不为平衡而编造吉象；方向不变也要说明反向因素为何不足以改变方向。
 房屋案例校准：父母爻受制可支持谨慎看待所问交易，但不能直接证明结构损坏、产权纠纷或隐性债务；这些最多是独立尽调建议，不是卦象查出的事实。官鬼动化回头克也需纳入判断，但不能自动等同阻碍消失或交易转吉。
 同样，婚恋不凭卦象断言出轨，求职不编造内定，求财不编造对方无钱，诉讼不保证胜诉，健康不作诊断，失物宠物不保证位置或生死。
@@ -128,9 +128,11 @@ def check_parts(parts,tier,lang,cast,question=''):
  if re.search(r'必定成功|一定成功|必然失败|保证成功|guaranteed (?:success|failure)',body,re.I):raise ContentValidationError('absolute_outcome')
  return parts
 
-def options(model,max_tokens=4096):
+def options(model,max_tokens=4096,stage=None):
  r={'response_format':{'type':'json_object'},'max_tokens':max_tokens,'extra_body':{'thinking':{'type':'enabled' if model=='deepseek-v4-pro' else 'disabled'}}}
- if model=='deepseek-v4-pro':r['reasoning_effort']='low'
+ if stage in {'writer','translation'}:
+  r['extra_body']['thinking']['type']='disabled'
+ elif model=='deepseek-v4-pro':r['reasoning_effort']='low'
  else:r['temperature']=0.25
  return r
 
@@ -161,7 +163,7 @@ def _request(client,model,messages,validator,max_tokens=4096,stage='initial'):
  # At most two provider calls, including malformed JSON and prose correction.
  preview_base=None
  for attempt in range(2):
-  response=client.chat.completions.create(model=model,messages=messages,**options(model,max_tokens))
+  response=client.chat.completions.create(model=model,messages=messages,**options(model,max_tokens,stage))
   finish_reason=response.choices[0].finish_reason
   if finish_reason!='stop':
    if finish_reason=='length' and not attempt:
@@ -197,6 +199,7 @@ def _request(client,model,messages,validator,max_tokens=4096,stage='initial'):
    if isinstance(error,EvidenceError):correction+=' 事实引用未通过（'+error.code+'）。新版仅返回fact_ids数组，原样选择输入foundation_facts.lines的真实id；不要输出fact_checks、position或claim。本爻、变爻、伏神引用不能混用。'
    if isinstance(error,ReferenceValidationError):
     correction+=' 引用校验失败。sources必须为1至3个不同对象，每项形如{"id":"原样复制的有效编号"}。仅引用实际用于判断的输入资料，不捏造页码、编号或引用。允许编号：'+json.dumps(error.allowed_ids,ensure_ascii=False)
+   if stage in {'writer','translation'}:max_tokens=min(8192,max_tokens*2)
    messages=messages+[{'role':'assistant','content':raw},{'role':'user','content':correction}]
 
 def attach_web(data,refs,external):
@@ -352,7 +355,7 @@ def generate_paid(client,question,cast,model,core,external_search=None,external_
  def check(v):
   if not isinstance(v,dict) or v.get('outlook')!=review['outlook']:raise ContentValidationError('writer_outlook')
   return check_parts(normalize_parts(v.get('paid'),'paid'),'paid','zh',cast,question)
- return _request(client,writer_model or model,[{'role':'system','content':WRITER_SYSTEM},{'role':'user','content':json.dumps(task,ensure_ascii=False)}],check,2048,stage='writer')
+ return _request(client,writer_model or model,[{'role':'system','content':WRITER_SYSTEM},{'role':'user','content':json.dumps(task,ensure_ascii=False)}],check,4096,stage='writer')
 
 def render(bundle,tier,lang='zh',translated=None):
  parts=translated or bundle[tier]

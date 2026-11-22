@@ -1,6 +1,6 @@
 {
-  "version": "v49.6",
-  "local_tests": 622,
+  "version": "v49.6.1",
+  "local_tests": 627,
   "http_pages": 12,
   "real_model_calls": 0,
   "live_payment_tests": 0,
