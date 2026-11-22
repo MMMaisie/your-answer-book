@@ -7,12 +7,30 @@ class EditorialError(ValueError):
   self.code=code
   super().__init__(message)
 class EvidenceError(ValueError):pass
+
+REPAIR_HINTS={
+ 'json_syntax':'返回完整合法JSON对象，不使用JSON之外的文字。',
+ 'prose_fields':'字段必须符合原请求：free为direction；paid为priorities、conditions、actions，值均为非空字符串。',
+ 'prose_markup':'只写普通文本，去掉标题括号、代码围栏、HTML和占位符。',
+ 'prose_length':'总长度超限：按原请求的语言、tier和limit精简；中文按含标点字符数、英文按词数计算，所有字段合计，不截断句子。',
+ 'language_leakage':'英文内容中不能出现未翻译的中文。',
+ 'chart_claim':'正文中的爻位、六亲、动静或月建状态与卦盘不一致。不得新编依据；回到已核对摘要，删去不受支持的技术断言，保留判断。',
+ 'element_relation':'正文的五行关系方向与基础关系不一致。不得新编依据；按已核对摘要用白话解释，不自行添加生克断言。',
+ 'theory_claim':'正文中的空破、生克、回头生克等技术断言未通过核对。只按已核对摘要表达，不新增技术结论。',
+ 'specific_timing':'删除具体日期、干支应期和数字时长，只保留有依据的大概节奏。',
+ 'absolute_outcome':'删除保证或必然成功失败的措辞，保持原有倾向和不确定范围。',
+ 'writer_outlook':'outlook必须原样复制请求schema中的值，不得改变已复核判断。'
+}
+class ContentValidationError(ValueError):
+ def __init__(self,code):
+  self.code=code
+  super().__init__('content validation rejected: '+(code if code in REPAIR_HINTS else 'unspecified'))
 class ReadingValidationError(ValueError):
  def __init__(self,stage,reason,finish_reason=None,detail=None):
   self.stage=stage if stage in {'initial','review','writer','translation'} else 'unknown'
   self.reason=reason if reason in {'evidence','editorial','reference','format_or_fact','incomplete'} else 'unknown'
   self.finish_reason=finish_reason if isinstance(finish_reason,str) and finish_reason in {'stop','length','content_filter','tool_calls','insufficient_system_resource','aborted'} else 'unknown'
-  self.detail=detail if isinstance(detail,str) and detail in {'preview_jargon','paid_jargon','repetition','personal_inference','review_preview_jargon','review_preview_repetition','review_preview_personal_inference','review_personal_inference'} else 'unspecified'
+  self.detail=detail if isinstance(detail,str) and detail in {'preview_jargon','paid_jargon','repetition','personal_inference','review_preview_jargon','review_preview_repetition','review_preview_personal_inference','review_personal_inference'} | set(REPAIR_HINTS) else 'unspecified'
   super().__init__('reading validation rejected')
 
 REQUIRED={

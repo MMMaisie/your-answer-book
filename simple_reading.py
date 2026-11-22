@@ -6,14 +6,14 @@ from theory_facts import ledger,validate_theory,validate_translation_focus
 from reading_guard import validate_chart_claims,validate_explicit_relations
 from coarse_timing import validate_coarse_timing
 from retrieval import select_rules,case_rank,snapshot_metadata
-from reading_contract import validate_evidence,validate_reader_text,fact_notes,EditorialError,EvidenceError,ReadingValidationError
+from reading_contract import validate_evidence,validate_reader_text,fact_notes,EditorialError,EvidenceError,ReadingValidationError,ContentValidationError,REPAIR_HINTS
 ROOT=Path(__file__).parent
 FILES=('bushi_rules.json','bushi_conditions.json','bushi_topic_packets.json','bushi_supplement.json')
 RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).read_text())['rules']]
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v49.4.2-review-boundary-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v49.4.3-writer-repair-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -102,14 +102,20 @@ def normalize_parts(parts,tier):
  return {k:re.sub(r'^【[^】]{1,24}】\s*','',v.strip()) if isinstance(v,str) else v for k,v in parts.items() if k in FIELDS[tier]}
 
 def check_parts(parts,tier,lang,cast,question=''):
- if not isinstance(parts,dict) or set(parts)!=set(FIELDS[tier]):raise ValueError('invalid '+tier+' fields')
- if any(not isinstance(v,str) or not v.strip() or re.search(r'【|```|<|\{[DFC]:',v) for v in parts.values()):raise ValueError('invalid prose')
+ if not isinstance(parts,dict) or set(parts)!=set(FIELDS[tier]):raise ContentValidationError('prose_fields')
+ if any(not isinstance(v,str) or not v.strip() or re.search(r'【|```|<|\{[DFC]:',v) for v in parts.values()):raise ContentValidationError('prose_markup')
  body=' '.join(parts[f] for f in FIELDS[tier]);n=count(body,lang);hi=LIMITS[lang][tier]
- if not 1<=n<=hi:raise ValueError(f'{tier} length {n}; allowed 1-{hi}')
- if lang=='en' and re.search(r'[\u3400-\u9fff]',body):raise ValueError('English language leakage')
- validate_chart_claims(body,cast);validate_explicit_relations(body);validate_theory(body,cast);validate_coarse_timing(body)
+ if not 1<=n<=hi:raise ContentValidationError('prose_length')
+ if lang=='en' and re.search(r'[\u3400-\u9fff]',body):raise ContentValidationError('language_leakage')
+ for code,check in [
+  ('chart_claim',lambda:validate_chart_claims(body,cast)),
+  ('element_relation',lambda:validate_explicit_relations(body)),
+  ('theory_claim',lambda:validate_theory(body,cast)),
+  ('specific_timing',lambda:validate_coarse_timing(body))]:
+  try:check()
+  except ValueError as error:raise ContentValidationError(code) from error
  validate_reader_text(body,tier,lang,question)
- if re.search(r'必定成功|一定成功|必然失败|保证成功|guaranteed (?:success|failure)',body,re.I):raise ValueError('absolute outcome')
+ if re.search(r'必定成功|一定成功|必然失败|保证成功|guaranteed (?:success|failure)',body,re.I):raise ContentValidationError('absolute_outcome')
  return parts
 
 def options(model,max_tokens=4096):
@@ -148,13 +154,17 @@ def _request(client,model,messages,validator,max_tokens=4096,stage='initial'):
     continue
    raise ReadingValidationError(stage,'incomplete',finish_reason)
   raw=response.choices[0].message.content or '{}'
-  try:return validator(parse_model_json(raw))
+  try:
+   try:value=parse_model_json(raw)
+   except (ValueError,TypeError) as error:raise ContentValidationError('json_syntax') from error
+   return validator(value)
   except (ValueError,TypeError,KeyError) as error:
    if attempt:
     reason='evidence' if isinstance(error,EvidenceError) else 'editorial' if isinstance(error,EditorialError) else 'reference' if isinstance(error,ReferenceValidationError) else 'format_or_fact'
     raise ReadingValidationError(stage,reason,'stop',getattr(error,'code',None)) from error
    # Never include arbitrary exception text, user secrets, or a new judgement instruction.
    correction='修正JSON字段、字数、基础事实和表达问题。事实以输入卦盘为准，不为维持旧倾向保留错误。严格遵守请求结构；不要添加标题，不截断句子。'
+   if isinstance(error,ContentValidationError):correction+=' 具体修正要求：'+REPAIR_HINTS[error.code]
    if isinstance(error,EditorialError):correction+=' 文案复核未通过：'+str(error)+'。免费不出现术语或改变条件；付费用白话解释，通常只留一两处依据，不推断用户吸引力或心理状态，不重复段落。'
    if isinstance(error,EvidenceError):correction+=' 事实记录未通过。fact_checks必须逐项复制foundation_facts里的真实属性，并填写对应position；本爻、变爻、伏神不能混用。'
    if isinstance(error,ReferenceValidationError):
@@ -302,7 +312,7 @@ def generate_paid(client,question,cast,model,core,external_search=None,external_
  task={'task':'将已核对摘要整理成客人读得懂的付费解读，不进行新的解卦。不照抄技术提示；若保留专业依据，立即解释意义。',
   'question':question,'reviewed_brief':brief,'schema':{'outlook':review['outlook'],'paid':{'priorities':'先回答原问题，不写分析笔记','conditions':'补充关键解释，不重复第一段','actions':'相关的观察点或选择，不重复前两段'}},'limit':'paid三个字段合计最多300字，含标点；目标220至270字，不加标题。'}
  def check(v):
-  if not isinstance(v,dict) or v.get('outlook')!=review['outlook']:raise ValueError('writer changed reviewed judgement')
+  if not isinstance(v,dict) or v.get('outlook')!=review['outlook']:raise ContentValidationError('writer_outlook')
   return check_parts(normalize_parts(v.get('paid'),'paid'),'paid','zh',cast,question)
  return _request(client,writer_model or model,[{'role':'system','content':WRITER_SYSTEM},{'role':'user','content':json.dumps(task,ensure_ascii=False)}],check,2048,stage='writer')
 
