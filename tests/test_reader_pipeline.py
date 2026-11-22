@@ -44,9 +44,9 @@ def test_unknown_and_missing_fact_attributes_are_rejected():
 def test_real_preview_technical_leak_requests_one_bounded_rewrite(text):
  bad=initial(CAST);bad['free']['direction']=text
  good=initial(CAST);good['free']['direction']='眼下进展偏慢，近期不宜期待迅速确定关系。'
- m=Model([bad,good]);value=engine.generate(m,'什么时候能找到对象？',CAST,'deepseek-v4-pro')
+ m=Model([bad,{'free':good['free']}]);value=engine.generate(m,'什么时候能找到对象？',CAST,'deepseek-v4-pro')
  assert value['bundle']['free']==good['free'] and len(m.calls)==2
- assert '免费不出现术语' in m.calls[-1]['messages'][-1]['content']
+ assert '不重新解卦' in m.calls[-1]['messages'][0]['content']
 
 @pytest.mark.parametrize('text',[
  '男看妻财，申酉空且世爻月破日克；女看官鬼亥水，月克日泄，伏神无力。',

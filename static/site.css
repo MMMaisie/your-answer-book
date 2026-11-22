@@ -35,3 +35,7 @@ body{overflow-wrap:break-word}.table-wrap{max-width:100%}.cast-cards .oracle-car
 .tier-comparison{margin:20px 0;max-width:100%;overflow-x:auto}.tier-comparison table{width:100%;min-width:0;border-collapse:collapse;table-layout:fixed}.tier-comparison caption{text-align:left;color:var(--gold);padding-bottom:10px}.tier-comparison th,.tier-comparison td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:normal;overflow-wrap:anywhere;font-size:.9rem}.tier-comparison thead th{color:var(--gold-bright)}.tier-comparison th:first-child{width:27%}.tier-comparison td{color:var(--muted)}@media(max-width:600px){.tier-comparison th,.tier-comparison td{font-size:.78rem;padding:10px 6px}}
 
 .card-head>span:last-child{white-space:nowrap;flex-shrink:0}
+
+/* Topic introduction: compact desktop list, full-width below intro on phones. */
+.topic-guide{margin:22px 0 28px}.topic-guide h2{font-family:var(--serif);font-size:1.05rem;color:var(--gold-bright);margin:0 0 12px;line-height:1.7}.topic-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0 0 13px}.topic-tags li{border:1px solid var(--line);border-radius:4px;padding:5px 9px;font-size:.8rem;color:var(--gold);line-height:1.5}.topic-guide p,.question-examples{color:var(--muted);font-size:.82rem;line-height:1.9}.question-examples{margin:-3px 0 23px}
+@media(max-width:760px){.casting-intro .topic-guide{margin-right:-105px;padding-top:10px;clear:both}.topic-guide h2{font-size:.95rem}.topic-tags{gap:7px}.topic-tags li{font-size:.76rem}.topic-guide p{font-size:.8rem}}

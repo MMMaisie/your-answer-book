@@ -119,7 +119,7 @@ def provider():
  if not AI_KEY or os.getenv('AI_ENABLED','1')!='1':raise BudgetExceeded()
  return OpenAI(api_key=AI_KEY,base_url='https://api.deepseek.com',timeout=75,max_retries=0)
 
-def notify_failure(error):
+def notify_failure(error,paid=False):
  if isinstance(error,InProgress):
   flash(label('正在处理，请稍候。请勿重复提交，可稍后刷新查看结果。','Processing. Please do not submit again; refresh shortly to view the result.'),'info')
  elif isinstance(error,BudgetExceeded):
@@ -131,7 +131,9 @@ def notify_failure(error):
   # Never log API response bodies, connection strings, user questions or credentials.
   if isinstance(error,ReadingValidationError):app.logger.warning('Reading operation failed: category=%s stage=%s reason=%s finish_reason=%s detail=%s',type(error).__name__,error.stage,error.reason,error.finish_reason,error.detail)
   else:app.logger.warning('Reading operation failed: category=%s',type(error).__name__)
-  flash(label('本次解读未完成，请稍后重试。已确认的付款仍有效。','The reading could not be completed. Please retry later; confirmed payment remains valid.'),'error')
+  message=label('本次解读未完成，请稍后重试。','The reading could not be completed. Please retry later.')
+  if paid:message+=label('已确认的付款仍有效。',' Confirmed payment remains valid.')
+  flash(message,'error')
 
 def initial(question,cast):
  with provider() as client:return engine.generate(bounded_client(client,store),question,cast,AI_MODEL)
@@ -253,7 +255,7 @@ def generate_reading(access):
   protect.verify('generate')
   if tier=='paid':generate_text(row,'paid','zh');row=fetch_private(access)
   if g.lang=='en':generate_text(row,tier,'en')
- except Exception as error:notify_failure(error)
+ except Exception as error:notify_failure(error,paid=unlocked(row))
  return redirect(url_for('reading_page',access=access,lang=g.lang))
 
 @app.get('/history')

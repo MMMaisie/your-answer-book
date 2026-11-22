@@ -1,0 +1,8174 @@
+[
+  {
+    "id": "bits-0-moves-0",
+    "words": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "坤为地",
+    "changed": "坤为地",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-0-moves-1",
+    "words": [
+      3,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "坤为地",
+    "changed": "地雷复",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-0-moves-2",
+    "words": [
+      1,
+      3,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "坤为地",
+    "changed": "地水师",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-0-moves-21",
+    "words": [
+      3,
+      1,
+      3,
+      1,
+      3,
+      1
+    ],
+    "main": "坤为地",
+    "changed": "水火既济",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-0-moves-63",
+    "words": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "main": "坤为地",
+    "changed": "乾为天",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-1-moves-0",
+    "words": [
+      2,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "地雷复",
+    "changed": "地雷复",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-1-moves-1",
+    "words": [
+      0,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "地雷复",
+    "changed": "坤为地",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-1-moves-2",
+    "words": [
+      2,
+      3,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "地雷复",
+    "changed": "地泽临",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-1-moves-21",
+    "words": [
+      0,
+      1,
+      3,
+      1,
+      3,
+      1
+    ],
+    "main": "地雷复",
+    "changed": "水山蹇",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-1-moves-63",
+    "words": [
+      0,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "main": "地雷复",
+    "changed": "天风姤",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-2-moves-0",
+    "words": [
+      1,
+      2,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "地水师",
+    "changed": "地水师",
+    "tags": [
+      "静卦",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-2-moves-1",
+    "words": [
+      3,
+      2,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "地水师",
+    "changed": "地泽临",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-2-moves-2",
+    "words": [
+      1,
+      0,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "地水师",
+    "changed": "坤为地",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-2-moves-21",
+    "words": [
+      3,
+      2,
+      3,
+      1,
+      3,
+      1
+    ],
+    "main": "地水师",
+    "changed": "水天需",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-2-moves-63",
+    "words": [
+      3,
+      0,
+      3,
+      3,
+      3,
+      3
+    ],
+    "main": "地水师",
+    "changed": "天火同人",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-3-moves-0",
+    "words": [
+      2,
+      2,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "地泽临",
+    "changed": "地泽临",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-3-moves-1",
+    "words": [
+      0,
+      2,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "地泽临",
+    "changed": "地水师",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-3-moves-2",
+    "words": [
+      2,
+      0,
+      1,
+      1,
+      1,
+      1
+    ],
+    "main": "地泽临",
+    "changed": "地雷复",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-3-moves-21",
+    "words": [
+      0,
+      2,
+      3,
+      1,
+      3,
+      1
+    ],
+    "main": "地泽临",
+    "changed": "水风井",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-3-moves-63",
+    "words": [
+      0,
+      0,
+      3,
+      3,
+      3,
+      3
+    ],
+    "main": "地泽临",
+    "changed": "天山遁",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-4-moves-0",
+    "words": [
+      1,
+      1,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地山谦",
+    "changed": "地山谦",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-4-moves-1",
+    "words": [
+      3,
+      1,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地山谦",
+    "changed": "地火明夷",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-4-moves-2",
+    "words": [
+      1,
+      3,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地山谦",
+    "changed": "地风升",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-4-moves-21",
+    "words": [
+      3,
+      1,
+      0,
+      1,
+      3,
+      1
+    ],
+    "main": "地山谦",
+    "changed": "水雷屯",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-4-moves-63",
+    "words": [
+      3,
+      3,
+      0,
+      3,
+      3,
+      3
+    ],
+    "main": "地山谦",
+    "changed": "天泽履",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-5-moves-0",
+    "words": [
+      2,
+      1,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地火明夷",
+    "changed": "地火明夷",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-5-moves-1",
+    "words": [
+      0,
+      1,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地火明夷",
+    "changed": "地山谦",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-5-moves-2",
+    "words": [
+      2,
+      3,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地火明夷",
+    "changed": "地天泰",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-5-moves-21",
+    "words": [
+      0,
+      1,
+      0,
+      1,
+      3,
+      1
+    ],
+    "main": "地火明夷",
+    "changed": "水地比",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-5-moves-63",
+    "words": [
+      0,
+      3,
+      0,
+      3,
+      3,
+      3
+    ],
+    "main": "地火明夷",
+    "changed": "天水讼",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-6-moves-0",
+    "words": [
+      1,
+      2,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地风升",
+    "changed": "地风升",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-6-moves-1",
+    "words": [
+      3,
+      2,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地风升",
+    "changed": "地天泰",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-6-moves-2",
+    "words": [
+      1,
+      0,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地风升",
+    "changed": "地山谦",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-6-moves-21",
+    "words": [
+      3,
+      2,
+      0,
+      1,
+      3,
+      1
+    ],
+    "main": "地风升",
+    "changed": "水泽节",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-6-moves-63",
+    "words": [
+      3,
+      0,
+      0,
+      3,
+      3,
+      3
+    ],
+    "main": "地风升",
+    "changed": "天雷无妄",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-7-moves-0",
+    "words": [
+      2,
+      2,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地天泰",
+    "changed": "地天泰",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-7-moves-1",
+    "words": [
+      0,
+      2,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地天泰",
+    "changed": "地风升",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-7-moves-2",
+    "words": [
+      2,
+      0,
+      2,
+      1,
+      1,
+      1
+    ],
+    "main": "地天泰",
+    "changed": "地火明夷",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-7-moves-21",
+    "words": [
+      0,
+      2,
+      0,
+      1,
+      3,
+      1
+    ],
+    "main": "地天泰",
+    "changed": "坎为水",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-7-moves-63",
+    "words": [
+      0,
+      0,
+      0,
+      3,
+      3,
+      3
+    ],
+    "main": "地天泰",
+    "changed": "天地否",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-8-moves-0",
+    "words": [
+      1,
+      1,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "雷地豫",
+    "changed": "雷地豫",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-8-moves-1",
+    "words": [
+      3,
+      1,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "雷地豫",
+    "changed": "震为雷",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-8-moves-2",
+    "words": [
+      1,
+      3,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "雷地豫",
+    "changed": "雷水解",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-8-moves-21",
+    "words": [
+      3,
+      1,
+      3,
+      2,
+      3,
+      1
+    ],
+    "main": "雷地豫",
+    "changed": "泽火革",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-8-moves-63",
+    "words": [
+      3,
+      3,
+      3,
+      0,
+      3,
+      3
+    ],
+    "main": "雷地豫",
+    "changed": "风天小畜",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-9-moves-0",
+    "words": [
+      2,
+      1,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "震为雷",
+    "changed": "震为雷",
+    "tags": [
+      "静卦",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-9-moves-1",
+    "words": [
+      0,
+      1,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "震为雷",
+    "changed": "雷地豫",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-9-moves-2",
+    "words": [
+      2,
+      3,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "震为雷",
+    "changed": "雷泽归妹",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-9-moves-21",
+    "words": [
+      0,
+      1,
+      3,
+      2,
+      3,
+      1
+    ],
+    "main": "震为雷",
+    "changed": "泽山咸",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-9-moves-63",
+    "words": [
+      0,
+      3,
+      3,
+      0,
+      3,
+      3
+    ],
+    "main": "震为雷",
+    "changed": "巽为风",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-10-moves-0",
+    "words": [
+      1,
+      2,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "雷水解",
+    "changed": "雷水解",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-10-moves-1",
+    "words": [
+      3,
+      2,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "雷水解",
+    "changed": "雷泽归妹",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-10-moves-2",
+    "words": [
+      1,
+      0,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "雷水解",
+    "changed": "雷地豫",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-10-moves-21",
+    "words": [
+      3,
+      2,
+      3,
+      2,
+      3,
+      1
+    ],
+    "main": "雷水解",
+    "changed": "泽天夬",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-10-moves-63",
+    "words": [
+      3,
+      0,
+      3,
+      0,
+      3,
+      3
+    ],
+    "main": "雷水解",
+    "changed": "风火家人",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-11-moves-0",
+    "words": [
+      2,
+      2,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "雷泽归妹",
+    "changed": "雷泽归妹",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-11-moves-1",
+    "words": [
+      0,
+      2,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "雷泽归妹",
+    "changed": "雷水解",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-11-moves-2",
+    "words": [
+      2,
+      0,
+      1,
+      2,
+      1,
+      1
+    ],
+    "main": "雷泽归妹",
+    "changed": "震为雷",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-11-moves-21",
+    "words": [
+      0,
+      2,
+      3,
+      2,
+      3,
+      1
+    ],
+    "main": "雷泽归妹",
+    "changed": "泽风大过",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-11-moves-63",
+    "words": [
+      0,
+      0,
+      3,
+      0,
+      3,
+      3
+    ],
+    "main": "雷泽归妹",
+    "changed": "风山渐",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-12-moves-0",
+    "words": [
+      1,
+      1,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷山小过",
+    "changed": "雷山小过",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-12-moves-1",
+    "words": [
+      3,
+      1,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷山小过",
+    "changed": "雷火丰",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-12-moves-2",
+    "words": [
+      1,
+      3,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷山小过",
+    "changed": "雷风恒",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-12-moves-21",
+    "words": [
+      3,
+      1,
+      0,
+      2,
+      3,
+      1
+    ],
+    "main": "雷山小过",
+    "changed": "泽雷随",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-12-moves-63",
+    "words": [
+      3,
+      3,
+      0,
+      0,
+      3,
+      3
+    ],
+    "main": "雷山小过",
+    "changed": "风泽中孚",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-13-moves-0",
+    "words": [
+      2,
+      1,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷火丰",
+    "changed": "雷火丰",
+    "tags": [
+      "静卦",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-13-moves-1",
+    "words": [
+      0,
+      1,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷火丰",
+    "changed": "雷山小过",
+    "tags": [
+      "动爻",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-13-moves-2",
+    "words": [
+      2,
+      3,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷火丰",
+    "changed": "雷天大壮",
+    "tags": [
+      "动爻",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-13-moves-21",
+    "words": [
+      0,
+      1,
+      0,
+      2,
+      3,
+      1
+    ],
+    "main": "雷火丰",
+    "changed": "泽地萃",
+    "tags": [
+      "动爻",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-13-moves-63",
+    "words": [
+      0,
+      3,
+      0,
+      0,
+      3,
+      3
+    ],
+    "main": "雷火丰",
+    "changed": "风水涣",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-14-moves-0",
+    "words": [
+      1,
+      2,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷风恒",
+    "changed": "雷风恒",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-14-moves-1",
+    "words": [
+      3,
+      2,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷风恒",
+    "changed": "雷天大壮",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-14-moves-2",
+    "words": [
+      1,
+      0,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷风恒",
+    "changed": "雷山小过",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-14-moves-21",
+    "words": [
+      3,
+      2,
+      0,
+      2,
+      3,
+      1
+    ],
+    "main": "雷风恒",
+    "changed": "兑为泽",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-14-moves-63",
+    "words": [
+      3,
+      0,
+      0,
+      0,
+      3,
+      3
+    ],
+    "main": "雷风恒",
+    "changed": "风雷益",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-15-moves-0",
+    "words": [
+      2,
+      2,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷天大壮",
+    "changed": "雷天大壮",
+    "tags": [
+      "静卦",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-15-moves-1",
+    "words": [
+      0,
+      2,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷天大壮",
+    "changed": "雷风恒",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-15-moves-2",
+    "words": [
+      2,
+      0,
+      2,
+      2,
+      1,
+      1
+    ],
+    "main": "雷天大壮",
+    "changed": "雷火丰",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-15-moves-21",
+    "words": [
+      0,
+      2,
+      0,
+      2,
+      3,
+      1
+    ],
+    "main": "雷天大壮",
+    "changed": "泽水困",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-15-moves-63",
+    "words": [
+      0,
+      0,
+      0,
+      0,
+      3,
+      3
+    ],
+    "main": "雷天大壮",
+    "changed": "风地观",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-16-moves-0",
+    "words": [
+      1,
+      1,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "水地比",
+    "changed": "水地比",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-16-moves-1",
+    "words": [
+      3,
+      1,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "水地比",
+    "changed": "水雷屯",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-16-moves-2",
+    "words": [
+      1,
+      3,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "水地比",
+    "changed": "坎为水",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-16-moves-21",
+    "words": [
+      3,
+      1,
+      3,
+      1,
+      0,
+      1
+    ],
+    "main": "水地比",
+    "changed": "地火明夷",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-16-moves-63",
+    "words": [
+      3,
+      3,
+      3,
+      3,
+      0,
+      3
+    ],
+    "main": "水地比",
+    "changed": "火天大有",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-17-moves-0",
+    "words": [
+      2,
+      1,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "水雷屯",
+    "changed": "水雷屯",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-17-moves-1",
+    "words": [
+      0,
+      1,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "水雷屯",
+    "changed": "水地比",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-17-moves-2",
+    "words": [
+      2,
+      3,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "水雷屯",
+    "changed": "水泽节",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-17-moves-21",
+    "words": [
+      0,
+      1,
+      3,
+      1,
+      0,
+      1
+    ],
+    "main": "水雷屯",
+    "changed": "地山谦",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-17-moves-63",
+    "words": [
+      0,
+      3,
+      3,
+      3,
+      0,
+      3
+    ],
+    "main": "水雷屯",
+    "changed": "火风鼎",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-18-moves-0",
+    "words": [
+      1,
+      2,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "坎为水",
+    "changed": "坎为水",
+    "tags": [
+      "静卦",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-18-moves-1",
+    "words": [
+      3,
+      2,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "坎为水",
+    "changed": "水泽节",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-18-moves-2",
+    "words": [
+      1,
+      0,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "坎为水",
+    "changed": "水地比",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-18-moves-21",
+    "words": [
+      3,
+      2,
+      3,
+      1,
+      0,
+      1
+    ],
+    "main": "坎为水",
+    "changed": "地天泰",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-18-moves-63",
+    "words": [
+      3,
+      0,
+      3,
+      3,
+      0,
+      3
+    ],
+    "main": "坎为水",
+    "changed": "离为火",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-19-moves-0",
+    "words": [
+      2,
+      2,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "水泽节",
+    "changed": "水泽节",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-19-moves-1",
+    "words": [
+      0,
+      2,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "水泽节",
+    "changed": "坎为水",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-19-moves-2",
+    "words": [
+      2,
+      0,
+      1,
+      1,
+      2,
+      1
+    ],
+    "main": "水泽节",
+    "changed": "水雷屯",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-19-moves-21",
+    "words": [
+      0,
+      2,
+      3,
+      1,
+      0,
+      1
+    ],
+    "main": "水泽节",
+    "changed": "地风升",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-19-moves-63",
+    "words": [
+      0,
+      0,
+      3,
+      3,
+      0,
+      3
+    ],
+    "main": "水泽节",
+    "changed": "火山旅",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-20-moves-0",
+    "words": [
+      1,
+      1,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水山蹇",
+    "changed": "水山蹇",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-20-moves-1",
+    "words": [
+      3,
+      1,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水山蹇",
+    "changed": "水火既济",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-20-moves-2",
+    "words": [
+      1,
+      3,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水山蹇",
+    "changed": "水风井",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-20-moves-21",
+    "words": [
+      3,
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    "main": "水山蹇",
+    "changed": "地雷复",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-20-moves-63",
+    "words": [
+      3,
+      3,
+      0,
+      3,
+      0,
+      3
+    ],
+    "main": "水山蹇",
+    "changed": "火泽睽",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-21-moves-0",
+    "words": [
+      2,
+      1,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水火既济",
+    "changed": "水火既济",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-21-moves-1",
+    "words": [
+      0,
+      1,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水火既济",
+    "changed": "水山蹇",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-21-moves-2",
+    "words": [
+      2,
+      3,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水火既济",
+    "changed": "水天需",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-21-moves-21",
+    "words": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    "main": "水火既济",
+    "changed": "坤为地",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-21-moves-63",
+    "words": [
+      0,
+      3,
+      0,
+      3,
+      0,
+      3
+    ],
+    "main": "水火既济",
+    "changed": "火水未济",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-22-moves-0",
+    "words": [
+      1,
+      2,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水风井",
+    "changed": "水风井",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-22-moves-1",
+    "words": [
+      3,
+      2,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水风井",
+    "changed": "水天需",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-22-moves-2",
+    "words": [
+      1,
+      0,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水风井",
+    "changed": "水山蹇",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-22-moves-21",
+    "words": [
+      3,
+      2,
+      0,
+      1,
+      0,
+      1
+    ],
+    "main": "水风井",
+    "changed": "地泽临",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-22-moves-63",
+    "words": [
+      3,
+      0,
+      0,
+      3,
+      0,
+      3
+    ],
+    "main": "水风井",
+    "changed": "火雷噬嗑",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-23-moves-0",
+    "words": [
+      2,
+      2,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水天需",
+    "changed": "水天需",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-23-moves-1",
+    "words": [
+      0,
+      2,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水天需",
+    "changed": "水风井",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-23-moves-2",
+    "words": [
+      2,
+      0,
+      2,
+      1,
+      2,
+      1
+    ],
+    "main": "水天需",
+    "changed": "水火既济",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-23-moves-21",
+    "words": [
+      0,
+      2,
+      0,
+      1,
+      0,
+      1
+    ],
+    "main": "水天需",
+    "changed": "地水师",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-23-moves-63",
+    "words": [
+      0,
+      0,
+      0,
+      3,
+      0,
+      3
+    ],
+    "main": "水天需",
+    "changed": "火地晋",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-24-moves-0",
+    "words": [
+      1,
+      1,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "泽地萃",
+    "changed": "泽地萃",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-24-moves-1",
+    "words": [
+      3,
+      1,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "泽地萃",
+    "changed": "泽雷随",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-24-moves-2",
+    "words": [
+      1,
+      3,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "泽地萃",
+    "changed": "泽水困",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-24-moves-21",
+    "words": [
+      3,
+      1,
+      3,
+      2,
+      0,
+      1
+    ],
+    "main": "泽地萃",
+    "changed": "雷火丰",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-24-moves-63",
+    "words": [
+      3,
+      3,
+      3,
+      0,
+      0,
+      3
+    ],
+    "main": "泽地萃",
+    "changed": "山天大畜",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-25-moves-0",
+    "words": [
+      2,
+      1,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "泽雷随",
+    "changed": "泽雷随",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-25-moves-1",
+    "words": [
+      0,
+      1,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "泽雷随",
+    "changed": "泽地萃",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-25-moves-2",
+    "words": [
+      2,
+      3,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "泽雷随",
+    "changed": "兑为泽",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-25-moves-21",
+    "words": [
+      0,
+      1,
+      3,
+      2,
+      0,
+      1
+    ],
+    "main": "泽雷随",
+    "changed": "雷山小过",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-25-moves-63",
+    "words": [
+      0,
+      3,
+      3,
+      0,
+      0,
+      3
+    ],
+    "main": "泽雷随",
+    "changed": "山风蛊",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-26-moves-0",
+    "words": [
+      1,
+      2,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "泽水困",
+    "changed": "泽水困",
+    "tags": [
+      "静卦",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-26-moves-1",
+    "words": [
+      3,
+      2,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "泽水困",
+    "changed": "兑为泽",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-26-moves-2",
+    "words": [
+      1,
+      0,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "泽水困",
+    "changed": "泽地萃",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-26-moves-21",
+    "words": [
+      3,
+      2,
+      3,
+      2,
+      0,
+      1
+    ],
+    "main": "泽水困",
+    "changed": "雷天大壮",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-26-moves-63",
+    "words": [
+      3,
+      0,
+      3,
+      0,
+      0,
+      3
+    ],
+    "main": "泽水困",
+    "changed": "山火贲",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-27-moves-0",
+    "words": [
+      2,
+      2,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "兑为泽",
+    "changed": "兑为泽",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-27-moves-1",
+    "words": [
+      0,
+      2,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "兑为泽",
+    "changed": "泽水困",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-27-moves-2",
+    "words": [
+      2,
+      0,
+      1,
+      2,
+      2,
+      1
+    ],
+    "main": "兑为泽",
+    "changed": "泽雷随",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-27-moves-21",
+    "words": [
+      0,
+      2,
+      3,
+      2,
+      0,
+      1
+    ],
+    "main": "兑为泽",
+    "changed": "雷风恒",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-27-moves-63",
+    "words": [
+      0,
+      0,
+      3,
+      0,
+      0,
+      3
+    ],
+    "main": "兑为泽",
+    "changed": "艮为山",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-28-moves-0",
+    "words": [
+      1,
+      1,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽山咸",
+    "changed": "泽山咸",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-28-moves-1",
+    "words": [
+      3,
+      1,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽山咸",
+    "changed": "泽火革",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-28-moves-2",
+    "words": [
+      1,
+      3,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽山咸",
+    "changed": "泽风大过",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-28-moves-21",
+    "words": [
+      3,
+      1,
+      0,
+      2,
+      0,
+      1
+    ],
+    "main": "泽山咸",
+    "changed": "震为雷",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-28-moves-63",
+    "words": [
+      3,
+      3,
+      0,
+      0,
+      0,
+      3
+    ],
+    "main": "泽山咸",
+    "changed": "山泽损",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-29-moves-0",
+    "words": [
+      2,
+      1,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽火革",
+    "changed": "泽火革",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-29-moves-1",
+    "words": [
+      0,
+      1,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽火革",
+    "changed": "泽山咸",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-29-moves-2",
+    "words": [
+      2,
+      3,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽火革",
+    "changed": "泽天夬",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-29-moves-21",
+    "words": [
+      0,
+      1,
+      0,
+      2,
+      0,
+      1
+    ],
+    "main": "泽火革",
+    "changed": "雷地豫",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-29-moves-63",
+    "words": [
+      0,
+      3,
+      0,
+      0,
+      0,
+      3
+    ],
+    "main": "泽火革",
+    "changed": "山水蒙",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-30-moves-0",
+    "words": [
+      1,
+      2,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽风大过",
+    "changed": "泽风大过",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-30-moves-1",
+    "words": [
+      3,
+      2,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽风大过",
+    "changed": "泽天夬",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-30-moves-2",
+    "words": [
+      1,
+      0,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽风大过",
+    "changed": "泽山咸",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-30-moves-21",
+    "words": [
+      3,
+      2,
+      0,
+      2,
+      0,
+      1
+    ],
+    "main": "泽风大过",
+    "changed": "雷泽归妹",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-30-moves-63",
+    "words": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      3
+    ],
+    "main": "泽风大过",
+    "changed": "山雷颐",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-31-moves-0",
+    "words": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽天夬",
+    "changed": "泽天夬",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-31-moves-1",
+    "words": [
+      0,
+      2,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽天夬",
+    "changed": "泽风大过",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-31-moves-2",
+    "words": [
+      2,
+      0,
+      2,
+      2,
+      2,
+      1
+    ],
+    "main": "泽天夬",
+    "changed": "泽火革",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-31-moves-21",
+    "words": [
+      0,
+      2,
+      0,
+      2,
+      0,
+      1
+    ],
+    "main": "泽天夬",
+    "changed": "雷水解",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-31-moves-63",
+    "words": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      3
+    ],
+    "main": "泽天夬",
+    "changed": "山地剥",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-32-moves-0",
+    "words": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山地剥",
+    "changed": "山地剥",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-32-moves-1",
+    "words": [
+      3,
+      1,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山地剥",
+    "changed": "山雷颐",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-32-moves-2",
+    "words": [
+      1,
+      3,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山地剥",
+    "changed": "山水蒙",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-32-moves-21",
+    "words": [
+      3,
+      1,
+      3,
+      1,
+      3,
+      2
+    ],
+    "main": "山地剥",
+    "changed": "风火家人",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-32-moves-63",
+    "words": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      0
+    ],
+    "main": "山地剥",
+    "changed": "泽天夬",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-33-moves-0",
+    "words": [
+      2,
+      1,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山雷颐",
+    "changed": "山雷颐",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-33-moves-1",
+    "words": [
+      0,
+      1,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山雷颐",
+    "changed": "山地剥",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-33-moves-2",
+    "words": [
+      2,
+      3,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山雷颐",
+    "changed": "山泽损",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-33-moves-21",
+    "words": [
+      0,
+      1,
+      3,
+      1,
+      3,
+      2
+    ],
+    "main": "山雷颐",
+    "changed": "风山渐",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-33-moves-63",
+    "words": [
+      0,
+      3,
+      3,
+      3,
+      3,
+      0
+    ],
+    "main": "山雷颐",
+    "changed": "泽风大过",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-34-moves-0",
+    "words": [
+      1,
+      2,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山水蒙",
+    "changed": "山水蒙",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-34-moves-1",
+    "words": [
+      3,
+      2,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山水蒙",
+    "changed": "山泽损",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-34-moves-2",
+    "words": [
+      1,
+      0,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山水蒙",
+    "changed": "山地剥",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-34-moves-21",
+    "words": [
+      3,
+      2,
+      3,
+      1,
+      3,
+      2
+    ],
+    "main": "山水蒙",
+    "changed": "风天小畜",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-34-moves-63",
+    "words": [
+      3,
+      0,
+      3,
+      3,
+      3,
+      0
+    ],
+    "main": "山水蒙",
+    "changed": "泽火革",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-35-moves-0",
+    "words": [
+      2,
+      2,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山泽损",
+    "changed": "山泽损",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-35-moves-1",
+    "words": [
+      0,
+      2,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山泽损",
+    "changed": "山水蒙",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-35-moves-2",
+    "words": [
+      2,
+      0,
+      1,
+      1,
+      1,
+      2
+    ],
+    "main": "山泽损",
+    "changed": "山雷颐",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-35-moves-21",
+    "words": [
+      0,
+      2,
+      3,
+      1,
+      3,
+      2
+    ],
+    "main": "山泽损",
+    "changed": "巽为风",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-35-moves-63",
+    "words": [
+      0,
+      0,
+      3,
+      3,
+      3,
+      0
+    ],
+    "main": "山泽损",
+    "changed": "泽山咸",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-36-moves-0",
+    "words": [
+      1,
+      1,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "艮为山",
+    "changed": "艮为山",
+    "tags": [
+      "静卦",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-36-moves-1",
+    "words": [
+      3,
+      1,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "艮为山",
+    "changed": "山火贲",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-36-moves-2",
+    "words": [
+      1,
+      3,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "艮为山",
+    "changed": "山风蛊",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-36-moves-21",
+    "words": [
+      3,
+      1,
+      0,
+      1,
+      3,
+      2
+    ],
+    "main": "艮为山",
+    "changed": "风雷益",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-36-moves-63",
+    "words": [
+      3,
+      3,
+      0,
+      3,
+      3,
+      0
+    ],
+    "main": "艮为山",
+    "changed": "兑为泽",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-37-moves-0",
+    "words": [
+      2,
+      1,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "山火贲",
+    "changed": "山火贲",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-37-moves-1",
+    "words": [
+      0,
+      1,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "山火贲",
+    "changed": "艮为山",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-37-moves-2",
+    "words": [
+      2,
+      3,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "山火贲",
+    "changed": "山天大畜",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-37-moves-21",
+    "words": [
+      0,
+      1,
+      0,
+      1,
+      3,
+      2
+    ],
+    "main": "山火贲",
+    "changed": "风地观",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-37-moves-63",
+    "words": [
+      0,
+      3,
+      0,
+      3,
+      3,
+      0
+    ],
+    "main": "山火贲",
+    "changed": "泽水困",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-38-moves-0",
+    "words": [
+      1,
+      2,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "山风蛊",
+    "changed": "山风蛊",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-38-moves-1",
+    "words": [
+      3,
+      2,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "山风蛊",
+    "changed": "山天大畜",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-38-moves-2",
+    "words": [
+      1,
+      0,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "山风蛊",
+    "changed": "艮为山",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-38-moves-21",
+    "words": [
+      3,
+      2,
+      0,
+      1,
+      3,
+      2
+    ],
+    "main": "山风蛊",
+    "changed": "风泽中孚",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-38-moves-63",
+    "words": [
+      3,
+      0,
+      0,
+      3,
+      3,
+      0
+    ],
+    "main": "山风蛊",
+    "changed": "泽雷随",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-39-moves-0",
+    "words": [
+      2,
+      2,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "山天大畜",
+    "changed": "山天大畜",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-39-moves-1",
+    "words": [
+      0,
+      2,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "山天大畜",
+    "changed": "山风蛊",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-39-moves-2",
+    "words": [
+      2,
+      0,
+      2,
+      1,
+      1,
+      2
+    ],
+    "main": "山天大畜",
+    "changed": "山火贲",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-39-moves-21",
+    "words": [
+      0,
+      2,
+      0,
+      1,
+      3,
+      2
+    ],
+    "main": "山天大畜",
+    "changed": "风水涣",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-39-moves-63",
+    "words": [
+      0,
+      0,
+      0,
+      3,
+      3,
+      0
+    ],
+    "main": "山天大畜",
+    "changed": "泽地萃",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-40-moves-0",
+    "words": [
+      1,
+      1,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火地晋",
+    "changed": "火地晋",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-40-moves-1",
+    "words": [
+      3,
+      1,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火地晋",
+    "changed": "火雷噬嗑",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-40-moves-2",
+    "words": [
+      1,
+      3,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火地晋",
+    "changed": "火水未济",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-40-moves-21",
+    "words": [
+      3,
+      1,
+      3,
+      2,
+      3,
+      2
+    ],
+    "main": "火地晋",
+    "changed": "天火同人",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-40-moves-63",
+    "words": [
+      3,
+      3,
+      3,
+      0,
+      3,
+      0
+    ],
+    "main": "火地晋",
+    "changed": "水天需",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-41-moves-0",
+    "words": [
+      2,
+      1,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火雷噬嗑",
+    "changed": "火雷噬嗑",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-41-moves-1",
+    "words": [
+      0,
+      1,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火雷噬嗑",
+    "changed": "火地晋",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-41-moves-2",
+    "words": [
+      2,
+      3,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火雷噬嗑",
+    "changed": "火泽睽",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-41-moves-21",
+    "words": [
+      0,
+      1,
+      3,
+      2,
+      3,
+      2
+    ],
+    "main": "火雷噬嗑",
+    "changed": "天山遁",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-41-moves-63",
+    "words": [
+      0,
+      3,
+      3,
+      0,
+      3,
+      0
+    ],
+    "main": "火雷噬嗑",
+    "changed": "水风井",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-42-moves-0",
+    "words": [
+      1,
+      2,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火水未济",
+    "changed": "火水未济",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-42-moves-1",
+    "words": [
+      3,
+      2,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火水未济",
+    "changed": "火泽睽",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-42-moves-2",
+    "words": [
+      1,
+      0,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火水未济",
+    "changed": "火地晋",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-42-moves-21",
+    "words": [
+      3,
+      2,
+      3,
+      2,
+      3,
+      2
+    ],
+    "main": "火水未济",
+    "changed": "乾为天",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-42-moves-63",
+    "words": [
+      3,
+      0,
+      3,
+      0,
+      3,
+      0
+    ],
+    "main": "火水未济",
+    "changed": "水火既济",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-43-moves-0",
+    "words": [
+      2,
+      2,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火泽睽",
+    "changed": "火泽睽",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-43-moves-1",
+    "words": [
+      0,
+      2,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火泽睽",
+    "changed": "火水未济",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-43-moves-2",
+    "words": [
+      2,
+      0,
+      1,
+      2,
+      1,
+      2
+    ],
+    "main": "火泽睽",
+    "changed": "火雷噬嗑",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-43-moves-21",
+    "words": [
+      0,
+      2,
+      3,
+      2,
+      3,
+      2
+    ],
+    "main": "火泽睽",
+    "changed": "天风姤",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-43-moves-63",
+    "words": [
+      0,
+      0,
+      3,
+      0,
+      3,
+      0
+    ],
+    "main": "火泽睽",
+    "changed": "水山蹇",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-44-moves-0",
+    "words": [
+      1,
+      1,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "火山旅",
+    "changed": "火山旅",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-44-moves-1",
+    "words": [
+      3,
+      1,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "火山旅",
+    "changed": "离为火",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-44-moves-2",
+    "words": [
+      1,
+      3,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "火山旅",
+    "changed": "火风鼎",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-44-moves-21",
+    "words": [
+      3,
+      1,
+      0,
+      2,
+      3,
+      2
+    ],
+    "main": "火山旅",
+    "changed": "天雷无妄",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-44-moves-63",
+    "words": [
+      3,
+      3,
+      0,
+      0,
+      3,
+      0
+    ],
+    "main": "火山旅",
+    "changed": "水泽节",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-45-moves-0",
+    "words": [
+      2,
+      1,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "离为火",
+    "changed": "离为火",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-45-moves-1",
+    "words": [
+      0,
+      1,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "离为火",
+    "changed": "火山旅",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-45-moves-2",
+    "words": [
+      2,
+      3,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "离为火",
+    "changed": "火天大有",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-45-moves-21",
+    "words": [
+      0,
+      1,
+      0,
+      2,
+      3,
+      2
+    ],
+    "main": "离为火",
+    "changed": "天地否",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-45-moves-63",
+    "words": [
+      0,
+      3,
+      0,
+      0,
+      3,
+      0
+    ],
+    "main": "离为火",
+    "changed": "坎为水",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-46-moves-0",
+    "words": [
+      1,
+      2,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "火风鼎",
+    "changed": "火风鼎",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-46-moves-1",
+    "words": [
+      3,
+      2,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "火风鼎",
+    "changed": "火天大有",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-46-moves-2",
+    "words": [
+      1,
+      0,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "火风鼎",
+    "changed": "火山旅",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-46-moves-21",
+    "words": [
+      3,
+      2,
+      0,
+      2,
+      3,
+      2
+    ],
+    "main": "火风鼎",
+    "changed": "天泽履",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-46-moves-63",
+    "words": [
+      3,
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    "main": "火风鼎",
+    "changed": "水雷屯",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-47-moves-0",
+    "words": [
+      2,
+      2,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "火天大有",
+    "changed": "火天大有",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-47-moves-1",
+    "words": [
+      0,
+      2,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "火天大有",
+    "changed": "火风鼎",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-47-moves-2",
+    "words": [
+      2,
+      0,
+      2,
+      2,
+      1,
+      2
+    ],
+    "main": "火天大有",
+    "changed": "离为火",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-47-moves-21",
+    "words": [
+      0,
+      2,
+      0,
+      2,
+      3,
+      2
+    ],
+    "main": "火天大有",
+    "changed": "天水讼",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-47-moves-63",
+    "words": [
+      0,
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    "main": "火天大有",
+    "changed": "水地比",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-48-moves-0",
+    "words": [
+      1,
+      1,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风地观",
+    "changed": "风地观",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-48-moves-1",
+    "words": [
+      3,
+      1,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风地观",
+    "changed": "风雷益",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-48-moves-2",
+    "words": [
+      1,
+      3,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风地观",
+    "changed": "风水涣",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-48-moves-21",
+    "words": [
+      3,
+      1,
+      3,
+      1,
+      0,
+      2
+    ],
+    "main": "风地观",
+    "changed": "山火贲",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-48-moves-63",
+    "words": [
+      3,
+      3,
+      3,
+      3,
+      0,
+      0
+    ],
+    "main": "风地观",
+    "changed": "雷天大壮",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-49-moves-0",
+    "words": [
+      2,
+      1,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风雷益",
+    "changed": "风雷益",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-49-moves-1",
+    "words": [
+      0,
+      1,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风雷益",
+    "changed": "风地观",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-49-moves-2",
+    "words": [
+      2,
+      3,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风雷益",
+    "changed": "风泽中孚",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-49-moves-21",
+    "words": [
+      0,
+      1,
+      3,
+      1,
+      0,
+      2
+    ],
+    "main": "风雷益",
+    "changed": "艮为山",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-49-moves-63",
+    "words": [
+      0,
+      3,
+      3,
+      3,
+      0,
+      0
+    ],
+    "main": "风雷益",
+    "changed": "雷风恒",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-50-moves-0",
+    "words": [
+      1,
+      2,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风水涣",
+    "changed": "风水涣",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-50-moves-1",
+    "words": [
+      3,
+      2,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风水涣",
+    "changed": "风泽中孚",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-50-moves-2",
+    "words": [
+      1,
+      0,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风水涣",
+    "changed": "风地观",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-50-moves-21",
+    "words": [
+      3,
+      2,
+      3,
+      1,
+      0,
+      2
+    ],
+    "main": "风水涣",
+    "changed": "山天大畜",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-50-moves-63",
+    "words": [
+      3,
+      0,
+      3,
+      3,
+      0,
+      0
+    ],
+    "main": "风水涣",
+    "changed": "雷火丰",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-51-moves-0",
+    "words": [
+      2,
+      2,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风泽中孚",
+    "changed": "风泽中孚",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-51-moves-1",
+    "words": [
+      0,
+      2,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风泽中孚",
+    "changed": "风水涣",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-51-moves-2",
+    "words": [
+      2,
+      0,
+      1,
+      1,
+      2,
+      2
+    ],
+    "main": "风泽中孚",
+    "changed": "风雷益",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-51-moves-21",
+    "words": [
+      0,
+      2,
+      3,
+      1,
+      0,
+      2
+    ],
+    "main": "风泽中孚",
+    "changed": "山风蛊",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-51-moves-63",
+    "words": [
+      0,
+      0,
+      3,
+      3,
+      0,
+      0
+    ],
+    "main": "风泽中孚",
+    "changed": "雷山小过",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-52-moves-0",
+    "words": [
+      1,
+      1,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "风山渐",
+    "changed": "风山渐",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-52-moves-1",
+    "words": [
+      3,
+      1,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "风山渐",
+    "changed": "风火家人",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-52-moves-2",
+    "words": [
+      1,
+      3,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "风山渐",
+    "changed": "巽为风",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-52-moves-21",
+    "words": [
+      3,
+      1,
+      0,
+      1,
+      0,
+      2
+    ],
+    "main": "风山渐",
+    "changed": "山雷颐",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-52-moves-63",
+    "words": [
+      3,
+      3,
+      0,
+      3,
+      0,
+      0
+    ],
+    "main": "风山渐",
+    "changed": "雷泽归妹",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-53-moves-0",
+    "words": [
+      2,
+      1,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "风火家人",
+    "changed": "风火家人",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-53-moves-1",
+    "words": [
+      0,
+      1,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "风火家人",
+    "changed": "风山渐",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-53-moves-2",
+    "words": [
+      2,
+      3,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "风火家人",
+    "changed": "风天小畜",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-53-moves-21",
+    "words": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      2
+    ],
+    "main": "风火家人",
+    "changed": "山地剥",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-53-moves-63",
+    "words": [
+      0,
+      3,
+      0,
+      3,
+      0,
+      0
+    ],
+    "main": "风火家人",
+    "changed": "雷水解",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-54-moves-0",
+    "words": [
+      1,
+      2,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "巽为风",
+    "changed": "巽为风",
+    "tags": [
+      "静卦",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-54-moves-1",
+    "words": [
+      3,
+      2,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "巽为风",
+    "changed": "风天小畜",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-54-moves-2",
+    "words": [
+      1,
+      0,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "巽为风",
+    "changed": "风山渐",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-54-moves-21",
+    "words": [
+      3,
+      2,
+      0,
+      1,
+      0,
+      2
+    ],
+    "main": "巽为风",
+    "changed": "山泽损",
+    "tags": [
+      "动爻",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-54-moves-63",
+    "words": [
+      3,
+      0,
+      0,
+      3,
+      0,
+      0
+    ],
+    "main": "巽为风",
+    "changed": "震为雷",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-55-moves-0",
+    "words": [
+      2,
+      2,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "风天小畜",
+    "changed": "风天小畜",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-55-moves-1",
+    "words": [
+      0,
+      2,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "风天小畜",
+    "changed": "巽为风",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-55-moves-2",
+    "words": [
+      2,
+      0,
+      2,
+      1,
+      2,
+      2
+    ],
+    "main": "风天小畜",
+    "changed": "风火家人",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-55-moves-21",
+    "words": [
+      0,
+      2,
+      0,
+      1,
+      0,
+      2
+    ],
+    "main": "风天小畜",
+    "changed": "山水蒙",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-55-moves-63",
+    "words": [
+      0,
+      0,
+      0,
+      3,
+      0,
+      0
+    ],
+    "main": "风天小畜",
+    "changed": "雷地豫",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-56-moves-0",
+    "words": [
+      1,
+      1,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天地否",
+    "changed": "天地否",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-56-moves-1",
+    "words": [
+      3,
+      1,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天地否",
+    "changed": "天雷无妄",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-56-moves-2",
+    "words": [
+      1,
+      3,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天地否",
+    "changed": "天水讼",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-56-moves-21",
+    "words": [
+      3,
+      1,
+      3,
+      2,
+      0,
+      2
+    ],
+    "main": "天地否",
+    "changed": "离为火",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-56-moves-63",
+    "words": [
+      3,
+      3,
+      3,
+      0,
+      0,
+      0
+    ],
+    "main": "天地否",
+    "changed": "地天泰",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-57-moves-0",
+    "words": [
+      2,
+      1,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天雷无妄",
+    "changed": "天雷无妄",
+    "tags": [
+      "静卦",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-57-moves-1",
+    "words": [
+      0,
+      1,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天雷无妄",
+    "changed": "天地否",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-57-moves-2",
+    "words": [
+      2,
+      3,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天雷无妄",
+    "changed": "天泽履",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-57-moves-21",
+    "words": [
+      0,
+      1,
+      3,
+      2,
+      0,
+      2
+    ],
+    "main": "天雷无妄",
+    "changed": "火山旅",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-57-moves-63",
+    "words": [
+      0,
+      3,
+      3,
+      0,
+      0,
+      0
+    ],
+    "main": "天雷无妄",
+    "changed": "地风升",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-58-moves-0",
+    "words": [
+      1,
+      2,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天水讼",
+    "changed": "天水讼",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-58-moves-1",
+    "words": [
+      3,
+      2,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天水讼",
+    "changed": "天泽履",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-58-moves-2",
+    "words": [
+      1,
+      0,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天水讼",
+    "changed": "天地否",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-58-moves-21",
+    "words": [
+      3,
+      2,
+      3,
+      2,
+      0,
+      2
+    ],
+    "main": "天水讼",
+    "changed": "火天大有",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-58-moves-63",
+    "words": [
+      3,
+      0,
+      3,
+      0,
+      0,
+      0
+    ],
+    "main": "天水讼",
+    "changed": "地火明夷",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-59-moves-0",
+    "words": [
+      2,
+      2,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天泽履",
+    "changed": "天泽履",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-59-moves-1",
+    "words": [
+      0,
+      2,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天泽履",
+    "changed": "天水讼",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-59-moves-2",
+    "words": [
+      2,
+      0,
+      1,
+      2,
+      2,
+      2
+    ],
+    "main": "天泽履",
+    "changed": "天雷无妄",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-59-moves-21",
+    "words": [
+      0,
+      2,
+      3,
+      2,
+      0,
+      2
+    ],
+    "main": "天泽履",
+    "changed": "火风鼎",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-59-moves-63",
+    "words": [
+      0,
+      0,
+      3,
+      0,
+      0,
+      0
+    ],
+    "main": "天泽履",
+    "changed": "地山谦",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "月破",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-60-moves-0",
+    "words": [
+      1,
+      1,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "天山遁",
+    "changed": "天山遁",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-60-moves-1",
+    "words": [
+      3,
+      1,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "天山遁",
+    "changed": "天火同人",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-60-moves-2",
+    "words": [
+      1,
+      3,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "天山遁",
+    "changed": "天风姤",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-60-moves-21",
+    "words": [
+      3,
+      1,
+      0,
+      2,
+      0,
+      2
+    ],
+    "main": "天山遁",
+    "changed": "火雷噬嗑",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-60-moves-63",
+    "words": [
+      3,
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    "main": "天山遁",
+    "changed": "地泽临",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-61-moves-0",
+    "words": [
+      2,
+      1,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "天火同人",
+    "changed": "天火同人",
+    "tags": [
+      "静卦",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-61-moves-1",
+    "words": [
+      0,
+      1,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "天火同人",
+    "changed": "天山遁",
+    "tags": [
+      "动爻",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-61-moves-2",
+    "words": [
+      2,
+      3,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "天火同人",
+    "changed": "乾为天",
+    "tags": [
+      "动爻",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-61-moves-21",
+    "words": [
+      0,
+      1,
+      0,
+      2,
+      0,
+      2
+    ],
+    "main": "天火同人",
+    "changed": "火地晋",
+    "tags": [
+      "动爻",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-61-moves-63",
+    "words": [
+      0,
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    "main": "天火同人",
+    "changed": "地水师",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-62-moves-0",
+    "words": [
+      1,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "天风姤",
+    "changed": "天风姤",
+    "tags": [
+      "静卦",
+      "伏藏",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-62-moves-1",
+    "words": [
+      3,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "天风姤",
+    "changed": "乾为天",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-62-moves-2",
+    "words": [
+      1,
+      0,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "天风姤",
+    "changed": "天山遁",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-62-moves-21",
+    "words": [
+      3,
+      2,
+      0,
+      2,
+      0,
+      2
+    ],
+    "main": "天风姤",
+    "changed": "火泽睽",
+    "tags": [
+      "动爻",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-62-moves-63",
+    "words": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "main": "天风姤",
+    "changed": "地雷复",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "伏藏",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-63-moves-0",
+    "words": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "乾为天",
+    "changed": "乾为天",
+    "tags": [
+      "静卦",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-63-moves-1",
+    "words": [
+      0,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "乾为天",
+    "changed": "天风姤",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-63-moves-2",
+    "words": [
+      2,
+      0,
+      2,
+      2,
+      2,
+      2
+    ],
+    "main": "乾为天",
+    "changed": "天火同人",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-63-moves-21",
+    "words": [
+      0,
+      2,
+      0,
+      2,
+      0,
+      2
+    ],
+    "main": "乾为天",
+    "changed": "火水未济",
+    "tags": [
+      "动爻",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  },
+  {
+    "id": "bits-63-moves-63",
+    "words": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "main": "乾为天",
+    "changed": "坤为地",
+    "tags": [
+      "动爻",
+      "六爻全动",
+      "旬空",
+      "同六亲多现",
+      "generates",
+      "controls",
+      "is_generated_by",
+      "is_controlled_by",
+      "same_element"
+    ],
+    "expected": "核对盘面事实和作用方向，不预设吉凶",
+    "model_verdict_tested": false
+  }
+]

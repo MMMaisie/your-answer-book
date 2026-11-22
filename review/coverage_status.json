@@ -1,0 +1,27 @@
+{
+  "scope": "仅当前已收录语料；未取得全书逐篇目录对照，不能声明全书覆盖",
+  "rules": 141,
+  "cases": 133,
+  "retrieval_eligible_cases": 112,
+  "structural_scenarios": 320,
+  "structural_tags": {
+    "静卦": 64,
+    "旬空": 260,
+    "月破": 140,
+    "同六亲多现": 320,
+    "generates": 284,
+    "controls": 269,
+    "is_generated_by": 280,
+    "is_controlled_by": 320,
+    "same_element": 255,
+    "动爻": 256,
+    "六爻全动": 64,
+    "伏藏": 220
+  },
+  "true_model_runs": 0,
+  "not_completed": [
+    "全书目录逐篇对照与缺篇补充",
+    "真实DeepSeek抽样验收",
+    "真实Stripe付款及Neon端到端验收"
+  ]
+}

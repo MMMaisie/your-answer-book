@@ -1,2 +1,16 @@
 {% extends 'base.html' %}{% from 'macros.html' import cast_cards,plate %}
-{% block content %}<section class="reading-shell"><p class="eyebrow">{{t('示例 · 非实时 AI 解读')}}</p><h1>{{t('先看看，一卦如何读。')}}</h1><div class="question-panel"><span>{{t('示例问题')}}</span><p>{{t('未来三个月，我是否适合主动寻找下一份工作？')}}</p><small>{{t('固定教学示例，不是对你个人情况的判断，也没有调用付费模型。')}}</small></div>{{cast_cards(cast)}}{{plate(cast)}}<div class="reading-prose"><div class="prose"><h2>{{t('初判')}}</h2><p>{{t('可以把主动寻找当作试探，但不宜把机会接近等同于录用已定。这一卦能支持的是“逐步接近”，不能据此保证三个月内拿到 offer。')}}</p><h2>{{t('凭据')}}</h2><p>{{t('本卦水火既济，象征一个阶段已有秩序。六爻皆静，没有动爻支持“马上发生新转折”的说法。坎宫三世，世在三爻亥水兄弟；求工作时可参考官鬼，二爻丑土和五爻戌土为官鬼。世爻并不临官，不能仅凭卦名就断录用已定。但这只是盘面联系，并非录用证据。')}}</p><h2>{{t('转折条件')}}</h2><p>{{t('若现实中已有明确岗位和面试反馈，才有依据把试探推进到谈条件；若只是泛投且未获回应，应先调整目标与材料，而不是把静卦读成被动等待。')}}</p><h2>{{t('宜忌')}}</h2><p>{{t('宜保留现职并筛选匹配岗位；忌在没有书面录用条件时，先把原有安排撤掉。仅凭此盘不能定具体日期。')}}</p></div></div><a href="{{url_for('home')}}" class="primary link-button">{{t('以你所问，起一卦')}}</a></section>{% endblock %}
+{% block content %}<section class="reading-shell">
+<p class="eyebrow">{{t('示例 · 非实时 AI 解读')}}</p><h1>{{t('先看看，一卦如何读。')}}</h1>
+<div class="question-panel"><span>{{t('示例问题')}}</span><p>{{ '现在适合主动寻找下一份工作吗？' if lang=='zh' else 'Is now a suitable time to look for my next job?' }}</p><small>{{t('固定教学示例，不是对你个人情况的判断，也没有调用付费模型。')}}</small></div>
+{{cast_cards(cast)}}{{plate(cast)}}
+<section class="reading-prose"><div class="section-number">{{ '初判' if lang=='zh' else 'Initial reading' }}</div><p>{{ '可以先主动了解机会，但暂不宜把求职进展看成录用已定，原有工作安排先保留。' if lang=='zh' else 'You can begin exploring opportunities, but progress is not yet a confirmed offer. Keep your current work arrangements in place.' }}</p></section>
+<section class="full-section"><p class="eyebrow">{{ '完整解读示例' if lang=='zh' else 'Example full reading' }}</p>
+<h2>{{ '先试探机会，不急着撤掉原有安排。' if lang=='zh' else 'Explore first. Keep your current position secure.' }}</h2>
+<div class="prose">
+<h3>{{ '这件事怎么看' if lang=='zh' else 'Your question' }}</h3>
+<p>{{ '可以开始寻找，但先把它当作了解市场、筛选岗位的阶段。这次示例没有足够依据，把主动投递直接判断为很快拿到录用。' if lang=='zh' else 'You can start looking, treating this as a stage for exploring the market and selecting roles. This example does not support equating an application with an imminent offer.' }}</p>
+<h3>{{ '关键在哪里' if lang=='zh' else 'What matters most' }}</h3>
+<p>{{ '本卦没有动爻，这是判断节奏时的一处参考，但不能因此要求你被动等待。真正要分清的是：出现合适岗位，和对方已经愿意录用，是两回事。面试反馈与书面条件，比一时感觉顺利更值得重视。' if lang=='zh' else 'There are no changing lines, one traditional reference for considering pace; that does not mean you must wait passively. A suitable opening and a confirmed offer are different stages. Interview feedback and written terms matter more than an encouraging impression.' }}</p>
+<h3>{{ '接下来留意什么' if lang=='zh' else 'What to watch next' }}</h3>
+<p>{{ '有明确反馈时，再推进到谈职责和条件；迟迟没有回应，就调整目标与材料。保留现职，不是放弃机会，而是等下一步落实后再决定投入。这里无法确定具体录用日期。' if lang=='zh' else 'When feedback becomes concrete, discuss responsibilities and terms. If responses do not arrive, review your targets and application. Keep your current role until the next step is confirmed. This example cannot establish an offer date.' }}</p>
+</div></section><a href="{{url_for('home')}}" class="primary link-button">{{t('以你所问，起一卦')}}</a></section>{% endblock %}
