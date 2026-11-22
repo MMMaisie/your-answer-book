@@ -14,7 +14,7 @@ RULES=[rule for name in FILES for rule in json.loads((ROOT/'knowledge'/name).rea
 CASES=json.loads((ROOT/'knowledge/bushi_cases.json').read_text())['cases']
 REFERENCES={r['id']:r for r in RULES}
 REFERENCES.update({c['id']:c for c in CASES if c.get('retrieval_eligible')})
-VERSION='v49.6.1-writer-mode-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
+VERSION='v49.6.2-canonical-outlook-'+hashlib.sha256(Path(__file__).read_bytes()+b''.join((ROOT/n).read_bytes() for n in ('hexagrams.py','reading_guard.py','theory_facts.py','coarse_timing.py','retrieval.py','reading_contract.py','intent_reference.py'))+b''.join((ROOT/'knowledge'/n).read_bytes() for n in FILES+('bushi_cases.json',))).hexdigest()[:12]
 
 # Only reference retrieval uses topic words; they NEVER decide whether a question can be interpreted.
 TOPICS={
@@ -336,7 +336,7 @@ WRITER_SYSTEM = """你是面向普通客人的六爻解读编辑。你收到的�
 开头回答原问题；随后解释真正关键的原因；最后只保留与判断有关的观察点或选择。段落不必等长，不能重复。通常只用一处专业依据，一句话带过，紧接着解释实际含义；避免应爻、世爻、空破生克的连串描述，不把事实提示逐条照抄进正文。无需为显得专业而硬塞术语。
 不能将“世爻受制”改写成客人吸引力低、精力不足、内耗或心理问题；不能据此要求暂停社交。不要套“有机会但有阻力”“耐心等待、顺其自然”。
 未知性别且摘要有两种传统取用时，男女分支各说一次，不在每段重复。只说有依据的大概节奏，不报具体日期或数字时长。不制造焦虑、不故弄玄虚。
-paid三个字段含标点合计最多300字，目标220至270字；没有最低字数，不截断。只返回指定JSON，不加标题、HTML或围栏。"""
+paid三个字段含标点合计最多300字，目标220至270字；没有最低字数，不截断。只返回指定JSON，仅包含paid及其三个字段，不输出outlook标签；倾向由已核对摘要决定，不重新判断。不加标题、HTML或围栏。"""
 
 def generate_paid(client,question,cast,model,core,external_search=None,external_reference=None,reference_snapshot=None,reviewed_plan=None,writer_model=None):
  # Direct callers can still use one function; the app persists review_paid first for retry safety.
@@ -351,9 +351,10 @@ def generate_paid(client,question,cast,model,core,external_search=None,external_
  brief['reasons']=[x['explanation'] for x in review['reasons']]
  brief['checked_fact_notes']=[notes[i] for i in review['technical_anchor_ids'] if i in notes]
  task={'task':'将已核对摘要整理成客人读得懂的付费解读，不进行新的解卦。不照抄技术提示；若保留专业依据，立即解释意义。',
-  'question':question,'reviewed_brief':brief,'schema':{'outlook':review['outlook'],'paid':{'priorities':'先直接回答原问题及判断范围，不重复初判原句，不写分析笔记','conditions':'用白话解释一个关键原因或判断转折，专业依据最多一句，不重复第一段','actions':'说明什么可核实的条件会改变判断及如何取舍，不编造已经发生的缺陷，不重复前两段'}},'limit':'paid三个字段合计最多300字，含标点；目标220至270字，不加标题。'}
+  'question':question,'reviewed_brief':brief,'schema':{'paid':{'priorities':'先直接回答原问题及判断范围，不重复初判原句，不写分析笔记','conditions':'用白话解释一个关键原因或判断转折，专业依据最多一句，不重复第一段','actions':'说明什么可核实的条件会改变判断及如何取舍，不编造已经发生的缺陷，不重复前两段'}},'limit':'paid三个字段合计最多300字，含标点；目标220至270字，不加标题。'}
  def check(v):
-  if not isinstance(v,dict) or v.get('outlook')!=review['outlook']:raise ContentValidationError('writer_outlook')
+  if not isinstance(v,dict):raise ContentValidationError('prose_fields')
+  # The writer edits prose only; the reviewed outlook is owned by the program.
   return check_parts(normalize_parts(v.get('paid'),'paid'),'paid','zh',cast,question)
  return _request(client,writer_model or model,[{'role':'system','content':WRITER_SYSTEM},{'role':'user','content':json.dumps(task,ensure_ascii=False)}],check,4096,stage='writer')
 

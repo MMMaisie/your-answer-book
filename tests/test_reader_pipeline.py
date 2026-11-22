@@ -72,7 +72,8 @@ def test_review_can_correct_initial_but_writer_cannot_change_review():
  r=review('difficult',CAST);value=full('difficult')
  m=Model([r,value]);assert engine.generate_paid(m,'找对象',CAST,'deepseek-v4-pro',initial(CAST))==value['paid']
  bad=full('favorable')
- with pytest.raises(ValueError):engine.generate_paid(Model([bad,bad]),'找对象',CAST,'deepseek-v4-pro',initial(CAST),reviewed_plan=r)
+ assert engine.generate_paid(Model([bad]),'找对象',CAST,'deepseek-v4-pro',initial(CAST),reviewed_plan=r)==bad['paid']
+ assert r['outlook']=='difficult'  # Incidental writer metadata cannot change the reviewed decision.
  r['correction_reason']=''
  with pytest.raises(ValueError):engine._check_review(r,CAST,{'focal':{}},'找对象','mixed')
 

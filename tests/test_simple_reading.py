@@ -47,8 +47,8 @@ def test_repair_is_bounded_and_never_truncates_text():
  m=Model([bad,initial()]);assert engine.generate(m,'求职',CAST,'deepseek-v4-pro')['bundle']['free']==initial()['free'];assert len(m.calls)==2
  with pytest.raises(ValueError):engine.generate(Model([bad,bad]),'求职',CAST,'deepseek-v4-pro')
 
-def test_paid_opposite_outlook_rejected():
- with pytest.raises(ValueError):engine.generate_paid(Model([full('difficult'),full('difficult')]),'求职',CAST,'deepseek-v4-pro',initial(),reviewed_plan=review())
+def test_paid_incidental_label_ignored():
+ assert engine.generate_paid(Model([full('difficult')]),'求职',CAST,'deepseek-v4-pro',initial(),reviewed_plan=review())==full()['paid']
 
 def test_unknown_sources_rejected():
  v=initial();v['sources']=[{'id':'invented'}]
