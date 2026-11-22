@@ -1,0 +1,13 @@
+{
+  "app.py": "7a24e3856fc2507f91c2512d442dbf683f5fa4d62f83907a70d87e50eaf56cf6",
+  "protection.py": "7dd75009386e4f7a3be09d6c5fbf319c99760d10f7f3ad009c30544a7c0d958e",
+  "simple_reading.py": "9ebb9142fda7fa5c7806b9e075b6459c06e13a548172355947e4165793fb0b8d",
+  "reading_contract.py": "7d088e468fca9546780ba58c2fcac0528fea0f6a10c3faed512011bae143b3cf",
+  "templates/base.html": "67305ad35a8560c4e4c5db1c1eeb5ce9acafd17c2b0eaf21edd9932bec3ca75d",
+  "tests/test_completion_retry.py": "d223f2cb75cdcfc3692c2d070bac205de90419c981f1efd9c8729684ebc7fa73",
+  "tests/test_review_boundary.py": "8e828d3118f33402eaff9531c70d689812468333b03b96b8559e4bfffb2ab371",
+  "tests/test_writer_repair.py": "1101d90da9988b3796f8dd9abe094776df8e4ea7555afa7056d3dc430e847901",
+  "tests/test_private_all_limits.py": "66fadf1e2d9c4292c3cf517ec88e1d894d6a501a57bde4c42210b20380433410",
+  "tests/test_guest_flow.py": "377b87ab7e7aec2db93d6491baf0d74971df7e2c90cf39814f40f50655658801",
+  "tests/test_rate_update.py": "6b5fa1f3d4f487383af0dc5ab40f2c10789798593682481767683f15d49137b3"
+}

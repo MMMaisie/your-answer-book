@@ -11,7 +11,7 @@ from hexagrams import HEXAGRAMS,build_cast
 from i18n import t,hx
 from locations import TIMEZONE_LABELS
 from storage import Store
-from protection import Protection,Limited,InProgress,QuotaUsed,VerificationFailed,BudgetExceeded,bounded_client,capacity,budget_settings
+from protection import Protection,Limited,InProgress,QuotaUsed,VerificationFailed,BudgetExceeded,bounded_client,capacity,budget_settings,private_test_unlimited
 import simple_reading as engine
 from reading_contract import ReadingValidationError
 
@@ -57,6 +57,7 @@ def checkout_ready():
  return bool(store.durable and stripe_client and PUBLIC_URL and SUPPORT_EMAIL and AI_KEY and os.getenv(PREFIX+'WEBHOOK_SECRET') and os.getenv('TURNSTILE_SITE_KEY') and os.getenv('TURNSTILE_SECRET_KEY') and capacity(store))
 
 def delivery_capacity(row,lang):
+ if private_test_unlimited():return os.getenv('AI_ENABLED','1')=='1'
  # Check a conservative single-attempt delivery allowance before taking a NEW payment.
  # Model repair, rate changes or subsequent traffic can still delay delivery; entitlement persists.
  data=json.loads(row['bundle_json']).get('reference_snapshot')
@@ -121,7 +122,9 @@ def provider():
 def notify_failure(error):
  if isinstance(error,InProgress):
   flash(label('正在处理，请稍候。请勿重复提交，可稍后刷新查看结果。','Processing. Please do not submit again; refresh shortly to view the result.'),'info')
- elif isinstance(error,(Limited,BudgetExceeded)):
+ elif isinstance(error,BudgetExceeded):
+  flash(label('AI 服务暂不可用或已达到服务用量上限，请联系站点管理员。','AI service is unavailable or its usage limit has been reached. Please contact support.'),'error')
+ elif isinstance(error,Limited):
   flash(label('操作过于频繁，请稍后再试。','Too many requests. Please try again later.'),'error')
  elif isinstance(error,VerificationFailed):flash(label('请完成人机验证后重试。','Please complete the verification and try again.'),'error')
  else:

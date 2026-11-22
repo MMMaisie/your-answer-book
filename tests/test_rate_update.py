@@ -54,7 +54,7 @@ def test_private_tester_repeated_casts_get_free_previews_without_changing_public
   site.session['owner']='private';rid=site.protect.reserve_trial();site.protect.finish_trial(rid,True)
   with pytest.raises(QuotaUsed):site.protect.reserve_trial()
 
-def test_test_switch_does_not_bypass_site_login_or_ai_budget(client,monkeypatch):
+def test_test_switch_does_not_bypass_site_login_or_ai_kill_switch(client,monkeypatch):
  monkeypatch.setenv('SITE_ACCESS_PASSWORD','private-unit-password');monkeypatch.setenv('PRIVATE_TEST_UNLIMITED','1')
  assert client.get('/').status_code==401
  monkeypatch.setenv('AI_ENABLED','0');m=Model([initial()])

@@ -4,12 +4,18 @@ from datetime import datetime,timezone
 from types import SimpleNamespace
 from urllib.parse import urlencode,urlparse
 from urllib.request import Request,urlopen
-from flask import request,session
+from flask import request,session,has_request_context
 
 class Limited(Exception):pass
 class InProgress(Exception):pass
 class QuotaUsed(Exception):pass
 class VerificationFailed(Exception):pass
+
+def private_test_unlimited():
+ # Never enable this bypass from a flag or Stripe test mode alone.
+ if not has_request_context():return False
+ password=os.getenv('SITE_ACCESS_PASSWORD','');a=request.authorization
+ return bool(os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('STRIPE_MODE','test')=='test' and password and a and a.type.lower()=='basic' and hmac.compare_digest((a.username or '').encode(),b'tester') and hmac.compare_digest((a.password or '').encode(),password.encode()))
 
 class Protection:
  def __init__(self,store,secret,public_url):self.store,self.secret,self.public_url=store,secret,public_url
@@ -19,10 +25,7 @@ class Protection:
   try:ip=str(ipaddress.ip_address(ip))
   except ValueError:ip='unknown'
   return ['browser:'+self.digest(session['owner']),'ip:'+self.digest(ip)]
- def private_test_unlimited(self):
-  # Test Stripe mode alone is NOT authorization to bypass protection.
-  password=os.getenv('SITE_ACCESS_PASSWORD','');a=request.authorization
-  return bool(os.getenv('PRIVATE_TEST_UNLIMITED','0')=='1' and os.getenv('STRIPE_MODE','test')=='test' and password and a and a.type.lower()=='basic' and hmac.compare_digest((a.username or '').encode(),b'tester') and hmac.compare_digest((a.password or '').encode(),password.encode()))
+ def private_test_unlimited(self):return private_test_unlimited()
  def rate(self,operation='new'):
   if self.private_test_unlimited():return
   now=time.time();keys=[operation+':'+s for s in self.subjects()];blocked=False
@@ -91,6 +94,7 @@ def budget_settings(model):
 def capacity(store,reserve_needed=0):
  try:
   if os.getenv('AI_ENABLED','1')!='1':return False
+  if private_test_unlimited():return True
   *_,budget=budget_settings('deepseek-v4-pro');day=datetime.now(timezone.utc).strftime('%Y-%m-%d')
   with store.connect() as c:r=c.execute('SELECT COUNT(*) AS n, COALESCE(SUM(reserve),0) AS cost FROM ab49_calls WHERE day=?',(day,)).fetchone()
   return r['n']<int(os.getenv('AI_DAILY_REQUEST_LIMIT','40')) and r['cost']+reserve_needed<budget
@@ -99,20 +103,23 @@ def capacity(store,reserve_needed=0):
 def bounded_client(client,store):
  def create(**kwargs):
   if not capacity(store):raise BudgetExceeded()
-  input_rate,output_rate,factor,budget=budget_settings(kwargs.get('model'))
+  unlimited=private_test_unlimited()
+  if unlimited:input_rate,output_rate,factor,budget=0.,0.,1.,float('inf')
+  else:input_rate,output_rate,factor,budget=budget_settings(kwargs.get('model'))
   size=len(json.dumps(kwargs.get('messages',[]),ensure_ascii=False).encode())
-  if size>90000:raise BudgetExceeded()
+  if not unlimited and size>90000:raise BudgetExceeded()
   maximum=min(8192,max(1,int(kwargs.get('max_tokens',4096))));kwargs['max_tokens']=maximum
   reserve=float(os.getenv('WEB_SEARCH_RESERVE_AUD','0.10')) if kwargs['model']=='deepseek-search' else ((size+2048)*input_rate+maximum*output_rate)/1000000*factor
-  if not math.isfinite(reserve) or reserve<=0:raise BudgetExceeded()
+  if unlimited:reserve=0.
+  elif not math.isfinite(reserve) or reserve<=0:raise BudgetExceeded()
   day=datetime.now(timezone.utc).strftime('%Y-%m-%d');now=time.time();cid=secrets.token_hex(16)
   with store.connect() as c:
    row=c.execute('SELECT COUNT(*) AS n,COALESCE(SUM(reserve),0) AS cost FROM ab49_calls WHERE day=?',(day,)).fetchone()
-   if kwargs['model']=='deepseek-search':
+   if not unlimited and kwargs['model']=='deepseek-search':
     searches=c.execute("SELECT COUNT(*) AS n FROM ab49_calls WHERE day=? AND model='deepseek-search'",(day,)).fetchone()['n']
     if searches>=int(os.getenv('WEB_SEARCH_DAILY_LIMIT','3')):raise BudgetExceeded()
    active=c.execute("SELECT COUNT(*) AS n FROM ab49_calls WHERE status='reserved' AND created>?",(now-900,)).fetchone()['n']
-   if row['n']>=int(os.getenv('AI_DAILY_REQUEST_LIMIT','40')) or row['cost']+reserve>budget or active>=int(os.getenv('AI_MAX_CONCURRENT','2')):raise BudgetExceeded()
+   if not unlimited and (row['n']>=int(os.getenv('AI_DAILY_REQUEST_LIMIT','40')) or row['cost']+reserve>budget or active>=int(os.getenv('AI_MAX_CONCURRENT','2'))):raise BudgetExceeded()
    c.execute('INSERT INTO ab49_calls(id,day,model,status,reserve,created) VALUES(?,?,?,?,?,?)',(cid,day,kwargs['model'],'reserved',reserve,now))
   try:response=client.chat.completions.create(**kwargs)
   except Exception:

@@ -172,7 +172,7 @@ def test_paid_mode_isolated(client,model):
 
 def test_budget_pauses_before_any_provider_call(client,monkeypatch):
  monkeypatch.setenv('AI_DAILY_BUDGET_AUD','0.000001');m=Model([initial()]);monkeypatch.setattr(site,'OpenAI',lambda **kw:m)
- response=submit(client);assert '操作过于频繁，请稍后再试。' in response.text and len(m.calls)==0
+ response=submit(client);assert 'AI 服务暂不可用或已达到服务用量上限' in response.text and len(m.calls)==0
 
 def test_global_concurrency_and_reservations_survive_store_reopen(client,monkeypatch):
  monkeypatch.setenv('AI_MAX_CONCURRENT','1')
